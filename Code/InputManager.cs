@@ -56,6 +56,7 @@ namespace TheEternalOne
             {
                 GameManager.PlayerObject.Move(dx, dy);
             }
+            forceMouseUpdate = true;
             return "move";
         }
 

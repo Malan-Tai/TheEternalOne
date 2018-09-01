@@ -27,10 +27,13 @@ namespace TheEternalOne.Code
         public static int AbilityHeight = (Game1.HEIGHT - 25) / 5;
         public static int AbilityWidth = DrawMapX - 20;
 
+        public static Coord StartPosition;
+
         public static GameObject PlayerObject;
         public static List<GameObject> Objects;
 		
         public static AbilityGUI abilityGUI;
+
 
         public const int MAP_WIDTH = 100;
         public const int MAP_HEIGHT = 80;
@@ -38,26 +41,23 @@ namespace TheEternalOne.Code
         public static void NewGame()
         {
 
-            PlayerObject = new GameObject(20, 20, "white", 100, 100);
+ 
+            Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
+
+            abilityGUI = new AbilityGUI();
+
+            Map = MapMaker.MakeTunnelMap(false);
+
+            PlayerObject = new GameObject(StartPosition.x, StartPosition.y, "white", 100, 100);
             PlayerObject.Player = new Player(10);
             PlayerObject.Player.Owner = PlayerObject;
             PlayerObject.Fighter = new Fighter(10, 20, 0);
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects = new List<GameObject> { PlayerObject };
-			
-            Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
-            for (int x = 0; x < MAP_WIDTH; x++)
-            {
-                for (int y = 0; y < MAP_HEIGHT; y++)
-                {
-                    Map[x, y] = new Tile(x, y, false);
-                }
-            }
 
-            abilityGUI = new AbilityGUI();
-
-            Map = MapMaker.MakeTunnelMap(false);
+            Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());
+            Console.Out.WriteLine("Position : " + PlayerObject.Position.x.ToString() + ";" + PlayerObject.Position.y.ToString());
             //for (int x = 0; x < MAP_WIDTH; x++)
             //{
             //    for (int y = 0; y < MAP_HEIGHT; y++)

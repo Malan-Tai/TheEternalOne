@@ -471,8 +471,7 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             }
 
             Room lastRoom = rooms[rooms.Length - 1];
-            GameManager.PlayerObject.x = (int)lastRoom.Center.X;
-            GameManager.PlayerObject.y = (int)lastRoom.Center.Y;
+            GameManager.StartPosition = new Coord((int)lastRoom.Center.X, (int)lastRoom.Center.Y);
 
             return currentMap;
         }

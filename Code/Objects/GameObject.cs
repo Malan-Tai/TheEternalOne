@@ -61,6 +61,7 @@ namespace TheEternalOne.Code.Objects
             if (!GameManager.Map[x + dx, y + dy].Blocked)
             {
                 Position = new Coord(Position.x + dx, Position.y + dy);
+                Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
                 BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
             }
         }
@@ -82,7 +83,7 @@ namespace TheEternalOne.Code.Objects
 
             int? x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX;
             int? y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
-
+            
             //Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
 
             spriteBatch.Draw(texture, new Rectangle(x ?? default(int), y ?? default(int), (int)(textureWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(textureHeight * Game1.GLOBAL_SIZE_MOD / 100)), Color.White);

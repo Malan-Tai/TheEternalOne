@@ -28,6 +28,8 @@ namespace TheEternalOne
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
         private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall" };
 
+        public static SpriteFont Font;
+
         public static int minMapX;
         public static int minMapY;
         public static int maxMapX;
@@ -69,7 +71,7 @@ namespace TheEternalOne
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Font = Content.Load<SpriteFont>("Dungeon");
             // TODO: use this.Content to load your game content here
             foreach (string str in allTextures)
             {
@@ -123,9 +125,10 @@ namespace TheEternalOne
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
+            Console.Out.WriteLine("X Start : " + minMapX.ToString() + " | X Stop : " + maxMapX.ToString());
+            Console.Out.WriteLine("Y Start : " + minMapY.ToString() + " | Y Stop : " + maxMapY.ToString());
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
 
             for (int x = minMapX; x < maxMapX; x++)
             {
@@ -146,6 +149,10 @@ namespace TheEternalOne
             }
 
             GameManager.abilityGUI.Draw(spriteBatch);
+
+            string TestString = "Font drawing test";
+            Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
+            spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
 
             spriteBatch.End();
 

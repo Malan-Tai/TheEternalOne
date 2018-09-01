@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using TheEternalOne.Code;
@@ -15,6 +15,7 @@ namespace TheEternalOne
     {
         //public static Game1 GameInstance;
         #region VariablesDeclaration
+        public static Game1 GameInstance;
         public static KeyboardState PreviousKeyboardState;
         public static MouseState PreviousMouseState;
         public static bool MouseInMap;
@@ -171,5 +172,11 @@ namespace TheEternalOne
             MouseMapY = yRatio + tmpMapY;
             //GameManager.GameInstance.CurrentScreen.DrawScreen();
         }
+
+        public static void Init(Game1 owner)
+        {
+            GameInstance = owner;
+        }
+
     }
 }

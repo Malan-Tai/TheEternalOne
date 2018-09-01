@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
 using TheEternalOne.Code.GUI;
+using TheEternalOne.Code.ProcGen.MapGen;
 
 namespace TheEternalOne.Code
 {
@@ -14,8 +15,6 @@ namespace TheEternalOne.Code
         public static Tile[,] Map;
 
         public const int TileWidth = 85;
-        public const int MapWidth = 50;
-        public const int MapHeight = 50;
         public const int VisibleMapWidth = 15;
         public const int VisibleMapHeight = 11;
 
@@ -30,11 +29,15 @@ namespace TheEternalOne.Code
 
         public static GameObject PlayerObject;
         public static List<GameObject> Objects;
-
+		
         public static AbilityGUI abilityGUI;
+
+        public const int MAP_WIDTH = 100;
+        public const int MAP_HEIGHT = 80;
 
         public static void NewGame()
         {
+
             PlayerObject = new GameObject(20, 20, "white", 100, 100);
             PlayerObject.Player = new Player(10);
             PlayerObject.Player.Owner = PlayerObject;
@@ -42,17 +45,26 @@ namespace TheEternalOne.Code
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects = new List<GameObject> { PlayerObject };
-
-            Map = new Tile[MapWidth, MapHeight];
-            for (int x = 0; x < MapWidth; x++)
+			
+            Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
+            for (int x = 0; x < MAP_WIDTH; x++)
             {
-                for (int y = 0; y < MapHeight; y++)
+                for (int y = 0; y < MAP_HEIGHT; y++)
                 {
                     Map[x, y] = new Tile(x, y, false);
                 }
             }
 
             abilityGUI = new AbilityGUI();
+
+            Map = MapMaker.MakeTunnelMap(false);
+            //for (int x = 0; x < MAP_WIDTH; x++)
+            //{
+            //    for (int y = 0; y < MAP_HEIGHT; y++)
+            //    {
+            //        Map[x, y] = new Tile(x, y, false);
+            //    }
+            //}
         }
 
 

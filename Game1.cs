@@ -119,6 +119,8 @@ namespace TheEternalOne
                         obj.AI.TakeTurn();
                     }
                 }
+
+                GameManager.PlayerObject.Player.UpdateTurn();
             }
             base.Update(gameTime);
         }

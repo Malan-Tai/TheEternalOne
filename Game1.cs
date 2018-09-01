@@ -26,7 +26,7 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "basicenemy_placeholder" };
 
         public static SpriteFont Font;
 
@@ -101,14 +101,24 @@ namespace TheEternalOne
         {
 
             // TODO: Add your update logic here
-            InputManager.GetKeyboardInput();
-            InputManager.GetMouseInput();
+            string kbState = InputManager.GetKeyboardInput();
+            string msState = InputManager.GetMouseInput();
 
             foreach (GameObject obj in GameManager.Objects)
             {
                 obj.Update();
             }
 
+            if (kbState == "move")
+            {
+                foreach (GameObject obj in GameManager.Objects)
+                {
+                    if (obj.AI != null)
+                    {
+                        obj.AI.TakeTurn();
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -125,8 +135,8 @@ namespace TheEternalOne
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
-            Console.Out.WriteLine("X Start : " + minMapX.ToString() + " | X Stop : " + maxMapX.ToString());
-            Console.Out.WriteLine("Y Start : " + minMapY.ToString() + " | Y Stop : " + maxMapY.ToString());
+            //Console.Out.WriteLine("X Start : " + minMapX.ToString() + " | X Stop : " + maxMapX.ToString());
+            //Console.Out.WriteLine("Y Start : " + minMapY.ToString() + " | Y Stop : " + maxMapY.ToString());
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 

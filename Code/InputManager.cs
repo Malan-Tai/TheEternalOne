@@ -48,7 +48,10 @@ namespace TheEternalOne
             //if (canMove) OnKeyboardPress.Invoke(dx, dy);
             //string state = GameManager.PlayerObject.Fighter.MoveOrAttack(dx, dy);
             //return state;
-            GameManager.PlayerObject.Move(dx, dy);
+            if (GameManager.PlayerObject.Player.CanMove)
+            {
+                GameManager.PlayerObject.Move(dx, dy);
+            }
             return "move";
         }
 
@@ -61,20 +64,20 @@ namespace TheEternalOne
                 #region KBInputProcess
                 if (KeyboardState.IsKeyDown(Keys.Left) && !PreviousKeyboardState.IsKeyDown(Keys.Left))
                 {
-                    MoveInput(-1, 0);
+                    state = MoveInput(-1, 0);
                 }
                 if (KeyboardState.IsKeyDown(Keys.Right) && !PreviousKeyboardState.IsKeyDown(Keys.Right))
                 {
-                    MoveInput(1, 0);
+                    state = MoveInput(1, 0);
                     //OnKeyboardPress.Invoke(1, 0);
                 }
                 if (KeyboardState.IsKeyDown(Keys.Up) && !PreviousKeyboardState.IsKeyDown(Keys.Up))
                 {
-                    MoveInput(0, -1);
+                    state = MoveInput(0, -1);
                 }
                 if (KeyboardState.IsKeyDown(Keys.Down) && !PreviousKeyboardState.IsKeyDown(Keys.Down))
                 {
-                    MoveInput(0, 1);
+                    state = MoveInput(0, 1);
                     //OnKeyboardPress.Invoke(0, 1);
                 }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheEternalOne.Code.Objects
 {
-    class Player
+    public class Player
     {
         public int LeftXP { get; set; }
 

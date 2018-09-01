@@ -15,6 +15,11 @@ namespace TheEternalOne.Code.Utils
             return Math.Sqrt(Math.Pow((int)end.X - (int)start.X, 2) + Math.Pow((int)end.Y - (int)start.Y, 2));
         }
 
+        public static double GetDistance(Coord start, Coord end)
+        {
+            return Math.Sqrt(Math.Pow(end.x - start.x, 2) + Math.Pow(end.y - start.y, 2));
+        }
+
         public static double GetDistance(int x1, int y1, int x2, int y2)
         {
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));

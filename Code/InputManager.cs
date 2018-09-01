@@ -161,12 +161,17 @@ namespace TheEternalOne
                                 SelectedSpellIndex = i;
                                 if (i != 4 && UpgradeSpell && GameManager.PlayerObject.Fighter.XP > 0)
                                 {
-                                    GameManager.PlayerObject.Player.UpgardeSpell(i);
+                                    GameManager.PlayerObject.Player.UpgradeSpell(i);
                                     GameManager.PlayerObject.Fighter.XP--;
                                 }
                                 break;
                             }
                         }
+                    }
+                    else if (MouseInMap && SelectedSpellIndex != -1)
+                    {
+                        Console.Out.WriteLine("casting spell {0} at {1} {2}", SelectedSpellIndex, MouseMapX, MouseMapY);
+                        GameManager.PlayerObject.Player.Cast(SelectedSpellIndex, MouseMapX, MouseMapY);
                     }
                 }
                 PreviousMouseState = MouseState;

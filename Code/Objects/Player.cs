@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheEternalOne.Code.Utils;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -44,36 +45,80 @@ namespace TheEternalOne.Code.Objects
             Spells = new List<string> { "Sword", "Shield", "Fireball", "Heal", "Teleport" };
         }
 
-        public void Cast(string spell)
+        public void Cast(int i, int x, int y)
         {
             Fighter fighter = Owner.Fighter;
+            string spell = Spells[i];
+            Console.Out.WriteLine("casting {0} at {1} MP", spell, MP);
 
-            if (spell == "Sword")
+            if (spell == "Sword" && Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
             {
+                foreach (GameObject obj in GameManager.Objects)
+                {
+                    if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                    {
+                        Owner.Fighter.Attack(obj.Fighter);
+                        break;
+                    }
+                }
 
             }
             else if (spell == "Shield")
             {
                 fighter.Armor += ShieldPower;
-
+                if (Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
+                {
+                    foreach (GameObject obj in GameManager.Objects)
+                    {
+                        if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                        {
+                            obj.Move(x - Owner.x, y - Owner.y);
+                            break;
+                        }
+                    }
+                }
             }
-            else if (spell == "Fireball")
+            else if (spell == "Fireball" && MP >= 5)
             {
-
+                MP -= 5;
+                foreach (GameObject obj in GameManager.Objects)
+                {
+                    if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                    {
+                        obj.Fighter.TakeDamage(FireballDmg);
+                        break;
+                    }
+                }
             }
-            else if (spell == "Heal" || MP >= 3)
+            else if (spell == "Heal" && MP >= 3)
             {
                 fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + HealPower);
                 MP -= 3;
             }
-            else if (spell == "Teleport" || MP >= 1)
+            else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].Blocked)
             {
+                bool cancel = false;
+                foreach (GameObject obj in GameManager.Objects)
+                {
+                    if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                    {
+                        cancel = true;
+                        break;
+                    }
+                }
 
-                MP -= 1;
+                if (!cancel)
+                {
+                    MP -= 1;
+
+                    Owner.Position = new Coord(x, y);
+                    Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                    Owner.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
             }
         }
 
-        public void UpgardeSpell(int i)
+        public void UpgradeSpell(int i)
         {
             Fighter fighter = Owner.Fighter;
             string spell = Spells[i];

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.GUI;
 using TheEternalOne.Code.ProcGen.MapGen;
 
 namespace TheEternalOne.Code
@@ -14,9 +15,7 @@ namespace TheEternalOne.Code
         public static Tile[,] Map;
 
         public const int TileWidth = 85;
-        public const int MapWidth = 50;
-        public const int MapHeight = 50;
-        public const int VisibleMapWidth = 17;
+        public const int VisibleMapWidth = 15;
         public const int VisibleMapHeight = 11;
 
         public static int DrawMapX = (Game1.WIDTH - (int)(VisibleMapWidth * TileWidth * Game1.GLOBAL_SIZE_MOD / 100)) / 2;
@@ -25,11 +24,15 @@ namespace TheEternalOne.Code
         public const int screenPlayerX = VisibleMapWidth / 2;
         public const int screenPlayerY = VisibleMapHeight / 2;
 
+        public static int AbilityHeight = (Game1.HEIGHT - 25) / 5;
+        public static int AbilityWidth = DrawMapX - 20;
+
         public static GameObject PlayerObject;
         public static List<GameObject> Objects;
+		
+        public static AbilityGUI abilityGUI;
 
         public const int MAP_WIDTH = 100;
-
         public const int MAP_HEIGHT = 80;
 
         public static void NewGame()
@@ -42,6 +45,17 @@ namespace TheEternalOne.Code
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects = new List<GameObject> { PlayerObject };
+			
+            Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
+            for (int x = 0; x < MAP_WIDTH; x++)
+            {
+                for (int y = 0; y < MAP_HEIGHT; y++)
+                {
+                    Map[x, y] = new Tile(x, y, false);
+                }
+            }
+
+            abilityGUI = new AbilityGUI();
 
             Map = MapMaker.MakeTunnelMap(false);
             //for (int x = 0; x < MAP_WIDTH; x++)
@@ -51,7 +65,6 @@ namespace TheEternalOne.Code
             //        Map[x, y] = new Tile(x, y, false);
             //    }
             //}
-
         }
 
 

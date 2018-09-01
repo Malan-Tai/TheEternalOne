@@ -21,6 +21,19 @@ namespace TheEternalOne.Code.Objects
 
         public List<string> Spells;
 
+        public bool CanMelee = true;
+        public bool Canranged = true;
+        public bool CanOffenseSpell = true;
+        public bool CanDebuffSpell = true;
+        public bool CanBuffSpell = true;
+        public bool CanHealSpell = true;
+        public bool CanPickUp = true;
+        public bool CanDrop = true;
+        public bool CanAccessInventory = true;
+        public bool CanEquip = true;
+        public bool CanUnequip = true;
+        public bool CanMove = true;
+
         public Player(int mp)
         {
             FireballDmg = 1;

@@ -98,9 +98,9 @@ namespace TheEternalOne
         protected override void Update(GameTime gameTime)
         {
 
- 
             // TODO: Add your update logic here
             InputManager.GetKeyboardInput();
+            InputManager.GetMouseInput();
 
             foreach (GameObject obj in GameManager.Objects)
             {
@@ -117,9 +117,9 @@ namespace TheEternalOne
         protected override void Draw(GameTime gameTime)
         {
             minMapX = Math.Max(GameManager.PlayerObject.x - GameManager.VisibleMapWidth / 2, 0);
-            maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2 + 1, GameManager.MapWidth);
+            maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2 + 1, GameManager.MAP_WIDTH);
             minMapY = Math.Max(GameManager.PlayerObject.y - GameManager.VisibleMapHeight / 2, 0);
-            maxMapY = Math.Min(GameManager.PlayerObject.y + GameManager.VisibleMapHeight / 2 + 1, GameManager.MapHeight);
+            maxMapY = Math.Min(GameManager.PlayerObject.y + GameManager.VisibleMapHeight / 2 + 1, GameManager.MAP_HEIGHT);
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
@@ -144,6 +144,8 @@ namespace TheEternalOne
                     obj.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }
             }
+
+            GameManager.abilityGUI.Draw(spriteBatch);
 
             spriteBatch.End();
 

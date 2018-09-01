@@ -110,26 +110,13 @@ namespace TheEternalOne.Code.Objects
                     Owner.Effects.Add(effect);
                 }
             }
-            else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].Blocked)
+            else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].IsBlocked)
             {
-                bool cancel = false;
-                foreach (GameObject obj in GameManager.Objects)
-                {
-                    if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
-                    {
-                        cancel = true;
-                        break;
-                    }
-                }
+                MP -= 1;
 
-                if (!cancel)
-                {
-                    MP -= 1;
-
-                    Owner.Position = new Coord(x, y);
-                    Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
-                    Owner.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
-                }
+                Owner.Position = new Coord(x, y);
+                Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                Owner.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
             }
         }
 

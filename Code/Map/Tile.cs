@@ -30,8 +30,8 @@ namespace TheEternalOne.Code.Map
         {
             if (texture != null)
             {
-                int picX = GameManager.DrawMapX + (int)((GameManager.VisibleMapWidth / 2 + x - px) * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
-                int picY = GameManager.DrawMapY + (int)((GameManager.VisibleMapHeight / 2 + y - py) * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                int picX = GameManager.DrawMapX + (GameManager.VisibleMapWidth / 2 + x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                int picY = GameManager.DrawMapY + (GameManager.VisibleMapHeight / 2 + y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
 
                 GameObject player = GameManager.PlayerObject;
                 int offsetX = -player.OffsetPos.x + player.BigPos.x;

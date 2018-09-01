@@ -26,7 +26,7 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "white" };
 
         public static int minMapX;
         public static int minMapY;
@@ -117,9 +117,9 @@ namespace TheEternalOne
         protected override void Draw(GameTime gameTime)
         {
             minMapX = Math.Max(GameManager.PlayerObject.x - GameManager.VisibleMapWidth / 2, 0);
-            maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2, GameManager.MapWidth);
+            maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2 + 1, GameManager.MapWidth);
             minMapY = Math.Max(GameManager.PlayerObject.y - GameManager.VisibleMapHeight / 2, 0);
-            maxMapY = Math.Min(GameManager.PlayerObject.y + GameManager.VisibleMapHeight / 2, GameManager.MapHeight);
+            maxMapY = Math.Min(GameManager.PlayerObject.y + GameManager.VisibleMapHeight / 2 + 1, GameManager.MapHeight);
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
@@ -132,6 +132,14 @@ namespace TheEternalOne
                 {
                     Tile tile = GameManager.Map[x, y];
                     tile.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
+                }
+            }
+
+            foreach (GameObject obj in GameManager.Objects)
+            {
+                if (minMapX <= obj.x && obj.x <= maxMapX && minMapY <= obj.y && obj.y <= maxMapY)
+                {
+                    obj.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }
             }
 

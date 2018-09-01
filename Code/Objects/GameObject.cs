@@ -45,11 +45,15 @@ namespace TheEternalOne.Code.Objects
         public int textureWidth;
         public int textureHeight;
 
-        public GameObject(int x, int y)
+        public GameObject(int x, int y, string textureString, int textureW, int textureH)
         {
             this.Position = new Coord(x, y);
-            this.OffsetPos = new Coord((int)(x * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(y * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
-            this.BigPos = new Coord((int)(x * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(y * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+            this.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+            this.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+
+            texture = Game1.textureDict[textureString];
+            textureWidth = textureW;
+            textureHeight = textureH;
         }
 
         public void Move(int dx, int dy)
@@ -57,7 +61,7 @@ namespace TheEternalOne.Code.Objects
             if (!GameManager.Map[x + dx, y + dy].Blocked)
             {
                 Position = new Coord(Position.x + dx, Position.y + dy);
-                BigPos = new Coord((int)(Position.x * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(Position.y * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
             }
         }
 
@@ -76,12 +80,12 @@ namespace TheEternalOne.Code.Objects
                 offsetY = OffsetPos.y - BigPos.y - GameManager.PlayerObject.OffsetPos.y + GameManager.PlayerObject.BigPos.y;
             }
 
-            int? x = (int)((GameManager.screenPlayerX + GameManager.VisibleMapWidth / 2 + Position.x - px) * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (int)((GameManager.TileWidth - textureWidth) * Game1.GLOBAL_SIZE_MOD / 200) + offsetX;
-            int? y = (int)((GameManager.screenPlayerY + GameManager.VisibleMapHeight / 2 + Position.y - py) * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (int)((GameManager.TileWidth - textureHeight) * Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
+            int? x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX;
+            int? y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
 
-            Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
+            //Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
 
-            spriteBatch.Draw(texture, new Rectangle(x ?? default(int), y ?? default(int), textureWidth, textureHeight), Color.White);
+            spriteBatch.Draw(texture, new Rectangle(x ?? default(int), y ?? default(int), (int)(textureWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(textureHeight * Game1.GLOBAL_SIZE_MOD / 100)), Color.White);
         }
 
         public void Update()

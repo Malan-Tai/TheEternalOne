@@ -24,8 +24,8 @@ namespace TheEternalOne
 
         public static int leftMapX = GameManager.DrawMapX;
         public static int rightMapX = GameManager.DrawMapX + GameManager.VisibleMapWidth * GameManager.TileWidth;
-        public const int upMapY = GameManager.DrawMapY;
-        public const int downMapY = GameManager.DrawMapY + GameManager.VisibleMapHeight * GameManager.TileWidth;
+        public static int upMapY = GameManager.DrawMapY;
+        public static int downMapY = GameManager.DrawMapY + GameManager.VisibleMapHeight * GameManager.TileWidth;
 
         public static bool forceMouseUpdate = false;
 

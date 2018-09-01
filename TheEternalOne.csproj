@@ -45,6 +45,7 @@
     <Compile Include="Code\GameManager.cs" />
     <Compile Include="Code\InputManager.cs" />
     <Compile Include="Code\Map\Tile.cs" />
+    <Compile Include="Code\Objects\Fighter.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
     <Compile Include="Code\Objects\Player.cs" />
     <Compile Include="Game1.cs" />

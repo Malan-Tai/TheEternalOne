@@ -39,6 +39,7 @@ namespace TheEternalOne.Code.Objects
         }
 
         public Player Player { get; set; }
+        public Fighter Fighter { get; set; }
 
         public Texture2D texture;
         public int textureWidth;
@@ -75,8 +76,8 @@ namespace TheEternalOne.Code.Objects
                 offsetY = OffsetPos.y - BigPos.y - GameManager.PlayerObject.OffsetPos.y + GameManager.PlayerObject.BigPos.y;
             }
 
-            int? x = (GameManager.screenPlayerX + GameManager.VisibleMapWidth / 2 + Position.x - px) * GameManager.TileWidth + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) / 2 + offsetX;
-            int? y = (GameManager.screenPlayerY + GameManager.VisibleMapHeight / 2 + Position.y - py) * GameManager.TileWidth + GameManager.DrawMapY + GameManager.TileWidth - textureHeight + offsetY; //- GameManager.feetOffset  ;
+            int? x = (int)((GameManager.screenPlayerX + GameManager.VisibleMapWidth / 2 + Position.x - px) * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (int)((GameManager.TileWidth - textureWidth) * Game1.GLOBAL_SIZE_MOD / 200) + offsetX;
+            int? y = (int)((GameManager.screenPlayerY + GameManager.VisibleMapHeight / 2 + Position.y - py) * GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (int)((GameManager.TileWidth - textureHeight) * Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
 
             Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
 

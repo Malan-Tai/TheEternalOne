@@ -18,7 +18,7 @@ namespace TheEternalOne.Code
         public const int VisibleMapWidth = 15;
         public const int VisibleMapHeight = 11;
 
-        public static int DrawMapX = (Game1.WIDTH - (int)(VisibleMapWidth * TileWidth * Game1.GLOBAL_SIZE_MOD / 100)) / 2;
+        public static int DrawMapX = (Game1.WIDTH - VisibleMapWidth * (int)(TileWidth * Game1.GLOBAL_SIZE_MOD / 100)) / 2;
         public static int DrawMapY = 10;
 
         public const int screenPlayerX = VisibleMapWidth / 2;
@@ -58,13 +58,6 @@ namespace TheEternalOne.Code
             abilityGUI = new AbilityGUI();
 
             Map = MapMaker.MakeTunnelMap(false);
-            //for (int x = 0; x < MAP_WIDTH; x++)
-            //{
-            //    for (int y = 0; y < MAP_HEIGHT; y++)
-            //    {
-            //        Map[x, y] = new Tile(x, y, false);
-            //    }
-            //}
         }
 
 

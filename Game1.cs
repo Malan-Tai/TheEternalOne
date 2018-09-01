@@ -101,6 +101,7 @@ namespace TheEternalOne
 
             // TODO: Add your update logic here
             InputManager.GetKeyboardInput();
+            InputManager.GetMouseInput();
 
             foreach (GameObject obj in GameManager.Objects)
             {
@@ -142,6 +143,8 @@ namespace TheEternalOne
                     obj.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }
             }
+
+            GameManager.abilityGUI.Draw(spriteBatch);
 
             spriteBatch.End();
 

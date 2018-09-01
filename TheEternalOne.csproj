@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Code\Coord.cs" />
     <Compile Include="Code\GameManager.cs" />
+    <Compile Include="Code\GUI\AbilityGUI.cs" />
     <Compile Include="Code\InputManager.cs" />
     <Compile Include="Code\Map\Tile.cs" />
     <Compile Include="Code\Objects\Fighter.cs" />

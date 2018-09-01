@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.GUI;
 
 namespace TheEternalOne.Code
 {
@@ -15,7 +16,7 @@ namespace TheEternalOne.Code
         public const int TileWidth = 85;
         public const int MapWidth = 50;
         public const int MapHeight = 50;
-        public const int VisibleMapWidth = 17;
+        public const int VisibleMapWidth = 15;
         public const int VisibleMapHeight = 11;
 
         public static int DrawMapX = (Game1.WIDTH - (int)(VisibleMapWidth * TileWidth * Game1.GLOBAL_SIZE_MOD / 100)) / 2;
@@ -24,8 +25,13 @@ namespace TheEternalOne.Code
         public const int screenPlayerX = VisibleMapWidth / 2;
         public const int screenPlayerY = VisibleMapHeight / 2;
 
+        public static int AbilityHeight = (Game1.HEIGHT - 25) / 5;
+        public static int AbilityWidth = DrawMapX - 20;
+
         public static GameObject PlayerObject;
         public static List<GameObject> Objects;
+
+        public static AbilityGUI abilityGUI;
 
         public static void NewGame()
         {
@@ -45,6 +51,8 @@ namespace TheEternalOne.Code
                     Map[x, y] = new Tile(x, y, false);
                 }
             }
+
+            abilityGUI = new AbilityGUI();
         }
 
 

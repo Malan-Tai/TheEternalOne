@@ -45,6 +45,7 @@
     <Compile Include="Code\GameManager.cs" />
     <Compile Include="Code\Game\Message.cs" />
     <Compile Include="Code\GUI\AbilityGUI.cs" />
+    <Compile Include="Code\GUI\StatusGUI.cs" />
     <Compile Include="Code\InputManager.cs" />
     <Compile Include="Code\Map\Map.cs" />
     <Compile Include="Code\Map\Room.cs" />

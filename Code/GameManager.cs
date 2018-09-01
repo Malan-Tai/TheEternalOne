@@ -37,7 +37,7 @@ namespace TheEternalOne.Code
         public static List<GameObject> Objects;
 		
         public static AbilityGUI abilityGUI;
-
+        public static StatusGUI statusGUI;
 
         public const int MAP_WIDTH = 100;
         public const int MAP_HEIGHT = 80;
@@ -46,12 +46,11 @@ namespace TheEternalOne.Code
 
         public static void NewGame()
         {
-
-
             Objects = new List<GameObject> ();
             Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
             Log = new List<Message>();
             abilityGUI = new AbilityGUI();
+            statusGUI = new StatusGUI();
 
             Map = MapMaker.MakeTunnelMap(false);
 

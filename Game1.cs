@@ -26,7 +26,7 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "basicenemy_placeholder", "big_target" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "big_target", "HP_GUI", "MP_GUI", "XP_GUI", "Shield_GUI", "basicenemy_placeholder" };
 
         public static SpriteFont Font;
 
@@ -172,6 +172,7 @@ namespace TheEternalOne
             }
 
             GameManager.abilityGUI.Draw(spriteBatch);
+            GameManager.statusGUI.Draw(spriteBatch);
 
             //string TestString = "Font drawing test";
             //Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);

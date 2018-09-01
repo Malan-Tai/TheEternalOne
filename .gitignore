@@ -21,3 +21,7 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+bin/
+obj/
+*.cache
+obj/x86/Debug/TheEternalOne.csproj.CoreCompileInputs.cache

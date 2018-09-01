@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using TheEternalOne.Code;
+using TheEternalOne.Code.Map;
 
 namespace TheEternalOne
 {
@@ -12,10 +18,27 @@ namespace TheEternalOne
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        public static System.Drawing.Rectangle res = Screen.PrimaryScreen.Bounds;
+
+        public static int WIDTH = res.Width;
+        public static int HEIGHT = res.Height;
+        public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
+
+        public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
+        private static List<string> allTextures = new List<string> { "tile50x50" };
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = WIDTH;
+            graphics.PreferredBackBufferHeight = HEIGHT;
+            //graphics.PreferMultiSampling = true;
+
+            graphics.IsFullScreen = true;
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -41,6 +64,14 @@ namespace TheEternalOne
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            foreach (string str in allTextures)
+            {
+                Console.Out.WriteLine(str);
+                Texture2D texture = Content.Load<Texture2D>(str);
+                textureDict[str] = texture;
+            }
+
+            GameManager.NewGame();
         }
 
         /// <summary>
@@ -59,10 +90,11 @@ namespace TheEternalOne
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }
@@ -73,9 +105,21 @@ namespace TheEternalOne
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            for (int x = 0; x < 10; x++)
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    Tile tile = GameManager.Map[x, y];
+                    tile.Draw(spriteBatch, 0, 0);
+                }
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

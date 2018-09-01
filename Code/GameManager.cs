@@ -35,6 +35,7 @@ namespace TheEternalOne.Code
 
         public static GameObject PlayerObject;
         public static List<GameObject> Objects;
+        public static List<GameObject> ToRemove;
 		
         public static AbilityGUI abilityGUI;
         public static StatusGUI statusGUI;
@@ -64,6 +65,7 @@ namespace TheEternalOne.Code
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects.Add(PlayerObject);
+            ToRemove = new List<GameObject>();
 
             Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());
             Console.Out.WriteLine("Position : " + PlayerObject.Position.x.ToString() + ";" + PlayerObject.Position.y.ToString());

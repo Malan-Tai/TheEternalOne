@@ -86,10 +86,11 @@ namespace TheEternalOne.Code.Objects
                 else
                 {
                     GameManager.PlayerObject.Fighter.XP += this.XP;
-                    if (GameManager.Objects.Contains(this.Owner))
-                    {
-                        GameManager.Objects.Remove(Owner);
-                    }
+                    //if (GameManager.Objects.Contains(this.Owner))
+                    //{
+                    //    GameManager.Objects.Remove(Owner);
+                    //}
+                    Owner.dieOnEffectsEnd = true;
                 }
             }
         }

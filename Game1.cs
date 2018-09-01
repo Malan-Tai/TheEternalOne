@@ -122,6 +122,11 @@ namespace TheEternalOne
 
                 GameManager.PlayerObject.Player.UpdateTurn();
             }
+
+            foreach (GameObject obj in GameManager.ToRemove)
+            {
+                GameManager.Objects.Remove(obj);
+            }
             base.Update(gameTime);
         }
 

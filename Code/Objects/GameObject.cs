@@ -55,7 +55,8 @@ namespace TheEternalOne.Code.Objects
             set
             {
                 _fighter = value;
-                _fighter.Owner = this;
+                
+                if (value != null) _fighter.Owner = this;
             }
         }
 
@@ -69,7 +70,7 @@ namespace TheEternalOne.Code.Objects
             set
             {
                 _ai = value;
-                _ai.Owner = this;
+                if (value != null) _ai.Owner = this;
             }
         }
 
@@ -105,6 +106,8 @@ namespace TheEternalOne.Code.Objects
         public Texture2D texture;
         public int textureWidth;
         public int textureHeight;
+
+        public bool dieOnEffectsEnd = false;
 
         public GameObject(int x, int y, string textureString, int textureW, int textureH)
         {
@@ -232,10 +235,13 @@ namespace TheEternalOne.Code.Objects
 
             int x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX;
             int y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
-            
+
             //Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
 
-            spriteBatch.Draw(texture, new Rectangle(x, y, (int)(textureWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(textureHeight * Game1.GLOBAL_SIZE_MOD / 100)), Color.White);
+            if (!dieOnEffectsEnd)
+            {
+                spriteBatch.Draw(texture, new Rectangle(x, y, (int)(textureWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(textureHeight * Game1.GLOBAL_SIZE_MOD / 100)), Color.White);
+            }
 
             foreach (Game.Effect eff in Effects)
             {
@@ -245,6 +251,9 @@ namespace TheEternalOne.Code.Objects
 
         public void Update()
         {
+            if (dieOnEffectsEnd && Fighter != null) Fighter = null;
+            if (dieOnEffectsEnd && AI != null) AI = null;
+
             if (OffsetPos.x != BigPos.x || OffsetPos.y != BigPos.y)
             {
                 int dx = 0, dy = 0;
@@ -267,6 +276,7 @@ namespace TheEternalOne.Code.Objects
             {
                 Effects.Remove(eff);
             }
+            if (dieOnEffectsEnd && Effects.Count <= 0) GameManager.ToRemove.Add(this);
         }
     }
 }

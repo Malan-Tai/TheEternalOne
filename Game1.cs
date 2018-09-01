@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using TheEternalOne.Code;
 using TheEternalOne.Code.Map;
+using TheEternalOne.Code.Objects;
 
 namespace TheEternalOne
 {
@@ -94,7 +95,12 @@ namespace TheEternalOne
                 Exit();
 
             // TODO: Add your update logic here
+            InputManager.GetKeyboardInput();
 
+            foreach (GameObject obj in GameManager.Objects)
+            {
+                obj.Update();
+            }
 
             base.Update(gameTime);
         }
@@ -110,12 +116,12 @@ namespace TheEternalOne
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x < GameManager.MapWidth; x++)
             {
-                for (int y = 0; y < 10; y++)
+                for (int y = 0; y < GameManager.MapHeight; y++)
                 {
                     Tile tile = GameManager.Map[x, y];
-                    tile.Draw(spriteBatch, 0, 0);
+                    tile.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }
             }
 

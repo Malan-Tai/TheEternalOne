@@ -41,10 +41,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Code\Coord.cs" />
     <Compile Include="Code\GameManager.cs" />
     <Compile Include="Code\InputManager.cs" />
     <Compile Include="Code\Map\Tile.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
+    <Compile Include="Code\Objects\Player.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

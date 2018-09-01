@@ -25,3 +25,5 @@ bin/
 obj/
 *.cache
 obj/x86/Debug/TheEternalOne.csproj.CoreCompileInputs.cache
+obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+obj/x86/Debug/TheEternalOne.csproj.CoreCompileInputs.cache

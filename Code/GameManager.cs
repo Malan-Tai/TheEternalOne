@@ -33,18 +33,17 @@ namespace TheEternalOne.Code
         public static List<GameObject> Objects;
 		
         public static AbilityGUI abilityGUI;
-
+        public static StatusGUI statusGUI;
 
         public const int MAP_WIDTH = 100;
         public const int MAP_HEIGHT = 80;
 
         public static void NewGame()
         {
-
- 
             Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
 
             abilityGUI = new AbilityGUI();
+            statusGUI = new StatusGUI();
 
             Map = MapMaker.MakeTunnelMap(false);
 

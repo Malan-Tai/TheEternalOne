@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheEternalOne.Code.Game;
+using Microsoft.Xna.Framework;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -33,16 +35,16 @@ namespace TheEternalOne.Code.Objects
                 other.TakeDamage(Power);
                 if (other.Owner.Player != null)
                 {
-                    GameManager.LogWarning(Owner.Name + " attacked you for " + Power.ToString() + " damage !");
+                    //GameManager.LogWarning(Owner.Name + " attacked you for " + Power.ToString() + " damage !");
                 }
                 else
                 {
-                    GameManager.LogSuccess(other.Owner.Name + " took " + Power.ToString() + " damage !");
+                    //GameManager.LogSuccess(other.Owner.Name + " took " + Power.ToString() + " damage !");
                 }
             }
             else
             {
-                GameManager.LogWarning("You cannot attack in melee anymore !");
+                //GameManager.LogWarning("You cannot attack in melee anymore !");
             }
         }
 
@@ -50,7 +52,14 @@ namespace TheEternalOne.Code.Objects
         {
             int armorDmg = Math.Min(Armor, dmg);
             Armor -= armorDmg;
-            HP -= dmg - armorDmg;
+            int HPdmg = dmg - armorDmg;
+            HP -= HPdmg;
+            
+            if (HPdmg > 0)
+            {
+                Effect effect = new Effect("-" + HPdmg.ToString(), Color.DarkRed);
+                Owner.Effects.Add(effect);
+            }
 
             if (HP <= 0)
             {

@@ -55,6 +55,8 @@ namespace TheEternalOne.Code.GUI
 
                     spriteBatch.Draw(upgradeTexture, new Rectangle(Game1.WIDTH - width - 20, y + i * GameManager.AbilityHeight + i * 5 + 10, width, width), Color.White);
                 }
+
+
             }
         }
     }

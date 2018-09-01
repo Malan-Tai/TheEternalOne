@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Code\Coord.cs" />
     <Compile Include="Code\GameManager.cs" />
+    <Compile Include="Code\Game\Effect.cs" />
     <Compile Include="Code\Game\Message.cs" />
     <Compile Include="Code\GUI\AbilityGUI.cs" />
     <Compile Include="Code\GUI\StatusGUI.cs" />

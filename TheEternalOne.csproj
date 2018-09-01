@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Code\Coord.cs" />
     <Compile Include="Code\GameManager.cs" />
+    <Compile Include="Code\Game\Message.cs" />
     <Compile Include="Code\GUI\AbilityGUI.cs" />
     <Compile Include="Code\GUI\StatusGUI.cs" />
     <Compile Include="Code\InputManager.cs" />
@@ -51,6 +52,9 @@
     <Compile Include="Code\Map\Tile.cs" />
     <Compile Include="Code\Objects\Fighter.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
+    <Compile Include="Code\Objects\Mobs\I_AI.cs" />
+    <Compile Include="Code\Objects\Mobs\MobFactory.cs" />
+    <Compile Include="Code\Objects\Mobs\StaticAI.cs" />
     <Compile Include="Code\Objects\Player.cs" />
     <Compile Include="Code\ProcGen\MapGen\MapMaker.cs" />
     <Compile Include="Code\Utils\Dice.cs" />
@@ -76,9 +80,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Code\Game\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

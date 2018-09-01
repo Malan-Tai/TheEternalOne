@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheEternalOne.Code
 {
-    class Coord
+    public class Coord
     {
         public int x { get; set; }
         public int y { get; set; }

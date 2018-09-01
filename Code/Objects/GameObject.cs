@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using TheEternalOne.Code.Objects.Mobs;
 
 namespace TheEternalOne.Code.Objects
 {
-    class GameObject
+    public class GameObject
     {
         public Coord Position { get; set; }
         public Coord OffsetPos { get; set; }
@@ -39,7 +40,34 @@ namespace TheEternalOne.Code.Objects
         }
 
         public Player Player { get; set; }
-        public Fighter Fighter { get; set; }
+        private Fighter _fighter;
+        public Fighter Fighter
+        {
+            get
+            {
+                return _fighter;
+            }
+            set
+            {
+                _fighter = value;
+                _fighter.Owner = this;
+            }
+        }
+
+        private I_AI _ai;
+        public I_AI AI
+        {
+            get
+            {
+                return _ai;
+            }
+            set
+            {
+                _ai = value;
+                _ai.Owner = this;
+            }
+        }
+        public string Name { get; set; }
 
         public Texture2D texture;
         public int textureWidth;
@@ -60,9 +88,28 @@ namespace TheEternalOne.Code.Objects
         {
             if (!GameManager.Map[x + dx, y + dy].Blocked)
             {
-                Position = new Coord(Position.x + dx, Position.y + dy);
-                Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
-                BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                GameObject foundObject = null;
+                if (Fighter != null)
+                {
+                    foreach (GameObject gameObject in GameManager.Objects)
+                    {
+                        if (gameObject.Fighter != null && gameObject.Position.x == x + dx && gameObject.Position.y == y + dy)
+                        {
+                            foundObject = gameObject;
+                            break;
+                        }
+                    }
+                }
+                if (foundObject != null)
+                {
+                    Fighter.Attack(foundObject.Fighter);
+                }
+                else
+                {
+                    Position = new Coord(Position.x + dx, Position.y + dy);
+                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
             }
         }
 

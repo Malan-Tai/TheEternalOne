@@ -56,8 +56,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Dungeon.spritefont
 
-
-#begin basicenemy_placeholder.png
 #begin big_target.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -68,7 +66,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:basicenemy_placeholder.png
 /build:big_target.png
 
 #begin HP_GUI.png
@@ -118,4 +115,40 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Shield_GUI.png
+
+#begin upgrade_GUI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:upgrade_GUI.png
+
+#begin upgrade_GUI_lit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:upgrade_GUI_lit.png
+
+#begin basicenemy_placeholder.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:basicenemy_placeholder.png
 

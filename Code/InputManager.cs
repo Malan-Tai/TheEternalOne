@@ -23,6 +23,7 @@ namespace TheEternalOne
         public static int MouseMapY;
         public static int SelectedSpellIndex = -1;
         public static int SpellIndex = -1;
+        public static bool UpgradeSpell = false;
 
         public static int leftMapX = GameManager.DrawMapX;
         public static int rightMapX = GameManager.DrawMapX + GameManager.VisibleMapWidth * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
@@ -119,6 +120,7 @@ namespace TheEternalOne
                     SpellIndex = -1;
                     MouseMapX = xRatio + Game1.minMapX;
                     MouseMapY = yRatio + Game1.minMapY;
+                    UpgradeSpell = false;
                 }
                 else if (MouseState.X >= GameManager.abilityGUI.x)
                 {
@@ -127,6 +129,14 @@ namespace TheEternalOne
                     {
                         if (GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 <= MouseState.Y && MouseState.Y < GameManager.abilityGUI.y + (i + 1) * GameManager.AbilityHeight + i * 5)
                         {
+                            int width = (int)(GameManager.abilityGUI.upgradeTexture.Width * 0.7f * Game1.GLOBAL_SIZE_MOD / 100);
+                            if (Game1.WIDTH - width - 20 <= MouseState.X && GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 + 10 <= MouseState.Y &&
+                                MouseState.Y <= GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 + 10 + width)
+                            {
+                                UpgradeSpell = true;
+                            }
+                            else UpgradeSpell = false;
+                            
                             SpellIndex = i;
                             break;
                         }
@@ -136,6 +146,7 @@ namespace TheEternalOne
                 {
                     SpellIndex = -1;
                     MouseInMap = false;
+                    UpgradeSpell = false;
                 }
 
                 if (MouseState.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton == ButtonState.Released)

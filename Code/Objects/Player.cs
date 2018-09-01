@@ -43,32 +43,32 @@ namespace TheEternalOne.Code.Objects
             MaxMP = mp;
             MP = mp;
 
-            Spells = new List<string> { "sword", "shield", "fireball", "heal", "teleport" };
+            Spells = new List<string> { "Sword", "Shield", "Fireball", "Heal", "Teleport" };
         }
 
         public void Cast(string spell)
         {
             Fighter fighter = Owner.Fighter;
 
-            if (spell == "sword")
+            if (spell == "Sword")
             {
 
             }
-            else if (spell == "shield")
+            else if (spell == "Shield")
             {
                 fighter.Armor += ShieldPower;
 
             }
-            else if (spell == "fireball")
+            else if (spell == "Fireball")
             {
 
             }
-            else if (spell == "heal" || MP >= 3)
+            else if (spell == "Heal" || MP >= 3)
             {
                 fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + HealPower);
                 MP -= 3;
             }
-            else if (spell == "teleport" || MP >= 1)
+            else if (spell == "Teleport" || MP >= 1)
             {
 
                 MP -= 1;

@@ -107,11 +107,11 @@ namespace TheEternalOne
                 if (leftMapX <= MouseState.X && MouseState.X < rightMapX && upMapY <= MouseState.Y && MouseState.Y < downMapY)
                 {
                     MouseInMap = true;
-                    int xRatio = (MouseState.X - GameManager.DrawMapX) / GameManager.TileWidth;
-                    int yRatio = (MouseState.Y - GameManager.DrawMapY) / GameManager.TileWidth;
+                    int xRatio = (MouseState.X - GameManager.DrawMapX) / (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                    int yRatio = (MouseState.Y - GameManager.DrawMapY) / (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
                     SpellIndex = -1;
-                    //MouseMapX = xRatio + Game1.minMapX;
-                    //MouseMapY = yRatio + Game1.minMapY;
+                    MouseMapX = xRatio + Game1.minMapX;
+                    MouseMapY = yRatio + Game1.minMapY;
                 }
                 else if (MouseState.X >= GameManager.abilityGUI.x)
                 {

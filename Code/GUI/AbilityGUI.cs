@@ -38,7 +38,10 @@ namespace TheEternalOne.Code.GUI
 
                 spriteBatch.Draw(texture, new Rectangle(x, y + i * GameManager.AbilityHeight + i * 5, GameManager.AbilityWidth, GameManager.AbilityHeight), borderColor);
                 spriteBatch.Draw(texture, new Rectangle(x + 5, y + i * GameManager.AbilityHeight + i * 5 + 5, GameManager.AbilityWidth - 10, GameManager.AbilityHeight - 10), plainColor);
-                
+
+                string spell = GameManager.PlayerObject.Player.Spells[i];
+                Vector2 pos = new Vector2(x + 15, y + i * GameManager.AbilityHeight + i * 5 + 10);
+                spriteBatch.DrawString(Game1.Font, spell, pos, borderColor, 0f, new Vector2(0, 0), 1.2f, new SpriteEffects(), 0f);
             }
         }
     }

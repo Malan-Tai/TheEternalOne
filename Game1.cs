@@ -26,7 +26,7 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "basicenemy_placeholder" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "basicenemy_placeholder", "big_target" };
 
         public static SpriteFont Font;
 
@@ -44,7 +44,7 @@ namespace TheEternalOne
             graphics.PreferredBackBufferHeight = HEIGHT;
             //graphics.PreferMultiSampling = true;
 
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
 
             IsMouseVisible = true;
         }
@@ -150,6 +150,19 @@ namespace TheEternalOne
                 }
             }
 
+            if (InputManager.MouseInMap)
+            {
+                int picX = GameManager.DrawMapX + (GameManager.VisibleMapWidth / 2 + InputManager.MouseMapX - GameManager.PlayerObject.Position.x) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                int picY = GameManager.DrawMapY + (GameManager.VisibleMapHeight / 2 + InputManager.MouseMapY - GameManager.PlayerObject.Position.y) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+
+                int offsetX = -GameManager.PlayerObject.OffsetPos.x + GameManager.PlayerObject.BigPos.x;
+                int offsetY = -GameManager.PlayerObject.OffsetPos.y + GameManager.PlayerObject.BigPos.y;
+
+                int width = (int)(GameManager.TileWidth * GLOBAL_SIZE_MOD / 100);
+
+                spriteBatch.Draw(textureDict["big_target"], new Microsoft.Xna.Framework.Rectangle(picX + offsetX, picY + offsetY, width, width), Microsoft.Xna.Framework.Color.Wheat);
+            }
+
             foreach (GameObject obj in GameManager.Objects)
             {
                 if (minMapX <= obj.x && obj.x <= maxMapX && minMapY <= obj.y && obj.y <= maxMapY)
@@ -162,7 +175,7 @@ namespace TheEternalOne
 
             string TestString = "Font drawing test";
             Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
-            spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
+            //spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
 
             spriteBatch.End();
 

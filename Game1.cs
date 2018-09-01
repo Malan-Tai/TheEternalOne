@@ -26,7 +26,7 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "big_target" };
 
         public static SpriteFont Font;
 
@@ -125,8 +125,8 @@ namespace TheEternalOne
 
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
-            Console.Out.WriteLine("X Start : " + minMapX.ToString() + " | X Stop : " + maxMapX.ToString());
-            Console.Out.WriteLine("Y Start : " + minMapY.ToString() + " | Y Stop : " + maxMapY.ToString());
+            //Console.Out.WriteLine("X Start : " + minMapX.ToString() + " | X Stop : " + maxMapX.ToString());
+            //Console.Out.WriteLine("Y Start : " + minMapY.ToString() + " | Y Stop : " + maxMapY.ToString());
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
@@ -138,6 +138,19 @@ namespace TheEternalOne
                     Tile tile = GameManager.Map[x, y];
                     tile.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }
+            }
+
+            if (InputManager.MouseInMap)
+            {
+                int picX = GameManager.DrawMapX + (GameManager.VisibleMapWidth / 2 + InputManager.MouseMapX - GameManager.PlayerObject.Position.x) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                int picY = GameManager.DrawMapY + (GameManager.VisibleMapHeight / 2 + InputManager.MouseMapY - GameManager.PlayerObject.Position.y) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+
+                int offsetX = -GameManager.PlayerObject.OffsetPos.x + GameManager.PlayerObject.BigPos.x;
+                int offsetY = -GameManager.PlayerObject.OffsetPos.y + GameManager.PlayerObject.BigPos.y;
+
+                int width = (int)(GameManager.TileWidth * GLOBAL_SIZE_MOD / 100);
+
+                spriteBatch.Draw(textureDict["big_target"], new Microsoft.Xna.Framework.Rectangle(picX + offsetX, picY + offsetY, width, width), Microsoft.Xna.Framework.Color.Wheat);
             }
 
             foreach (GameObject obj in GameManager.Objects)

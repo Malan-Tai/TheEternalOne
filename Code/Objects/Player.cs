@@ -7,6 +7,8 @@ using TheEternalOne.Code.Utils;
 using static TheEternalOne.Code.Objects.Equipments.Equipment;
 using static TheEternalOne.Code.Objects.Equipments.Equipment.EquipmentSlot;
 using TheEternalOne.Code.Objects.Equipments;
+using Microsoft.Xna.Framework;
+using TheEternalOne.Code.Game;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -129,9 +131,16 @@ namespace TheEternalOne.Code.Objects
             }
             else if (spell == "Heal" && MP >= 3)
             {
+                int prevHP = fighter.HP;
                 int ActualHealPower = Math.Max(0, HealPower + HealBonus);
                 fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + ActualHealPower);
-                MP -= 3;
+                int healed = fighter.HP - prevHP;
+                if (healed > 0)
+                {
+                    MP -= 3;
+                    Effect effect = new Effect("+" + healed.ToString(), Color.DarkGreen);
+                    Owner.Effects.Add(effect);
+                }
             }
             else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].Blocked)
             {

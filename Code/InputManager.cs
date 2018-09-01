@@ -33,6 +33,8 @@ namespace TheEternalOne
 
         public static bool forceMouseUpdate = false;
 
+        public static bool mapOpen = false;
+
         public delegate void KeyboardPressEvent(int dx, int dy);
         public static event KeyboardPressEvent OnKeyboardPress = new KeyboardPressEvent((int x, int y) => { });
         #endregion
@@ -64,20 +66,20 @@ namespace TheEternalOne
             {
                 KeyboardState KeyboardState = Keyboard.GetState();
                 #region KBInputProcess
-                if (KeyboardState.IsKeyDown(Keys.Left) && !PreviousKeyboardState.IsKeyDown(Keys.Left))
+                if (KeyboardState.IsKeyDown(Keys.Left) && !PreviousKeyboardState.IsKeyDown(Keys.Left) && !mapOpen)
                 {
                     state = MoveInput(-1, 0);
                 }
-                if (KeyboardState.IsKeyDown(Keys.Right) && !PreviousKeyboardState.IsKeyDown(Keys.Right))
+                if (KeyboardState.IsKeyDown(Keys.Right) && !PreviousKeyboardState.IsKeyDown(Keys.Right) && !mapOpen)
                 {
                     state = MoveInput(1, 0);
                     //OnKeyboardPress.Invoke(1, 0);
                 }
-                if (KeyboardState.IsKeyDown(Keys.Up) && !PreviousKeyboardState.IsKeyDown(Keys.Up))
+                if (KeyboardState.IsKeyDown(Keys.Up) && !PreviousKeyboardState.IsKeyDown(Keys.Up) && !mapOpen)
                 {
                     state = MoveInput(0, -1);
                 }
-                if (KeyboardState.IsKeyDown(Keys.Down) && !PreviousKeyboardState.IsKeyDown(Keys.Down))
+                if (KeyboardState.IsKeyDown(Keys.Down) && !PreviousKeyboardState.IsKeyDown(Keys.Down) && !mapOpen)
                 {
                     state = MoveInput(0, 1);
                     //OnKeyboardPress.Invoke(0, 1);
@@ -113,7 +115,7 @@ namespace TheEternalOne
                     {
                         return "error";
                     }
-                    
+
                     if (toUse != null)
                     {
                         toUse.Item.Use();
@@ -165,7 +167,7 @@ namespace TheEternalOne
                     GameInstance.graphics.ApplyChanges();
                 }
 
-                if (KeyboardState.IsKeyDown(Keys.G) && !PreviousKeyboardState.IsKeyDown(Keys.G))
+                if (KeyboardState.IsKeyDown(Keys.G) && !PreviousKeyboardState.IsKeyDown(Keys.G) && !mapOpen)
                 {
                     if (GameManager.PlayerObject.Player.CanPickUp)
                     {
@@ -197,6 +199,10 @@ namespace TheEternalOne
                 {
                     GameManager.PlayerObject.Player.DisplayEquipment();
                 }
+                if (KeyboardState.IsKeyDown(Keys.M) && !PreviousKeyboardState.IsKeyDown(Keys.M))
+                {
+                    mapOpen = !mapOpen;
+                }
 
                 PreviousKeyboardState = KeyboardState;
                 #endregion
@@ -219,7 +225,7 @@ namespace TheEternalOne
         {
             string state = "none";
             MouseState MouseState = Mouse.GetState();
-            if (forceMouseUpdate || !((PreviousMouseState.LeftButton == MouseState.LeftButton) && (PreviousMouseState.RightButton == MouseState.RightButton) && (PreviousMouseState.X == MouseState.X) && (PreviousMouseState.Y == MouseState.Y)))
+            if ((forceMouseUpdate || !((PreviousMouseState.LeftButton == MouseState.LeftButton) && (PreviousMouseState.RightButton == MouseState.RightButton) && (PreviousMouseState.X == MouseState.X) && (PreviousMouseState.Y == MouseState.Y))) && !mapOpen)
             {
                 if (leftMapX <= MouseState.X && MouseState.X < rightMapX && upMapY <= MouseState.Y && MouseState.Y < downMapY)
                 {

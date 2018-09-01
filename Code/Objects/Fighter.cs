@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheEternalOne.Code.Game;
+using Microsoft.Xna.Framework;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -66,7 +68,14 @@ namespace TheEternalOne.Code.Objects
         {
             int armorDmg = Math.Min(Armor, dmg);
             Armor -= armorDmg;
-            HP -= dmg - armorDmg;
+            int HPdmg = dmg - armorDmg;
+            HP -= HPdmg;
+            
+            if (HPdmg > 0)
+            {
+                Effect effect = new Effect("-" + HPdmg.ToString(), Color.DarkRed);
+                Owner.Effects.Add(effect);
+            }
 
             if (HP <= 0)
             {

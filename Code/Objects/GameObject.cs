@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using TheEternalOne.Code.Objects.Mobs;
+using TheEternalOne.Code.Game;
 using TheEternalOne.Code.Objects.Items;
 using TheEternalOne.Code.Objects.Equipments;
 
@@ -16,6 +17,8 @@ namespace TheEternalOne.Code.Objects
         public Coord Position { get; set; }
         public Coord OffsetPos { get; set; }
         public Coord BigPos { get; set; }
+
+        public List<Game.Effect> Effects { get; set; }
 
         public int x
         {
@@ -112,6 +115,8 @@ namespace TheEternalOne.Code.Objects
             texture = Game1.textureDict[textureString];
             textureWidth = textureW;
             textureHeight = textureH;
+
+            Effects = new List<Game.Effect>();
         }
 
         public void Move(int dx, int dy)
@@ -150,6 +155,66 @@ namespace TheEternalOne.Code.Objects
             }
         }
 
+        public void MoveTo(int nx, int ny)
+        {
+            if (!GameManager.Map[nx, ny].Blocked)
+            {
+                GameObject foundObject = null;
+                if (Fighter != null)
+                {
+                    foreach (GameObject gameObject in GameManager.Objects)
+                    {
+                        if (gameObject.Fighter != null && gameObject.Position.x == nx && gameObject.Position.y == ny)
+                        {
+                            foundObject = gameObject;
+                            break;
+                        }
+                    }
+                }
+                if (foundObject != null)
+                {
+                    Fighter.Attack(foundObject.Fighter);
+                }
+                else
+                {
+                    Position = new Coord(nx, ny);
+                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
+            }
+        }
+
+        public void MoveTo(Coord coord)
+        {
+            int nx = coord.x;
+            int ny = coord.y;
+            if (!GameManager.Map[nx, ny].Blocked)
+            {
+                GameObject foundObject = null;
+                if (Fighter != null)
+                {
+                    foreach (GameObject gameObject in GameManager.Objects)
+                    {
+                        if (gameObject.Fighter != null && gameObject.Position.x == nx && gameObject.Position.y == ny)
+                        {
+                            foundObject = gameObject;
+                            break;
+                        }
+                    }
+                }
+                if (foundObject != null)
+                {
+                    Fighter.Attack(foundObject.Fighter);
+                }
+                else
+                {
+                    Position = new Coord(nx, ny);
+                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch, int px, int py)
         {
             int offsetX;
@@ -165,12 +230,17 @@ namespace TheEternalOne.Code.Objects
                 offsetY = OffsetPos.y - BigPos.y - GameManager.PlayerObject.OffsetPos.y + GameManager.PlayerObject.BigPos.y;
             }
 
-            int? x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX;
-            int? y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
+            int x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX;
+            int y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
             
             //Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
 
-            spriteBatch.Draw(texture, new Rectangle(x ?? default(int), y ?? default(int), (int)(textureWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(textureHeight * Game1.GLOBAL_SIZE_MOD / 100)), Color.White);
+            spriteBatch.Draw(texture, new Rectangle(x, y, (int)(textureWidth * Game1.GLOBAL_SIZE_MOD / 100), (int)(textureHeight * Game1.GLOBAL_SIZE_MOD / 100)), Color.White);
+
+            foreach (Game.Effect eff in Effects)
+            {
+                eff.Draw(spriteBatch, x + 20, y - 50);
+            }
         }
 
         public void Update()
@@ -185,6 +255,17 @@ namespace TheEternalOne.Code.Objects
                 else if (OffsetPos.y > BigPos.y) dy = -5;
 
                 OffsetPos = new Coord(OffsetPos.x + dx, OffsetPos.y + dy);
+            }
+
+            List<Game.Effect> toRemove = new List<Game.Effect>();
+            foreach (Game.Effect eff in Effects)
+            {
+                eff.Update();
+                if (eff.TimeLeft <= 0) toRemove.Add(eff);
+            }
+            foreach (Game.Effect eff in toRemove)
+            {
+                Effects.Remove(eff);
             }
         }
     }

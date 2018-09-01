@@ -15,7 +15,7 @@ namespace TheEternalOne.Code.Objects.Mobs
 
             gameObject.Name = "Trash Mob";
             gameObject.Fighter = fighter;
-            gameObject.AI = new StaticAI();
+            gameObject.AI = new BasicAI();
 
             return gameObject;
         }

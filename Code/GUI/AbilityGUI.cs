@@ -26,6 +26,8 @@ namespace TheEternalOne.Code.GUI
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            GameObject player = GameManager.PlayerObject;
+
             for (int i = 0; i < 5; i++)
             {
                 Color borderColor = new Color(50, 50, 50);
@@ -54,6 +56,34 @@ namespace TheEternalOne.Code.GUI
                     int width = (int)(upgradeTexture.Width * 0.7f * Game1.GLOBAL_SIZE_MOD / 100);
 
                     spriteBatch.Draw(upgradeTexture, new Rectangle(Game1.WIDTH - width - 20, y + i * GameManager.AbilityHeight + i * 5 + 10, width, width), Color.White);
+                }
+
+                List<string> desc = new List<string> { "" };
+                if (i == 0)
+                {
+                    desc = new List<string> { "Hit target adjacent enemy", "for " + player.Fighter.Power.ToString() + " damage." };
+                }
+                else if (i == 1)
+                {
+                    desc = new List<string> { "Gain " + player.Player.ShieldPower.ToString() + " armor", "and push target adjacent", "enemy away." };
+                }
+                else if (i == 2)
+                {
+                    desc = new List<string> { "Shoot target enemy for", player.Player.FireballDmg.ToString() + " damage.", "(5 MP)" };
+                }
+                else if (i == 3)
+                {
+                    desc = new List<string> { "Heal yourself for " + player.Player.HealPower.ToString() + " HP.", "(3 MP)" };
+                }
+                else if (i == 4)
+                {
+                    desc = new List<string> { "Teleport to target free tile.", "(1 MP)" };
+                }
+
+                for (int j = 0; j < desc.Count; j++)
+                {
+                    pos = new Vector2(x + 15, y + i * GameManager.AbilityHeight + i * 5 + 50 + j * 20);
+                    spriteBatch.DrawString(Game1.Font, desc[j], pos, borderColor);
                 }
             }
         }

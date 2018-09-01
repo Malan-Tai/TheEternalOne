@@ -12,14 +12,14 @@ namespace TheEternalOne.Code
     {
         public static Tile[,] Map;
 
-        public const int DrawMapX = 0;
+        public const int DrawMapX = 200;
         public const int DrawMapY = 0;
 
         public const int TileWidth = 85;
         public const int MapWidth = 50;
         public const int MapHeight = 50;
-        public const int VisibleMapWidth = 15;
-        public const int VisibleMapHeight = 15;
+        public const int VisibleMapWidth = 17;
+        public const int VisibleMapHeight = 13;
 
         public const int screenPlayerX = VisibleMapWidth / 2 + 1;
         public const int screenPlayerY = VisibleMapHeight / 2 + 1;

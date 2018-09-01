@@ -28,6 +28,11 @@ namespace TheEternalOne
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
         private static List<string> allTextures = new List<string> { "tile50x50" };
 
+        public static int minMapX;
+        public static int minMapY;
+        public static int maxMapX;
+        public static int maxMapY;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -111,14 +116,19 @@ namespace TheEternalOne
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            minMapX = Math.Max(GameManager.PlayerObject.x - GameManager.VisibleMapWidth / 2, 0);
+            maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2, GameManager.MapWidth);
+            minMapY = Math.Max(GameManager.PlayerObject.y - GameManager.VisibleMapHeight / 2, 0);
+            maxMapY = Math.Min(GameManager.PlayerObject.y + GameManager.VisibleMapHeight / 2, GameManager.MapHeight);
+
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            for (int x = 0; x < GameManager.MapWidth; x++)
+            for (int x = minMapX; x < maxMapX; x++)
             {
-                for (int y = 0; y < GameManager.MapHeight; y++)
+                for (int y = minMapY; y < maxMapY; y++)
                 {
                     Tile tile = GameManager.Map[x, y];
                     tile.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);

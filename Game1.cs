@@ -27,7 +27,7 @@ namespace TheEternalOne
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
         private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "big_target", "HP_GUI", "MP_GUI", "XP_GUI", "Shield_GUI", "basicenemy_placeholder",
-                                                                    "upgrade_GUI", "upgrade_GUI_lit" };
+                                                                    "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder" };
 
         public static SpriteFont Font;
 
@@ -110,7 +110,7 @@ namespace TheEternalOne
                 obj.Update();
             }
 
-            if (kbState == "move")
+            if (kbState == "move" || kbState == "pickup")
             {
                 foreach (GameObject obj in GameManager.Objects)
                 {
@@ -164,7 +164,7 @@ namespace TheEternalOne
                 spriteBatch.Draw(textureDict["big_target"], new Microsoft.Xna.Framework.Rectangle(picX + offsetX, picY + offsetY, width, width), Microsoft.Xna.Framework.Color.Wheat);
             }
 
-            foreach (GameObject obj in GameManager.Objects)
+            foreach (GameObject obj in SortGameObjectsForDraw(GameManager.Objects))
             {
                 if (minMapX <= obj.x && obj.x <= maxMapX && minMapY <= obj.y && obj.y <= maxMapY)
                 {
@@ -182,6 +182,55 @@ namespace TheEternalOne
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private List<GameObject> SortGameObjectsByDrawPriority(List<GameObject> baseList)
+        {
+            List<GameObject> temp = new List<GameObject>(baseList);
+            temp.Sort((x, y) => x.Position.y.CompareTo(y.Position.y));
+            return temp;
+        }
+
+        private List<GameObject> SortGameObjectsForDraw(List<GameObject> baseList)
+        {
+            List<GameObject> TempList = new List<GameObject>(baseList);
+            List<GameObject> Items = new List<GameObject>();
+            List<GameObject> Others = new List<GameObject>();
+
+            foreach (GameObject gameObj in baseList)
+            {
+                if (gameObj.Item != null)
+                {
+                    Items.Add(gameObj);
+                }
+                else
+                {
+                    Others.Add(gameObj);
+                }
+                TempList.Remove(gameObj);
+            }
+
+            if (TempList.Count > 0)
+            {
+                throw new IndexOutOfRangeException("TempList is not empty (length = " + TempList.Count.ToString() + ")");
+            }
+            else
+            {
+                List<GameObject> SortedItems = SortGameObjectsByDrawPriority(Items);
+                List<GameObject> SortedOthers = SortGameObjectsByDrawPriority(Others);
+
+                foreach (GameObject gameObj in SortedItems)
+                {
+                    TempList.Add(gameObj);
+                }
+                foreach (GameObject gObj in SortedOthers)
+                {
+                    TempList.Add(gObj);
+                }
+                return TempList;
+            }
+
+
         }
 
         public void DrawMiniLog(SpriteBatch spriteBatch)

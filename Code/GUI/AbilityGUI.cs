@@ -44,14 +44,17 @@ namespace TheEternalOne.Code.GUI
                 Vector2 pos = new Vector2(x + 15, y + i * GameManager.AbilityHeight + i * 5 + 10);
                 spriteBatch.DrawString(Game1.Font, spell, pos, borderColor, 0f, new Vector2(0, 0), 1.2f, new SpriteEffects(), 0f);
 
-                upgradeTexture = Game1.textureDict["upgrade_GUI"];
-                if (InputManager.UpgradeSpell && i == InputManager.SpellIndex)
+                if (i != 4)
                 {
-                    upgradeTexture = Game1.textureDict["upgrade_GUI_lit"];
-                }
-                int width = (int)(upgradeTexture.Width * 0.7f * Game1.GLOBAL_SIZE_MOD / 100);
+                    upgradeTexture = Game1.textureDict["upgrade_GUI"];
+                    if (InputManager.UpgradeSpell && i == InputManager.SpellIndex)
+                    {
+                        upgradeTexture = Game1.textureDict["upgrade_GUI_lit"];
+                    }
+                    int width = (int)(upgradeTexture.Width * 0.7f * Game1.GLOBAL_SIZE_MOD / 100);
 
-                spriteBatch.Draw(upgradeTexture, new Rectangle(Game1.WIDTH - width - 20, y + i * GameManager.AbilityHeight + i * 5 + 10, width, width), Color.White);
+                    spriteBatch.Draw(upgradeTexture, new Rectangle(Game1.WIDTH - width - 20, y + i * GameManager.AbilityHeight + i * 5 + 10, width, width), Color.White);
+                }
             }
         }
     }

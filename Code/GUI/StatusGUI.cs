@@ -59,7 +59,7 @@ namespace TheEternalOne.Code.GUI
 
             spriteBatch.Draw(textureXP, new Rectangle(x, 4 * y + 3 * width, width, width), Color.White);
 
-            string XPtext = "XP: " + player.Player.LeftXP.ToString();
+            string XPtext = "XP: " + player.Fighter.XP.ToString();
             Vector2 XPpos = new Vector2(2 * x + width, 4 * y + 3 * width);
             spriteBatch.DrawString(Game1.Font, XPtext, XPpos, Color.LightBlue);
         }

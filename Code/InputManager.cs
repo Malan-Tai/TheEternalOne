@@ -130,7 +130,7 @@ namespace TheEternalOne
                         if (GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 <= MouseState.Y && MouseState.Y < GameManager.abilityGUI.y + (i + 1) * GameManager.AbilityHeight + i * 5)
                         {
                             int width = (int)(GameManager.abilityGUI.upgradeTexture.Width * 0.7f * Game1.GLOBAL_SIZE_MOD / 100);
-                            if (Game1.WIDTH - width - 20 <= MouseState.X && GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 + 10 <= MouseState.Y &&
+                            if (i != 4 && Game1.WIDTH - width - 20 <= MouseState.X && GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 + 10 <= MouseState.Y &&
                                 MouseState.Y <= GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 + 10 + width)
                             {
                                 UpgradeSpell = true;
@@ -159,6 +159,11 @@ namespace TheEternalOne
                             if (GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 <= MouseState.Y && MouseState.Y < GameManager.abilityGUI.y + (i + 1) * GameManager.AbilityHeight + i * 5)
                             {
                                 SelectedSpellIndex = i;
+                                if (i != 4 && UpgradeSpell && GameManager.PlayerObject.Fighter.XP > 0)
+                                {
+                                    GameManager.PlayerObject.Player.UpgardeSpell(i);
+                                    GameManager.PlayerObject.Fighter.XP--;
+                                }
                                 break;
                             }
                         }

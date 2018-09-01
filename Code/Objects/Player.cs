@@ -8,8 +8,6 @@ namespace TheEternalOne.Code.Objects
 {
     public class Player
     {
-        public int LeftXP { get; set; }
-
         public int FireballDmg { get; set; }
         public int HealPower { get; set; }
         public int ShieldPower { get; set; }
@@ -72,6 +70,29 @@ namespace TheEternalOne.Code.Objects
             {
 
                 MP -= 1;
+            }
+        }
+
+        public void UpgardeSpell(int i)
+        {
+            Fighter fighter = Owner.Fighter;
+            string spell = Spells[i];
+
+            if (spell == "Sword")
+            {
+                fighter.Power++;
+            }
+            else if (spell == "Shield")
+            {
+                ShieldPower++;
+            }
+            else if (spell == "Fireball")
+            {
+                FireballDmg++;
+            }
+            else if (spell == "Heal" || MP >= 3)
+            {
+                HealPower++;
             }
         }
     }

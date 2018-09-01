@@ -22,7 +22,7 @@ namespace TheEternalOne.Code.Objects.Mobs
             Tile start = map[startX, startY];
             Tile goal = map[goalX, goalY];
 
-            FastPriorityQueue<Tile> frontier = new FastPriorityQueue<Tile>(100); //50 might not be enough
+            FastPriorityQueue<Tile> frontier = new FastPriorityQueue<Tile>(500);
             frontier.Enqueue(start, 0.0f);
 
             Dictionary<Tile, Tile> cameFrom = new Dictionary<Tile, Tile>();

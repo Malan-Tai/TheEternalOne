@@ -14,15 +14,27 @@ namespace TheEternalOne.Code.Objects.Mobs
 
         void I_AI.TakeTurn()
         {
-            if (Distance.GetDistance(Owner.Position, GameManager.PlayerObject.Position) < 2)
+            bool newPath = false;
+            double dist = Distance.GetDistance(Owner.Position, GameManager.PlayerObject.Position);
+            if (dist < 2)
             {
                 Owner.Fighter.Attack(GameManager.PlayerObject.Fighter);
             }
             else if (Path != null && Path.Count > 0)
             {
-                Owner.MoveTo(Path.Pop());
+                Coord next = Path.Pop();
+                if (dist < Distance.GetDistance(GameManager.PlayerObject.Position, next) || GameManager.Map[next.x, next.y].IsBlocked) //if the path is going away from the player or is blocked by a monster
+                {
+                    newPath = true;
+                }
+                else
+                {
+                    Owner.MoveTo(next);
+                }
             }
-            else if (Distance.GetDistance(Owner.Position, GameManager.PlayerObject.Position) < 20)
+            else newPath = true;
+
+            if (newPath && Distance.GetDistance(Owner.Position, GameManager.PlayerObject.Position) < 20)
             {
                 Path = Astar.AstarPath(Owner.x, Owner.y, GameManager.PlayerObject.x, GameManager.PlayerObject.y, ref GameManager.Map);
                 if (Path != null && Path.Count > 0) Owner.MoveTo(Path.Pop()); //Will sometimes not trigger, ie if the mob is blocked

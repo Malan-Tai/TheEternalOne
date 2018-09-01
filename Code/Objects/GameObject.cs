@@ -133,6 +133,66 @@ namespace TheEternalOne.Code.Objects
             }
         }
 
+        public void MoveTo(int nx, int ny)
+        {
+            if (!GameManager.Map[nx, ny].Blocked)
+            {
+                GameObject foundObject = null;
+                if (Fighter != null)
+                {
+                    foreach (GameObject gameObject in GameManager.Objects)
+                    {
+                        if (gameObject.Fighter != null && gameObject.Position.x == nx && gameObject.Position.y == ny)
+                        {
+                            foundObject = gameObject;
+                            break;
+                        }
+                    }
+                }
+                if (foundObject != null)
+                {
+                    Fighter.Attack(foundObject.Fighter);
+                }
+                else
+                {
+                    Position = new Coord(nx, ny);
+                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
+            }
+        }
+
+        public void MoveTo(Coord coord)
+        {
+            int nx = coord.x;
+            int ny = coord.y;
+            if (!GameManager.Map[nx, ny].Blocked)
+            {
+                GameObject foundObject = null;
+                if (Fighter != null)
+                {
+                    foreach (GameObject gameObject in GameManager.Objects)
+                    {
+                        if (gameObject.Fighter != null && gameObject.Position.x == nx && gameObject.Position.y == ny)
+                        {
+                            foundObject = gameObject;
+                            break;
+                        }
+                    }
+                }
+                if (foundObject != null)
+                {
+                    Fighter.Attack(foundObject.Fighter);
+                }
+                else
+                {
+                    Position = new Coord(nx, ny);
+                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch, int px, int py)
         {
             int offsetX;

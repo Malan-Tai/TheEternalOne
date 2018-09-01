@@ -72,42 +72,42 @@ namespace TheEternalOne.Code.Map
 
             if (canUp)
             {
-                neighbors[i] = map[y - 1, x];
+                neighbors[i] = map[x, y - 1];
                 i++;
             }
             if (canDown)
             {
-                neighbors[i] = map[y + 1, x];
+                neighbors[i] = map[x, y + 1];
                 i++;
             }
             if (canLeft)
             {
-                neighbors[i] = map[y, x - 1];
+                neighbors[i] = map[x - 1, y];
                 i++;
             }
             if (canRight)
             {
-                neighbors[i] = map[y, x + 1];
+                neighbors[i] = map[x + 1, y];
                 i++;
             }
             if (canUp && canLeft && !cardinal)
             {
-                neighbors[i] = map[y - 1, x - 1];
+                neighbors[i] = map[x - 1, y - 1];
                 i++;
             }
             if (canUp && canRight && !cardinal)
             {
-                neighbors[i] = map[y - 1, x + 1];
+                neighbors[i] = map[x + 1, y - 1];
                 i++;
             }
             if (canDown && canLeft && !cardinal)
             {
-                neighbors[i] = map[y + 1, x - 1];
+                neighbors[i] = map[x - 1, y + 1];
                 i++;
             }
             if (canDown && canRight && !cardinal)
             {
-                neighbors[i] = map[y + 1, x + 1];
+                neighbors[i] = map[x + 1, y + 1];
                 i++;
             }
 

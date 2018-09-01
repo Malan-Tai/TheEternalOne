@@ -19,10 +19,10 @@ namespace TheEternalOne.Code.Objects.Mobs
         {
             //Console.Out.WriteLine("Creating A* path from {0} {1} to {2} {3}", startX, startY, goalX, goalY);
 
-            Tile start = map[startY, startX];
-            Tile goal = map[goalY, goalX];
+            Tile start = map[startX, startY];
+            Tile goal = map[goalX, goalY];
 
-            FastPriorityQueue<Tile> frontier = new FastPriorityQueue<Tile>(50); //50 might not be enough
+            FastPriorityQueue<Tile> frontier = new FastPriorityQueue<Tile>(100); //50 might not be enough
             frontier.Enqueue(start, 0.0f);
 
             Dictionary<Tile, Tile> cameFrom = new Dictionary<Tile, Tile>();

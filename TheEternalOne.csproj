@@ -58,6 +58,7 @@
     <Compile Include="Code\Objects\Items\Item.cs" />
     <Compile Include="Code\Objects\Items\ItemFactory.cs" />
     <Compile Include="Code\Objects\Mobs\Astar.cs" />
+    <Compile Include="Code\Objects\Mobs\BasicAI.cs" />
     <Compile Include="Code\Objects\Mobs\I_AI.cs" />
     <Compile Include="Code\Objects\Mobs\MobFactory.cs" />
     <Compile Include="Code\Objects\Mobs\StaticAI.cs" />

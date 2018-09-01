@@ -51,11 +51,11 @@ namespace TheEternalOne.Code.Objects
               
                 if (other.Owner.Player != null)
                 {
-                    GameManager.LogWarning(Owner.Name + " attacked you for " + ActualPower.ToString() + " damage !");
+                    //GameManager.LogWarning(Owner.Name + " attacked you for " + ActualPower.ToString() + " damage !");
                 }
                 else
                 {
-                    GameManager.LogSuccess(other.Owner.Name + " took " + ActualPower.ToString() + " damage !");
+                    //GameManager.LogSuccess(other.Owner.Name + " took " + ActualPower.ToString() + " damage !");
                 }
             }
             else

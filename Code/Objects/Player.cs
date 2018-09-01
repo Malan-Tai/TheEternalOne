@@ -172,7 +172,7 @@ namespace TheEternalOne.Code.Objects
             {
                 FireballDmg++;
             }
-            else if (spell == "Heal" || MP >= 3)
+            else if (spell == "Heal")
             {
                 HealPower++;
             }

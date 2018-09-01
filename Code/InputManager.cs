@@ -81,6 +81,13 @@ namespace TheEternalOne
                     //OnKeyboardPress.Invoke(0, 1);
                 }
 
+                if (KeyboardState.IsKeyDown(Keys.F11) && !PreviousKeyboardState.IsKeyDown(Keys.F11))
+                {
+                    GameInstance.graphics.IsFullScreen = !GameInstance.graphics.IsFullScreen;
+                    GameInstance.graphics.ApplyChanges();
+                    //OnKeyboardPress.Invoke(0, 1);
+                }
+
                 PreviousKeyboardState = KeyboardState;
                 #endregion
             }

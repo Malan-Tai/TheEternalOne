@@ -16,7 +16,7 @@ namespace TheEternalOne
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         public static System.Drawing.Rectangle res = Screen.PrimaryScreen.Bounds;
@@ -113,7 +113,7 @@ namespace TheEternalOne
             {
                 foreach (GameObject obj in GameManager.Objects)
                 {
-                    if (obj.AI != null)
+                    if (obj.AI != null && obj.Fighter.HP > 0)
                     {
                         obj.AI.TakeTurn();
                     }
@@ -173,13 +173,36 @@ namespace TheEternalOne
 
             GameManager.abilityGUI.Draw(spriteBatch);
 
-            string TestString = "Font drawing test";
-            Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
+            //string TestString = "Font drawing test";
+            //Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
             //spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
-
+            DrawMiniLog(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void DrawMiniLog(SpriteBatch spriteBatch)
+        {
+            int displayedMessages = Math.Min(GameManager.Log.Count, GameManager.MAX_MESSAGES - 1);
+            if (displayedMessages > 0)
+            {
+                string RefString = "The quick fox jumps over the lazy brown dog";
+                for (int i = 0; i < displayedMessages; i++)
+                {
+                    TheEternalOne.Code.Game.Message curMessage;
+                    if (GameManager.Log.Count > 3)
+                    {
+                        curMessage = GameManager.Log[GameManager.Log.Count - (GameManager.MAX_MESSAGES - 1) + i];
+                    }
+                    else
+                    {
+                        curMessage = GameManager.Log[i];
+                    }
+                    Vector2 position = new Vector2((InputManager.GameInstance.Window.ClientBounds.Width - Font.MeasureString(curMessage.Content).X) / 2, InputManager.GameInstance.Window.ClientBounds.Height - (GameManager.MAX_MESSAGES - 1- i) * (Font.MeasureString(RefString).Y) - 10);
+                    spriteBatch.DrawString(Font, curMessage.Content, position, curMessage.Color);
+                }
+            }
         }
     }
 }

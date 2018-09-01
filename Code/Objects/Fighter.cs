@@ -31,7 +31,7 @@ namespace TheEternalOne.Code.Objects
                 other.TakeDamage(Power);
                 if (other.Owner.Player != null)
                 {
-                    GameManager.LogWarning(Owner.Name + " + attacked you for " + Power.ToString() + " damage !");
+                    GameManager.LogWarning(Owner.Name + " attacked you for " + Power.ToString() + " damage !");
                 }
                 else
                 {

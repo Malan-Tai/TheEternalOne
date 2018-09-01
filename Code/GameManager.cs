@@ -20,6 +20,8 @@ namespace TheEternalOne.Code
         public const int VisibleMapWidth = 15;
         public const int VisibleMapHeight = 11;
 
+        public const int MAX_MESSAGES = 4;
+
         public static int DrawMapX = (Game1.WIDTH - VisibleMapWidth * (int)(TileWidth * Game1.GLOBAL_SIZE_MOD / 100)) / 2;
         public static int DrawMapY = 10;
 

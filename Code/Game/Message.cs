@@ -9,8 +9,8 @@ namespace TheEternalOne.Code.Game
 {
     public class Message
     {
-        string Content;
-        Color Color;
+        public string Content;
+        public Color Color;
 
         public Message(string text, Color color)
         {

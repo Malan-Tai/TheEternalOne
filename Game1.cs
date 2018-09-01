@@ -44,7 +44,7 @@ namespace TheEternalOne
             graphics.PreferredBackBufferHeight = HEIGHT;
             //graphics.PreferMultiSampling = true;
 
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
 
             IsMouseVisible = true;
         }
@@ -152,7 +152,7 @@ namespace TheEternalOne
 
             string TestString = "Font drawing test";
             Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
-            spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
+            //spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
 
             spriteBatch.End();
 

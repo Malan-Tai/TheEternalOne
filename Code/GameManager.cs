@@ -38,6 +38,7 @@ namespace TheEternalOne.Code
 		
         public static AbilityGUI abilityGUI;
         public static StatusGUI statusGUI;
+        public static MiniMap miniMap;
 
         public const int MAP_WIDTH = 100;
         public const int MAP_HEIGHT = 80;
@@ -53,6 +54,8 @@ namespace TheEternalOne.Code
             statusGUI = new StatusGUI();
 
             Map = MapMaker.MakeTunnelMap(false);
+
+            miniMap = new MiniMap(30, 20, Map);
 
             PlayerObject = new GameObject(StartPosition.x, StartPosition.y, "white", 100, 100);
             PlayerObject.Player = new Player(10);

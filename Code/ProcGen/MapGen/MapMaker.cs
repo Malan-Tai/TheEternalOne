@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.Objects.Items;
 using TheEternalOne.Code.Objects.Mobs;
 using TheEternalOne.Code.Utils;
 
@@ -17,7 +18,8 @@ namespace TheEternalOne.Code.ProcGen.MapGen
         const int MAP_WIDTH = GameManager.MAP_WIDTH;
         const int MAP_HEIGHT = GameManager.MAP_HEIGHT;
 
-        const int TRASH_MOB_NUMBER = 10;
+        const int TRASH_MOB_NUMBER = 20;
+        const int ITEM_NUMBER = 15;
 
         const float ROOM_RATIO = 0.6f;
         const int TUN_STEP_HOR = 50;
@@ -438,6 +440,47 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             }
         }
 
+        public static void PlaceItems(Tile[,] map)
+        {
+            for (int i = 0; i < ITEM_NUMBER; i++)
+            {
+                bool foundSuitablePosition = false;
+                int iter = 0;
+                int x = -1;
+                int y = -1;
+                while (!foundSuitablePosition)
+                {
+                iter++;
+                x = Dice.GetRandint(0, GameManager.MAP_WIDTH);
+                y = Dice.GetRandint(0, GameManager.MAP_HEIGHT);
+
+
+                    if (!map[x, y].Blocked)
+                    foundSuitablePosition = true;
+                    {
+                        foreach (GameObject obj in GameManager.Objects)
+                        {
+                            if (obj.Position.x == x && obj.Position.y == y && obj.Item != null)
+                            {
+                                foundSuitablePosition = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+
+                    if (iter > MAX_ITER)
+                    {
+                        break;
+                    }
+                }
+                if (foundSuitablePosition)
+                {
+                    GameManager.Objects.Add(ItemFactory.CreateHealthPotion(x,y));
+                }
+            }
+        }
+
         static public Tile[,] MakeTunnelMap(bool doors, int roomNumber = 15, int minSize = 6, int maxSize = 17)
         {
             currentMap = Map.Map.InitMap(true);
@@ -516,6 +559,7 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             Room lastRoom = rooms[rooms.Length - 1];
             GameManager.StartPosition = new Coord((int)lastRoom.Center.X, (int)lastRoom.Center.Y);
             PlaceMobs(currentMap);
+            PlaceItems(currentMap);
 
             return currentMap;
         }

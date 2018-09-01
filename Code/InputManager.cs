@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using TheEternalOne.Code;
+using TheEternalOne.Code.Objects;
 
 namespace TheEternalOne
 {
@@ -86,7 +87,28 @@ namespace TheEternalOne
                 {
                     GameInstance.graphics.IsFullScreen = !GameInstance.graphics.IsFullScreen;
                     GameInstance.graphics.ApplyChanges();
-                    //OnKeyboardPress.Invoke(0, 1);
+                }
+
+                if (KeyboardState.IsKeyDown(Keys.G) && !PreviousKeyboardState.IsKeyDown(Keys.G))
+                {
+                    if (GameManager.PlayerObject.Player.CanPickUp)
+                    {
+                        foreach (GameObject gameObj in GameManager.Objects)
+                        {
+                            if (gameObj.Position.x == GameManager.PlayerObject.Position.x && gameObj.Position.y == GameManager.PlayerObject.Position.y && gameObj.Item != null)
+                            {
+                                gameObj.Item.PickUp();
+                                PreviousKeyboardState = KeyboardState;
+                                return "pickup";
+                            }
+                        }
+
+                        GameManager.LogWarning("No item to pick up here");
+                    }
+                    else
+                    {
+                        GameManager.LogWarning("You have already lost the ability to pick up objects !");
+                    }
                 }
 
                 PreviousKeyboardState = KeyboardState;

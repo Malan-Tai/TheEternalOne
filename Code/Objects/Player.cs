@@ -11,6 +11,9 @@ namespace TheEternalOne.Code.Objects
 {
     public class Player
     {
+        public int LeftXP { get; set; }
+
+        public const int MAX_INVENTORY_SLOTS = 10;
         public int FireballDmg { get; set; }
         public int HealPower { get; set; }
         public int ShieldPower { get; set; }
@@ -21,6 +24,7 @@ namespace TheEternalOne.Code.Objects
         public GameObject Owner { get; set; }
 
         public List<string> Spells;
+        public List<GameObject> Inventory;
 
         public bool CanMelee = true;
         public bool Canranged = true;
@@ -37,6 +41,7 @@ namespace TheEternalOne.Code.Objects
 
         public Player(int mp)
         {
+            Inventory = new List<GameObject>();
             FireballDmg = 1;
             HealPower = 1;
             ShieldPower = 1;
@@ -149,6 +154,18 @@ namespace TheEternalOne.Code.Objects
             {
                 HealPower++;
             }
+        }
+
+        public GameObject FindObjectInInventory(string name)
+        {
+            foreach (GameObject item in Inventory)
+            {
+                if (item.Name == name)
+                {
+                    return item;
+                }
+            }
+            return null;
         }
     }
 }

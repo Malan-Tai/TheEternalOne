@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using TheEternalOne.Code;
 using TheEternalOne.Code.Map;
+using TheEternalOne.Code.Objects;
 
 namespace TheEternalOne
 {
@@ -25,7 +26,12 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50", "wall" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall" };
+
+        public static int minMapX;
+        public static int minMapY;
+        public static int maxMapX;
+        public static int maxMapY;
 
         public Game1()
         {
@@ -94,7 +100,12 @@ namespace TheEternalOne
 
             InputManager.GetInGameInput();
             // TODO: Add your update logic here
+            InputManager.GetKeyboardInput();
 
+            foreach (GameObject obj in GameManager.Objects)
+            {
+                obj.Update();
+            }
 
             base.Update(gameTime);
         }
@@ -105,17 +116,32 @@ namespace TheEternalOne
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            minMapX = Math.Max(GameManager.PlayerObject.x - GameManager.VisibleMapWidth / 2, 0);
+            maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2 + 1, GameManager.MapWidth);
+            minMapY = Math.Max(GameManager.PlayerObject.y - GameManager.VisibleMapHeight / 2, 0);
+            maxMapY = Math.Min(GameManager.PlayerObject.y + GameManager.VisibleMapHeight / 2 + 1, GameManager.MapHeight);
+
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            for (int x = 0; x < GameManager.MAP_WIDTH; x++)
+
+            for (int x = minMapX; x < maxMapX; x++)
             {
-                for (int y = 0; y < GameManager.MAP_HEIGHT; y++)
+                for (int y = minMapY; y < maxMapY; y++)
+
                 {
                     Tile tile = GameManager.Map[x, y];
-                    tile.Draw(spriteBatch, 0, 0);
+                    tile.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
+                }
+            }
+
+            foreach (GameObject obj in GameManager.Objects)
+            {
+                if (minMapX <= obj.x && obj.x <= maxMapX && minMapY <= obj.y && obj.y <= maxMapY)
+                {
+                    obj.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }
             }
 

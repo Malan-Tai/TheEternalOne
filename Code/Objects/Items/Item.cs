@@ -22,7 +22,6 @@ namespace TheEternalOne.Code.Objects.Items
             }
         }
 
-        public Coord Position { get; set; }
 
         public bool Stackable { get; set; }
         public int Amount { get; set; }

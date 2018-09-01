@@ -27,7 +27,7 @@ namespace TheEternalOne
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
         private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "big_target", "HP_GUI", "MP_GUI", "XP_GUI", "Shield_GUI", "basicenemy_placeholder",
-                                                                    "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder" };
+                                                                    "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder" };
 
         public static SpriteFont Font;
 
@@ -110,7 +110,7 @@ namespace TheEternalOne
                 obj.Update();
             }
 
-            if (kbState == "move" || kbState == "pickup")
+            if (kbState == "move" || kbState == "pickup" || msState == "cast")
             {
                 foreach (GameObject obj in GameManager.Objects)
                 {

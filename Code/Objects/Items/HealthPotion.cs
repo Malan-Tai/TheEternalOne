@@ -22,6 +22,15 @@ namespace TheEternalOne.Code.Objects.Items
             {
                 GameManager.PlayerObject.Fighter.HP = GameManager.PlayerObject.Fighter.MaxHP;
             }
+
+            if (Amount > 1)
+            {
+                Amount -= 1;
+            }
+            else
+            {
+                GameManager.PlayerObject.Player.Inventory.Remove(Owner);
+            }
         }
     }
 }

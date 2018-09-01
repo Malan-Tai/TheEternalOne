@@ -129,6 +129,7 @@
 /build:Shield_GUI.png
 
 #begin healthpotion_placeholder.png
+#begin upgrade_GUI.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -139,4 +140,29 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:healthpotion_placeholder.png
+/build:upgrade_GUI.png
+
+#begin upgrade_GUI_lit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:upgrade_GUI_lit.png
+
+#begin basicenemy_placeholder.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:basicenemy_placeholder.png
 

@@ -57,7 +57,7 @@ namespace TheEternalOne.Code
             PlayerObject = new GameObject(StartPosition.x, StartPosition.y, "white", 100, 100);
             PlayerObject.Player = new Player(10);
             PlayerObject.Player.Owner = PlayerObject;
-            PlayerObject.Fighter = new Fighter(10, 3, 0);
+            PlayerObject.Fighter = new Fighter(10, 3, 0, 0);
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects.Add(PlayerObject);

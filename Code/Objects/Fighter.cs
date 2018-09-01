@@ -12,15 +12,17 @@ namespace TheEternalOne.Code.Objects
         public int MaxHP { get; set; }
         public int HP { get; set; }
         public int Armor { get; set; }
+        public int XP { get; set; }
 
         public GameObject Owner { get; set; }
         
-        public Fighter(int pow, int hp, int arm)
+        public Fighter(int pow, int hp, int arm, int xp)
         {
             Power = pow;
             MaxHP = hp;
             HP = hp;
             Armor = arm;
+            XP = xp;
         }
 
         public void Attack(Fighter other)
@@ -58,6 +60,7 @@ namespace TheEternalOne.Code.Objects
                 }
                 else
                 {
+                    GameManager.PlayerObject.Fighter.XP += this.XP;
                     if (GameManager.Objects.Contains(this.Owner))
                     {
                         GameManager.Objects.Remove(Owner);

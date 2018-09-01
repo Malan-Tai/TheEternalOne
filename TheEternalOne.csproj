@@ -42,9 +42,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Code\GameManager.cs" />
+    <Compile Include="Code\Game\Player.cs" />
     <Compile Include="Code\InputManager.cs" />
+    <Compile Include="Code\Map\Map.cs" />
+    <Compile Include="Code\Map\Room.cs" />
     <Compile Include="Code\Map\Tile.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
+    <Compile Include="Code\ProcGen\MapGen\MapMaker.cs" />
+    <Compile Include="Code\Utils\Dice.cs" />
+    <Compile Include="Code\Utils\Distance.cs" />
+    <Compile Include="Code\Utils\GlobalConstants.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

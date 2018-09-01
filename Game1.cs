@@ -25,7 +25,7 @@ namespace TheEternalOne
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
-        private static List<string> allTextures = new List<string> { "tile50x50" };
+        private static List<string> allTextures = new List<string> { "tile50x50", "wall" };
 
         public Game1()
         {
@@ -36,7 +36,7 @@ namespace TheEternalOne
             graphics.PreferredBackBufferHeight = HEIGHT;
             //graphics.PreferMultiSampling = true;
 
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
 
             IsMouseVisible = true;
         }
@@ -52,6 +52,7 @@ namespace TheEternalOne
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            InputManager.Init(this);
         }
 
         /// <summary>
@@ -90,9 +91,8 @@ namespace TheEternalOne
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
-                Exit();
 
+            InputManager.GetInGameInput();
             // TODO: Add your update logic here
 
 
@@ -110,9 +110,9 @@ namespace TheEternalOne
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x < GameManager.MAP_WIDTH; x++)
             {
-                for (int y = 0; y < 10; y++)
+                for (int y = 0; y < GameManager.MAP_HEIGHT; y++)
                 {
                     Tile tile = GameManager.Map[x, y];
                     tile.Draw(spriteBatch, 0, 0);

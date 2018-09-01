@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using TheEternalOne.Code.Objects.Mobs;
+using TheEternalOne.Code.Objects.Items;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -65,6 +66,20 @@ namespace TheEternalOne.Code.Objects
             {
                 _ai = value;
                 _ai.Owner = this;
+            }
+        }
+
+        private Item _item;
+        public Item Item
+        {
+            get
+            {
+                return _item;
+            }
+            set
+            {
+                _item = value;
+                _item.Owner = this;
             }
         }
         public string Name { get; set; }

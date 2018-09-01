@@ -52,6 +52,7 @@
     <Compile Include="Code\Map\Tile.cs" />
     <Compile Include="Code\Objects\Fighter.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
+    <Compile Include="Code\Objects\Items\Item.cs" />
     <Compile Include="Code\Objects\Mobs\I_AI.cs" />
     <Compile Include="Code\Objects\Mobs\MobFactory.cs" />
     <Compile Include="Code\Objects\Mobs\StaticAI.cs" />

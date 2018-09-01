@@ -470,6 +470,10 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                 currentMap = CheckDoors(currentMap);
             }
 
+            Room lastRoom = rooms[rooms.Length - 1];
+            GameManager.PlayerObject.x = (int)lastRoom.Center.X;
+            GameManager.PlayerObject.y = (int)lastRoom.Center.Y;
+
             return currentMap;
         }
 

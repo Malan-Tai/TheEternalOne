@@ -98,7 +98,7 @@ namespace TheEternalOne
         protected override void Update(GameTime gameTime)
         {
 
-            InputManager.GetInGameInput();
+ 
             // TODO: Add your update logic here
             InputManager.GetKeyboardInput();
 

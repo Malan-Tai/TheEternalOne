@@ -13,10 +13,6 @@ namespace TheEternalOne.Code
     {
         public static Tile[,] Map;
 
-        public const int DrawMapX = 0;
-        public const int DrawMapY = 0;
-
-
         public const int TileWidth = 85;
         public const int MapWidth = 50;
         public const int MapHeight = 50;

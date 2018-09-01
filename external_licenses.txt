@@ -1,3 +1,8 @@
 ====FONTS====
 
-- "Dungeon" by Saesarez Novandito, https://www.dafont.com/dungeon-sn.font, Free for Personal use
+- "Dungeon" by Saesarez Novandito, https://www.dafont.com/dungeon-sn.font | Free for Personal use
+
+====CODE LIBRARIES/FRAMEWORKS====
+
+- "MonoGame" by The MonoGame Team, http://www.monogame.net/ | Microsoft Public License, details at : https://github.com/MonoGame/MonoGame/blob/develop/LICENSE.txt
+- "High Speed Priority Queue for CSharp" by BlueRaja, https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/ | MIT License, details at : https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/wiki/License

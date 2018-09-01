@@ -27,17 +27,33 @@ namespace TheEternalOne.Code.Objects
 
         public void Attack(Fighter other)
         {
+            int ActualPower;
+            if (Owner.Player != null)
+            {
+                int sum = 0;
+                foreach (GameObject equip in Owner.Player.GetAllEquipped())
+                {
+                    sum += equip.Equipment.SwordMod;
+                }
+                ActualPower = Math.Max(Power + sum, 0) ;
+            }
+            else
+            {
+                ActualPower = Power;
+            }
             bool canAttack = (Owner.Player == null || Owner.Player.CanMelee);
             if (canAttack)
             {
-                other.TakeDamage(Power);
+                
+                other.TakeDamage(ActualPower);
+              
                 if (other.Owner.Player != null)
                 {
-                    GameManager.LogWarning(Owner.Name + " attacked you for " + Power.ToString() + " damage !");
+                    GameManager.LogWarning(Owner.Name + " attacked you for " + ActualPower.ToString() + " damage !");
                 }
                 else
                 {
-                    GameManager.LogSuccess(other.Owner.Name + " took " + Power.ToString() + " damage !");
+                    GameManager.LogSuccess(other.Owner.Name + " took " + ActualPower.ToString() + " damage !");
                 }
             }
             else

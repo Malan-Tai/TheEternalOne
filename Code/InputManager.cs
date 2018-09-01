@@ -83,6 +83,82 @@ namespace TheEternalOne
                     //OnKeyboardPress.Invoke(0, 1);
                 }
 
+                if (KeyboardState.IsKeyDown(Keys.D1) && !PreviousKeyboardState.IsKeyDown(Keys.D1))
+                {
+                    GameObject toUse;
+                    try
+                    {
+                        toUse = GameManager.PlayerObject.Player.Inventory[0];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        return "error";
+                    }
+
+                    if (toUse != null)
+                    {
+                        toUse.Item.Use();
+                        state = "move"; //Skips turn
+                    }
+                }
+
+                if (KeyboardState.IsKeyDown(Keys.D2) && !PreviousKeyboardState.IsKeyDown(Keys.D2))
+                {
+                    GameObject toUse;
+                    try
+                    {
+                        toUse = GameManager.PlayerObject.Player.Inventory[1];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        return "error";
+                    }
+                    
+                    if (toUse != null)
+                    {
+                        toUse.Item.Use();
+                        state = "move"; //Skips turn
+                    }
+                }
+
+                if (KeyboardState.IsKeyDown(Keys.D3) && !PreviousKeyboardState.IsKeyDown(Keys.D3))
+                {
+                    GameObject toUse;
+                    try
+                    {
+                        toUse = GameManager.PlayerObject.Player.Inventory[2];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        return "error";
+                    }
+
+                    if (toUse != null)
+                    {
+                        toUse.Item.Use();
+                        state = "move"; //Skips turn
+                    }
+                }
+
+                if (KeyboardState.IsKeyDown(Keys.D4) && !PreviousKeyboardState.IsKeyDown(Keys.D4))
+                {
+                    GameObject toUse;
+                    try
+                    {
+                        toUse = GameManager.PlayerObject.Player.Inventory[3];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        return "error";
+                    }
+
+                    if (toUse != null)
+                    {
+                        toUse.Item.Use();
+                        state = "move"; //Skips turn
+                    }
+                }
+
                 if (KeyboardState.IsKeyDown(Keys.F11) && !PreviousKeyboardState.IsKeyDown(Keys.F11))
                 {
                     GameInstance.graphics.IsFullScreen = !GameInstance.graphics.IsFullScreen;
@@ -109,6 +185,17 @@ namespace TheEternalOne
                     {
                         GameManager.LogWarning("You have already lost the ability to pick up objects !");
                     }
+                }
+
+                if (KeyboardState.IsKeyDown(Keys.I) && !PreviousKeyboardState.IsKeyDown(Keys.I))
+                {
+                    GameManager.PlayerObject.Player.DisplayInventory();
+                }
+
+
+                if (KeyboardState.IsKeyDown(Keys.E) && !PreviousKeyboardState.IsKeyDown(Keys.E))
+                {
+                    GameManager.PlayerObject.Player.DisplayEquipment();
                 }
 
                 PreviousKeyboardState = KeyboardState;
@@ -194,6 +281,7 @@ namespace TheEternalOne
                     {
                         Console.Out.WriteLine("casting spell {0} at {1} {2}", SelectedSpellIndex, MouseMapX, MouseMapY);
                         GameManager.PlayerObject.Player.Cast(SelectedSpellIndex, MouseMapX, MouseMapY);
+                        state = "cast";
                     }
                 }
                 PreviousMouseState = MouseState;

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Utils;
+using static TheEternalOne.Code.Objects.Equipments.Equipment;
+using static TheEternalOne.Code.Objects.Equipments.Equipment.EquipmentSlot;
+using TheEternalOne.Code.Objects.Equipments;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -12,6 +15,7 @@ namespace TheEternalOne.Code.Objects
         public int LeftXP { get; set; }
 
         public const int MAX_INVENTORY_SLOTS = 10;
+        public const int MAX_TRINKETS = 2;
         public int FireballDmg { get; set; }
         public int HealPower { get; set; }
         public int ShieldPower { get; set; }
@@ -23,6 +27,9 @@ namespace TheEternalOne.Code.Objects
 
         public List<string> Spells;
         public List<GameObject> Inventory;
+        public Dictionary<EquipmentSlot, GameObject> Equipment;
+
+        public GameObject[] Trinkets;
 
         public bool CanMelee = true;
         public bool Canranged = true;
@@ -48,6 +55,12 @@ namespace TheEternalOne.Code.Objects
             MP = mp;
 
             Spells = new List<string> { "Sword", "Shield", "Fireball", "Heal", "Teleport" };
+            Equipment = new Dictionary<EquipmentSlot, GameObject>();
+            Equipment.Add(Weapon, null);
+            Equipment.Add(Shield, null);
+            Equipment.Add(Armor, null);
+
+            Trinkets = new GameObject[MAX_TRINKETS];
         }
 
         public void Cast(int i, int x, int y)
@@ -55,6 +68,23 @@ namespace TheEternalOne.Code.Objects
             Fighter fighter = Owner.Fighter;
             string spell = Spells[i];
             Console.Out.WriteLine("casting {0} at {1} MP", spell, MP);
+
+            List<GameObject> allEquip = GetAllEquipped();
+            int FireballBonus = 0;
+            int ShieldBonus = 0;
+            int HealBonus = 0;
+            int TPBonus = 0;
+            
+            foreach (GameObject equip in allEquip)
+            {
+                Equipment eqComp = equip.Equipment;
+                FireballBonus += eqComp.FireballMod;
+                ShieldBonus += eqComp.ShieldMod;
+                HealBonus += eqComp.HealMod;
+                TPBonus += eqComp.TPMod;
+            }
+
+
 
             if (spell == "Sword" && Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
             {
@@ -70,7 +100,8 @@ namespace TheEternalOne.Code.Objects
             }
             else if (spell == "Shield")
             {
-                fighter.Armor += ShieldPower;
+                int ActualShield = Math.Max(0, ShieldPower + ShieldBonus);
+                fighter.Armor += ActualShield;
                 if (Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
                 {
                     foreach (GameObject obj in GameManager.Objects)
@@ -85,19 +116,21 @@ namespace TheEternalOne.Code.Objects
             }
             else if (spell == "Fireball" && MP >= 5)
             {
+                int ActualFireball = Math.Max(0, FireballDmg + FireballBonus);
                 MP -= 5;
                 foreach (GameObject obj in GameManager.Objects)
                 {
                     if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
                     {
-                        obj.Fighter.TakeDamage(FireballDmg);
+                        obj.Fighter.TakeDamage(ActualFireball);
                         break;
                     }
                 }
             }
             else if (spell == "Heal" && MP >= 3)
             {
-                fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + HealPower);
+                int ActualHealPower = Math.Max(0, HealPower + HealBonus);
+                fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + ActualHealPower);
                 MP -= 3;
             }
             else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].Blocked)
@@ -146,6 +179,19 @@ namespace TheEternalOne.Code.Objects
             }
         }
 
+        public void DisplayInventory()
+        {
+            foreach (GameObject gameObj in Inventory)
+            {
+                string itemStr = "- " + gameObj.Name;
+                if (gameObj.Item.Stackable)
+                {
+                    itemStr += " (" + gameObj.Item.Amount + ")";
+                }
+                Console.Out.WriteLine(itemStr);
+            }
+        }
+
         public GameObject FindObjectInInventory(string name)
         {
             foreach (GameObject item in Inventory)
@@ -156,6 +202,44 @@ namespace TheEternalOne.Code.Objects
                 }
             }
             return null;
+        }
+
+        public List<GameObject> GetAllEquipped()
+        {
+            List<GameObject> allEquip = new List<GameObject>();
+            foreach (KeyValuePair<EquipmentSlot, GameObject> pair in Equipment)
+            {
+                if (pair.Value != null)
+                {
+                    allEquip.Add(pair.Value);
+                }
+            }
+            foreach (GameObject trinket in Trinkets)
+            {
+                if (trinket != null)
+                {
+                    allEquip.Add(trinket);
+                }
+            }
+            return allEquip;
+        }
+
+        public void DisplayEquipment()
+        {
+            foreach (KeyValuePair<EquipmentSlot, GameObject> pair in Equipment)
+            {
+                if (pair.Value != null)
+                {
+                    Console.Out.WriteLine("- " + pair.Key.ToString() + " : " + pair.Value.Name);
+                }
+            }
+            foreach (GameObject trinket in Trinkets)
+            {
+                if (trinket != null)
+                {
+                    Console.Out.WriteLine("- Trinket " + Array.IndexOf(Trinkets, trinket).ToString() + " : " + trinket.Name);
+                }
+            }
         }
     }
 }

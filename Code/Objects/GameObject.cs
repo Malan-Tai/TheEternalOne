@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using TheEternalOne.Code.Objects.Mobs;
 using TheEternalOne.Code.Objects.Items;
+using TheEternalOne.Code.Objects.Equipments;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -82,6 +83,20 @@ namespace TheEternalOne.Code.Objects
                 _item.Owner = this;
             }
         }
+
+        private Equipment _equipment;
+        public Equipment Equipment
+        {
+            get
+            {
+                return _equipment;
+            }
+            set
+            {
+                _equipment = value;
+                _equipment.Owner = this;
+            }
+        }
         public string Name { get; set; }
 
         public Texture2D texture;
@@ -117,7 +132,14 @@ namespace TheEternalOne.Code.Objects
                 }
                 if (foundObject != null)
                 {
-                    Fighter.Attack(foundObject.Fighter);
+                    if (Player == null)
+                    {
+                        Fighter.Attack(foundObject.Fighter);
+                    }
+                    else
+                    {
+                        Player.Cast(0, foundObject.Position.x, foundObject.Position.y);
+                    }
                 }
                 else
                 {

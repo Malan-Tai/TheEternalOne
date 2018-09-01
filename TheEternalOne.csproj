@@ -50,8 +50,11 @@
     <Compile Include="Code\Map\Map.cs" />
     <Compile Include="Code\Map\Room.cs" />
     <Compile Include="Code\Map\Tile.cs" />
+    <Compile Include="Code\Objects\Equipments\Equipment.cs" />
+    <Compile Include="Code\Objects\Equipments\EquipmentFactory.cs" />
     <Compile Include="Code\Objects\Fighter.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
+    <Compile Include="Code\Objects\Items\EquipmentItem.cs" />
     <Compile Include="Code\Objects\Items\HealthPotion.cs" />
     <Compile Include="Code\Objects\Items\Item.cs" />
     <Compile Include="Code\Objects\Items\ItemFactory.cs" />

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.Objects.Equipments;
 using TheEternalOne.Code.Objects.Items;
 using TheEternalOne.Code.Objects.Mobs;
 using TheEternalOne.Code.Utils;
@@ -19,7 +20,7 @@ namespace TheEternalOne.Code.ProcGen.MapGen
         const int MAP_HEIGHT = GameManager.MAP_HEIGHT;
 
         const int TRASH_MOB_NUMBER = 20;
-        const int ITEM_NUMBER = 15;
+        const int ITEM_NUMBER = 25;
 
         const float ROOM_RATIO = 0.6f;
         const int TUN_STEP_HOR = 50;
@@ -440,8 +441,44 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             }
         }
 
+        public static int RandomChoiceIndex(int[] chances)
+        {
+            int dice = Dice.GetRandint(1, chances.Sum());
+            int runningSum = 0;
+            int choice = 0;
+
+            foreach (int chance in chances)
+            {
+                runningSum += chance;
+                if (dice <= runningSum) break;
+                choice++;
+            }
+
+            return choice;
+        }
+
+        public static string RandomChoice(Dictionary<string, int> dict)
+        {
+            string[] strings = dict.Keys.ToArray();
+            int n = strings.Count();
+            int[] chances = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                chances[i] = dict[strings[i]];
+            }
+
+            return strings[RandomChoiceIndex(chances)];
+        }
+
         public static void PlaceItems(Tile[,] map)
         {
+            Dictionary<string, int> ItemChances = new Dictionary<string, int>
+            {
+                { "HealthPotion", 60 },
+                { "Sword", 20 },
+                { "MagicAmulet", 20 }
+            };
             for (int i = 0; i < ITEM_NUMBER; i++)
             {
                 bool foundSuitablePosition = false;
@@ -476,7 +513,19 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                 }
                 if (foundSuitablePosition)
                 {
-                    GameManager.Objects.Add(ItemFactory.CreateHealthPotion(x,y));
+                    string chosen = RandomChoice(ItemChances) ;
+                    if (chosen == "HealthPotion")
+                    {
+                        GameManager.Objects.Add(ItemFactory.CreateHealthPotion(x, y));
+                    }
+                    else if (chosen == "Sword")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateSword(x, y));
+                    }
+                    else if (chosen == "MagicAmulet")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateMagicAmulet(x, y));
+                    }
                 }
             }
         }

@@ -39,6 +39,9 @@ namespace TheEternalOne.Code.Objects
         public bool CanUnequip = true;
         public bool CanMove = true;
 
+        const int MANA_REGEN = 10;
+        int manaRegen = MANA_REGEN;
+
         public Player(int mp)
         {
             Inventory = new List<GameObject>();
@@ -153,6 +156,16 @@ namespace TheEternalOne.Code.Objects
                 }
             }
             return null;
+        }
+
+        public void UpdateTurn()
+        {
+            manaRegen--;
+            if (manaRegen <= 0)
+            {
+                MP = Math.Min(MaxMP, MP + 1);
+                manaRegen = MANA_REGEN;
+            }
         }
     }
 }

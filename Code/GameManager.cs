@@ -63,6 +63,8 @@ namespace TheEternalOne.Code
         public static EquipmentGUI equipmentGUI;
         public static InventoryGUI inventoryGUI;
 
+        public static bool isGameOver = false;
+
         public const int MAP_WIDTH = 100;
         public const int MAP_HEIGHT = 80;
 
@@ -96,13 +98,27 @@ namespace TheEternalOne.Code
             Started = true;
             ToRemove = new List<GameObject>();
 
-            CurrentState = GameState.Playing;
-            Game1.CurrentSong = Game1.songDict["M_Goth_Loop_01"];
-            Game1.PlayCurrentSong();
+            GoToPlaying();
 
             //Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());
             //Console.Out.WriteLine("Position : " + PlayerObject.Position.x.ToString() + ";" + PlayerObject.Position.y.ToString());
             //Console.Out.WriteLine("InventoryWidth:" + InventoryWidth.ToString());
+        }
+
+        public static void GoToPlaying()
+        {
+            isGameOver = false;
+            CurrentState = GameState.Playing;
+            Game1.CurrentSong = Game1.songDict["M_Goth_Loop_01"];
+            Game1.PlayCurrentSong();
+        }
+
+        public static void GoToMainMenu()
+        {
+            isGameOver = false;
+            CurrentState = GameState.MainMenu;
+            Game1.CurrentSong = Game1.songDict["M_Menu_Goth_Loop_01"];
+            Game1.PlayCurrentSong();
         }
 
         public static void NextFloor()
@@ -124,6 +140,15 @@ namespace TheEternalOne.Code
             PlayerObject.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
             PlayerObject.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
 
+        }
+
+        public static void GoToGameOver()
+        {
+            Game1.StopMusic();
+
+            CurrentState = GameState.GameOver;
+            isGameOver = true;
+            Console.Out.WriteLine("Game over triggered");
         }
 
         public static void LogWarning(string message)

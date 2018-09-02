@@ -42,6 +42,8 @@ namespace TheEternalOne.Code.GUI
         public static List<I_DeathEffect> PossibleEffects;
         public static List<I_DeathEffect> CurrentEffects;
 
+        public static bool Disable = false;
+
         public static void OnStart()
         {
             AllEffects = new List<I_DeathEffect>
@@ -76,6 +78,9 @@ namespace TheEternalOne.Code.GUI
             Choice3Select = null;
             RerollSelect = null;
 
+            Disable = false;
+
+
             CurrentEffects = RollEffects();
             
             SelectedIndex = -1;
@@ -85,6 +90,7 @@ namespace TheEternalOne.Code.GUI
         private static List<I_DeathEffect> RollEffects()
         {
             PossibleEffects = new List<I_DeathEffect>();
+
             foreach (I_DeathEffect effect in AllEffects)
             {
                 if (effect.CheckIfPossible())
@@ -92,13 +98,52 @@ namespace TheEternalOne.Code.GUI
                     PossibleEffects.Add(effect);
                 }
             }
-            List<I_DeathEffect> TempList = new List<I_DeathEffect>();
-            for (int i=0; i<Math.Min(3,PossibleEffects.Count); i++)
-            {
-                Console.Out.WriteLine("i = " + i.ToString() + " | PossibleEffects = " + PossibleEffects.Count.ToString());
-                TempList.Add(PossibleEffects[Dice.GetRandint(0, PossibleEffects.Count)]);
-                PossibleEffects.Remove(TempList[i]);
 
+            List<I_DeathEffect> TempList = new List<I_DeathEffect>();
+            if (PossibleEffects.Count > 3)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Out.WriteLine(PossibleEffects.Count.ToString());
+                    Console.Out.WriteLine("i = " + i.ToString() + " | PossibleEffects = " + PossibleEffects.Count.ToString());
+                    TempList.Add(PossibleEffects[Dice.GetRandint(0, PossibleEffects.Count)]);
+                    PossibleEffects.Remove(TempList[i]);
+
+                }
+            }
+            else if (PossibleEffects.Count > 2)
+            {
+                for (int i = 0; i <= 2; i++)
+                {
+                    TempList.Add(PossibleEffects[i]);
+                }
+            }
+            else if (PossibleEffects.Count > 1)
+            {
+                for (int i = 0; i <= 1; i++)
+                {
+                    TempList.Add(PossibleEffects[i]);
+                }
+            }
+            else
+            {
+                Console.Out.WriteLine("GAME OVER");
+                Disable = true;
+                GameManager.GoToGameOver();
+                if (GameManager.CurrentState != GameOver)
+                {
+                    GameManager.CurrentState = GameOver;
+                }
+                if (GameManager.CurrentState != GameOver)
+                {
+                    GameManager.CurrentState = GameOver;
+
+
+                }
+                if (GameManager.CurrentState != GameOver)
+                {
+                    GameManager.CurrentState = GameOver;
+                }
             }
             return TempList;
 
@@ -106,91 +151,101 @@ namespace TheEternalOne.Code.GUI
         #region Drawing
         public static void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Black);
-            DrawStringCentered(0, "The end ?", Font32pt, Color.White, spriteBatch);
-            Vector2 firstStringSize = DrawStringCentered((int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD / 100), "The wounds you have been inflicted would have been more than enough to kill any mere mortal.", Font18pt, Color.White, spriteBatch);
-            int secondStringY = (int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD /100) + (int)firstStringSize.Y + ADDITIONAL_Y_MARGIN;
-            Vector2 secondStringSize = DrawStringCentered(secondStringY, "But fortunately, thanks to the contract you passed with the devil before entering the dungeon, you are now immortal.", Font18pt, Color.White, spriteBatch);
-            int thirdStringY = secondStringY + (int)secondStringSize.Y + ADDITIONAL_Y_MARGIN;
-            Vector2 thirdStringSize = DrawStringCentered(thirdStringY, "However, each time you regenerate from otherwise fatal wounds, you must pay a dire price...", Font18pt, Color.White, spriteBatch);
-
-            int startChoicesY = thirdStringY + (int)thirdStringSize.Y + CHOICES_Y_MARGIN;
-            int firstBorder = (int)WIDTH / 3 * (int)Game1.GLOBAL_SIZE_MOD / 100;
-            int secondBorder = 2 * firstBorder;
-
-            Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, CurrentEffects[0].Name, Font32pt, Color.White, spriteBatch);
-            if (CurrentEffects.Count > 1)
+            if (!Disable)
             {
-                Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, CurrentEffects[1].Name, Font32pt, Color.White, spriteBatch);
-            }
+                spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Black);
+                DrawStringCentered(0, "The end ?", Font32pt, Color.White, spriteBatch);
+                Vector2 firstStringSize = DrawStringCentered((int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD / 100), "The wounds you have been inflicted would have been more than enough to kill any mere mortal.", Font18pt, Color.White, spriteBatch);
+                int secondStringY = (int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD / 100) + (int)firstStringSize.Y + ADDITIONAL_Y_MARGIN;
+                Vector2 secondStringSize = DrawStringCentered(secondStringY, "But fortunately, thanks to the contract you passed with the devil before entering the dungeon, you are now immortal.", Font18pt, Color.White, spriteBatch);
+                int thirdStringY = secondStringY + (int)secondStringSize.Y + ADDITIONAL_Y_MARGIN;
+                Vector2 thirdStringSize = DrawStringCentered(thirdStringY, "However, each time you regenerate from otherwise fatal wounds, you must pay a dire price...", Font18pt, Color.White, spriteBatch);
 
-            if (CurrentEffects.Count >= 2)
-            {
-                Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, CurrentEffects[2].Name, Font32pt, Color.White, spriteBatch);
-            }
+                int startChoicesY = thirdStringY + (int)thirdStringSize.Y + CHOICES_Y_MARGIN;
+                int firstBorder = (int)WIDTH / 3 * (int)Game1.GLOBAL_SIZE_MOD / 100;
+                int secondBorder = 2 * firstBorder;
 
-            int startDescY = startChoicesY + (int)firstChoiceTitleSize.Y + DESC_Y_MARGIN;
-            Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, CurrentEffects[0].Description, Font18pt, Color.White, spriteBatch);
-            if (CurrentEffects.Count > 1)
-            {
-                Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, CurrentEffects[1].Description, Font18pt, Color.White, spriteBatch);
-            }
-            if (CurrentEffects.Count >= 2)
-            {
-                Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, CurrentEffects[2].Description, Font18pt, Color.White, spriteBatch);
-            }
+                Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, CurrentEffects[0].Name, Font32pt, Color.White, spriteBatch);
+                if (CurrentEffects.Count > 1)
+                {
+                    Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, CurrentEffects[1].Name, Font32pt, Color.White, spriteBatch);
+                }
 
-            int startSelectY = startDescY + (int)firstChoiceDescSize.Y + DESC_Y_MARGIN;
+                if (CurrentEffects.Count > 2)
+                {
+                    Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, CurrentEffects[2].Name, Font32pt, Color.White, spriteBatch);
+                }
 
-            Color[] selectColors = new Color[4]
-            {
+                int startDescY = startChoicesY + (int)firstChoiceTitleSize.Y + DESC_Y_MARGIN;
+                Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, CurrentEffects[0].Description, Font18pt, Color.White, spriteBatch);
+                if (CurrentEffects.Count > 1)
+                {
+                    Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, CurrentEffects[1].Description, Font18pt, Color.White, spriteBatch);
+                }
+                if (CurrentEffects.Count > 2)
+                {
+                    Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, CurrentEffects[2].Description, Font18pt, Color.White, spriteBatch);
+                }
+
+                int startSelectY = startDescY + (int)firstChoiceDescSize.Y + DESC_Y_MARGIN;
+
+                Color[] selectColors = new Color[4]
+                {
                 Color.White,
                 Color.White,
                 Color.White,
                 Color.White
-            };
+                };
 
-            if (SelectedIndex > -1 && SelectedIndex < 5)
-            {
-                selectColors[SelectedIndex] = Color.Yellow;
+                if (SelectedIndex > -1 && SelectedIndex < 5)
+                {
+                    selectColors[SelectedIndex] = Color.Yellow;
+                }
+
+                Vector2 firstSelectPos;
+                Vector2 secondSelectPos;
+                Vector2 thirdSelectPos;
+
+                Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch, out firstSelectPos);
+
+                Vector2 measuredString = Font32pt.MeasureString("Choose");
+                if (CurrentEffects.Count > 2)
+                {
+                    Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch, out thirdSelectPos);
+                    Choice3Select = new Rectangle((int)thirdSelectPos.X, (int)thirdSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
+                }
+                else
+                {
+                    Choice3Select = null;
+                }
+
+
+                Choice1Select = new Rectangle((int)firstSelectPos.X, (int)firstSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
+                if (CurrentEffects.Count > 1)
+                {
+                    Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch, out secondSelectPos);
+                    Choice2Select = new Rectangle((int)secondSelectPos.X, (int)secondSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
+                }
+                else
+                {
+                    Choice2Select = null;
+                }
+
+
+                int startRerollY = startSelectY + (int)firstSelectSize.Y + CHOICES_Y_MARGIN + DESC_Y_MARGIN;
+                Vector2 firstRerollSize = DrawStringCentered(startRerollY, "If you like neither of these three choices, you may choose to reroll them so as to get three new random choices", Font18pt, Color.White, spriteBatch);
+                int secondRerollY = startRerollY + (int)firstRerollSize.Y + ADDITIONAL_Y_MARGIN;
+                Vector2 secondRerollSize = DrawStringCentered(secondRerollY, "However, the number of rerolls you are allowed is limited and does not reset between ressurections. You should therefore use them with extreme caution", Font18pt, Color.White, spriteBatch);
+                int thirdRerollY = secondRerollY + (int)secondRerollSize.Y + ADDITIONAL_Y_MARGIN;
+                Vector2 thirdRerollSize = DrawStringCentered(thirdRerollY, "Rerolls left : " + GameManager.PlayerObject.Player.Rerolls.ToString(), Font18pt, Color.White, spriteBatch);
+
+                Vector2 rerollSelectPos;
+
+                int startRerollSelectY = thirdRerollY + (int)thirdRerollSize.Y + DESC_Y_MARGIN;
+                Vector2 rerollSelectSize = DrawStringCentered(startRerollSelectY, "Reroll", Font32pt, selectColors[3], spriteBatch, out rerollSelectPos);
+
+                RerollSelect = new Rectangle((int)rerollSelectPos.X, (int)rerollSelectPos.Y, (int)rerollSelectSize.X, (int)rerollSelectSize.Y);
             }
-
-            Vector2 firstSelectPos;
-            Vector2 secondSelectPos;
-            Vector2 thirdSelectPos;
-
-            Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch, out firstSelectPos);
-            Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch, out secondSelectPos);
-            Vector2 measuredString = Font32pt.MeasureString("Choose");
-            if (CurrentEffects.Count >= 2)
-            {
-                Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch, out thirdSelectPos);
-                Choice3Select = new Rectangle((int)thirdSelectPos.X, (int)thirdSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
-            }
-            else
-            {
-                Choice3Select = null;
-            }
-
-
-            Choice1Select = new Rectangle((int)firstSelectPos.X, (int)firstSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
-            Choice2Select = new Rectangle((int)secondSelectPos.X, (int)secondSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
-
-
-            int startRerollY = startSelectY + (int)firstSelectSize.Y + CHOICES_Y_MARGIN + DESC_Y_MARGIN;
-            Vector2 firstRerollSize = DrawStringCentered(startRerollY, "If you like neither of these three choices, you may choose to reroll them so as to get three new random choices", Font18pt, Color.White, spriteBatch);
-            int secondRerollY = startRerollY + (int)firstRerollSize.Y + ADDITIONAL_Y_MARGIN;
-            Vector2 secondRerollSize = DrawStringCentered(secondRerollY, "However, the number of rerolls you are allowed is limited and does not reset between ressurections. You should therefore use them with extreme caution", Font18pt, Color.White, spriteBatch);
-            int thirdRerollY = secondRerollY + (int)secondRerollSize.Y + ADDITIONAL_Y_MARGIN;
-            Vector2 thirdRerollSize = DrawStringCentered(thirdRerollY, "Rerolls left : " + GameManager.PlayerObject.Player.Rerolls.ToString(), Font18pt, Color.White, spriteBatch);
-
-            Vector2 rerollSelectPos;
-
-            int startRerollSelectY = thirdRerollY + (int)thirdRerollSize.Y + DESC_Y_MARGIN;
-            Vector2 rerollSelectSize = DrawStringCentered(startRerollSelectY, "Reroll", Font32pt, selectColors[3], spriteBatch, out rerollSelectPos);
-
-            RerollSelect = new Rectangle((int)rerollSelectPos.X, (int)rerollSelectPos.Y, (int)rerollSelectSize.X, (int)rerollSelectSize.Y);
-
         }
 
         public static Vector2 DrawStringInDeathScreen(int x, int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch, out Vector2 pos)
@@ -280,6 +335,7 @@ namespace TheEternalOne.Code.GUI
             if (SelectedIndex == 3)
             {
                 Reroll();
+                Game1.PlaySFX("HUD_Click_01");
             }
             else if (SelectedIndex > -1)
             {
@@ -289,6 +345,7 @@ namespace TheEternalOne.Code.GUI
                 GameManager.PlayerObject.Player.FreeTP = true;
                 InputManager.SelectedSpellIndex = 4;
                 GameManager.CurrentState = Playing;
+                Game1.PlaySFX("HUD_Click_01");
             }
         }
     }

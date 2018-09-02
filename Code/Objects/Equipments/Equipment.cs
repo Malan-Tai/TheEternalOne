@@ -145,7 +145,21 @@ namespace TheEternalOne.Code.Objects.Equipments
 
         public void Break()
         {
-            GameManager.PlayerObject.Player.Equipment[Slot] = null;
+            if (Slot != EquipmentSlot.Trinket)
+            {
+                GameManager.PlayerObject.Player.Equipment[Slot] = null;
+            }
+            else
+            {
+                for (int i = 0; i < Player.MAX_TRINKETS; i++)
+                {
+                    if (GameManager.PlayerObject.Player.Trinkets[i] == Owner)
+                    {
+                        GameManager.PlayerObject.Player.Trinkets[i] = null;
+                        break;
+                    }
+                }
+            }
             GameManager.LogWarning("Your " + Owner.Name + " broke !");
         }
     }

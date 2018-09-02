@@ -65,6 +65,8 @@ namespace TheEternalOne.Code
         public const int MAP_WIDTH = 100;
         public const int MAP_HEIGHT = 80;
 
+        public static int CurrentFloor = 0;
+
         public static List<Message> Log;
         public static Message ActiveMessage = null;
 
@@ -98,9 +100,30 @@ namespace TheEternalOne.Code
             //Console.Out.WriteLine("InventoryWidth:" + InventoryWidth.ToString());
         }
 
+        public static void NextFloor()
+        {
+            CurrentFloor += 1;
+            Objects = new List<GameObject>();
+            Map = new Tile[MAP_WIDTH, MAP_HEIGHT];
+
+            Map = MapMaker.MakeTunnelMap(false);
+
+            miniMap = new MiniMap(30, 20, Map);
+
+            int x = (int)StartPosition.x;
+            int y = (int)StartPosition.y;
+
+            Objects.Add(PlayerObject);
+
+            PlayerObject.Position = new Coord(x, y);
+            PlayerObject.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+            PlayerObject.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+
+        }
+
         public static void LogWarning(string message)
         {
-            Log.Add(new Message(message, Color.Orange));
+            GameManager.ActiveMessage = new Message(message, Color.Orange);
         }
 
         public static void LogSuccess(string message)

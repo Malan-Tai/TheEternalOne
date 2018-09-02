@@ -240,7 +240,11 @@ namespace TheEternalOne
                 }
                 else
                 {
-
+                    if (KeyboardState.IsKeyDown(Keys.F11) && !PreviousKeyboardState.IsKeyDown(Keys.F11))
+                    {
+                        GameInstance.graphics.IsFullScreen = !GameInstance.graphics.IsFullScreen;
+                        GameInstance.graphics.ApplyChanges();
+                    }
                 }
             }
             catch (System.InvalidOperationException)
@@ -370,6 +374,33 @@ namespace TheEternalOne
                         DeathScreen.SelectedIndex = -1;
                     }
                 }
+                else if (GameManager.CurrentState == MainMenu)
+                {
+                    Rectangle?[] selectButtons = new Rectangle?[2]
+                    {
+                        Game1.Button1,
+                        Game1.Button2
+                    };
+
+                    bool found = false;
+                    foreach (Rectangle? rect in selectButtons)
+                    {
+                        if (rect != null)
+                        {
+                            if ((MouseState.X >= rect.Value.X) && (MouseState.X <= (rect.Value.X + rect.Value.Width)) && (MouseState.Y >= rect.Value.Y) && (MouseState.Y <= (rect.Value.Y + rect.Value.Height)))
+                            {
+                                found = true;
+                                Game1.menuSelectIndex = Array.IndexOf(selectButtons, rect);
+                                break;
+                            }
+                        }
+                    }
+                    if (!found)
+                    {
+                        Game1.menuSelectIndex = -1;
+                    }
+
+                }
 
                 if (MouseState.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton == ButtonState.Released)
                 {
@@ -446,10 +477,22 @@ namespace TheEternalOne
                     {
                         DeathScreen.OnLeftClick();
                     }
+                    else if (GameManager.CurrentState == MainMenu)
+                    {
+                        if (Game1.menuSelectIndex == 0)
+                        {
+                            GameManager.NewGame();
+                        }
+                        else if (Game1.menuSelectIndex == 1)
+                        {
+                            Environment.Exit(0);
+                        }
+                    }
                 }
 
-                else if (MouseState.RightButton == ButtonState.Pressed && PreviousMouseState.RightButton == ButtonState.Released)
+                else if (MouseState.RightButton == ButtonState.Pressed && PreviousMouseState.RightButton == ButtonState.Released && GameManager.CurrentState == GameManager.GameState.Playing)
                 {
+
                     if (InvIndex != -1)
                     {
                         GameManager.PlayerObject.Player.Inventory[InvIndex].Item.Drop();

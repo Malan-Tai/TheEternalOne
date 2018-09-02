@@ -18,7 +18,8 @@ namespace TheEternalOne.Code
         {
             Playing,
             Dead,
-            GameOver
+            GameOver,
+            MainMenu
         }
 
         public static GameState CurrentState = GameState.Playing;
@@ -94,6 +95,8 @@ namespace TheEternalOne.Code
             DeathScreen.OnStart();
             Started = true;
             ToRemove = new List<GameObject>();
+
+            CurrentState = GameState.Playing;
 
             //Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());
             //Console.Out.WriteLine("Position : " + PlayerObject.Position.x.ToString() + ";" + PlayerObject.Position.y.ToString());

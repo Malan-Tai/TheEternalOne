@@ -26,11 +26,17 @@ namespace TheEternalOne
         public static int HEIGHT = res.Height;
         public static float GLOBAL_SIZE_MOD = WIDTH * 100 / 1920;
 
+        public const int LOGO_WIDTH = 990;
+        public const int LOGO_HEIGHT = 180;
+
+        public const int LOGO_Y = 100;
+        public const int BUTTONS_PADDING = 50;
+
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
         private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "big_target", "HP_GUI", "MP_GUI", "XP_GUI", "Shield_GUI", "basicenemy_placeholder",
             "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder", "hero", "pawn", "wall_down", "wall_down_up", "wall_left",
             "wall_left_down", "wall_left_down_corner", "wall_left_down_up", "wall_left_up", "wall_left_up_corner", "wall_right", "wall_right_down", "wall_right_down_corner",
-            "wall_right_down_up", "wall_right_left", "wall_right_left_down", "wall_right_left_up", "wall_right_up", "wall_right_up_corner", "wall_up", "floor_tile", "stairs_placeholder" };
+            "wall_right_down_up", "wall_right_left", "wall_right_left_down", "wall_right_left_up", "wall_right_up", "wall_right_up_corner", "wall_up", "floor_tile", "stairs_placeholder", "background_placeholder", "logo_placeholder" };
 
         public static SpriteFont Font;
         public static SpriteFont Font32pt;
@@ -41,6 +47,11 @@ namespace TheEternalOne
         public static int maxMapX;
         public static int maxMapY;
 
+        public static Microsoft.Xna.Framework.Rectangle? Button1 = null;
+        public static Microsoft.Xna.Framework.Rectangle? Button2 = null;
+
+        public static int menuSelectIndex = -1;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -50,7 +61,7 @@ namespace TheEternalOne
             graphics.PreferredBackBufferHeight = HEIGHT;
             //graphics.PreferMultiSampling = true;
 
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
 
             IsMouseVisible = true;
         }
@@ -87,8 +98,8 @@ namespace TheEternalOne
                 Texture2D texture = Content.Load<Texture2D>(str);
                 textureDict[str] = texture;
             }
-
-            GameManager.NewGame();
+            GameManager.CurrentState = GameManager.GameState.MainMenu;
+            //GameManager.NewGame();
         }
 
         /// <summary>
@@ -111,45 +122,43 @@ namespace TheEternalOne
             // TODO: Add your update logic here
             string kbState = InputManager.GetKeyboardInput();
             string msState = InputManager.GetMouseInput();
-
-            foreach (GameObject obj in GameManager.Objects)
-            {
-                obj.Update();
-            }
-
-            if (kbState == "move" || kbState == "pickup" || msState == "cast" || msState == "pickup")
+            if (GameManager.CurrentState != GameManager.GameState.MainMenu)
             {
                 foreach (GameObject obj in GameManager.Objects)
                 {
-                    if (obj.AI != null && obj.Fighter.HP > 0)
-                    {
-                        obj.AI.TakeTurn();
-                    }
+                    obj.Update();
                 }
 
-                GameManager.PlayerObject.Player.UpdateTurn();
-                //InputManager.SelectedSpellIndex = -1;
-                if (GameManager.Started && GameManager.ActiveMessage != null)
+                if (kbState == "move" || kbState == "pickup" || msState == "cast" || msState == "pickup")
                 {
-                    if (GameManager.ActiveMessage.Content == "Click on a tile to teleport to")
+                    foreach (GameObject obj in GameManager.Objects)
                     {
-                        //GameManager.ActiveMessage = null;
+                        if (obj.AI != null && obj.Fighter.HP > 0)
+                        {
+                            obj.AI.TakeTurn();
+                        }
+                    }
+
+                    GameManager.PlayerObject.Player.UpdateTurn();
+                    //InputManager.SelectedSpellIndex = -1;
+                    if (GameManager.Started && GameManager.ActiveMessage != null)
+                    {
+                        if (GameManager.ActiveMessage.Content == "Click on a tile to teleport to")
+                        {
+                            //GameManager.ActiveMessage = null;
+                        }
                     }
                 }
-            }
 
-            foreach (GameObject obj in GameManager.ToRemove)
-            {
-                GameManager.Objects.Remove(obj);
+                foreach (GameObject obj in GameManager.ToRemove)
+                {
+                    GameManager.Objects.Remove(obj);
+                }
             }
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
+        public void DrawGame(GameTime gameTime)
         {
             minMapX = Math.Max(GameManager.PlayerObject.x - GameManager.VisibleMapWidth / 2, 0);
             maxMapX = Math.Min(GameManager.PlayerObject.x + GameManager.VisibleMapWidth / 2 + 1, GameManager.MAP_WIDTH);
@@ -220,8 +229,63 @@ namespace TheEternalOne
             else if (InputManager.mapOpen) GameManager.miniMap.Draw(spriteBatch);
 
             spriteBatch.End();
-
+        }
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        
+        protected override void Draw(GameTime gameTime)
+        {
+            if (GameManager.CurrentState != GameManager.GameState.MainMenu)
+            {
+                DrawGame(gameTime);
+            }
+            else
+            {
+                DrawMainMenu(gameTime);
+            }
             base.Draw(gameTime);
+        }
+
+        public void DrawMainMenu(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(textureDict["background_placeholder"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
+
+            int actualLogoY = (int)(LOGO_Y * GLOBAL_SIZE_MOD / 100);
+            int actualLogoWidth = (int)(LOGO_WIDTH * GLOBAL_SIZE_MOD / 100);
+            int actualLogoHeight = (int)(LOGO_HEIGHT * GLOBAL_SIZE_MOD / 100);
+
+            spriteBatch.Draw(textureDict["logo_placeholder"], new Microsoft.Xna.Framework.Rectangle((int)((WIDTH - actualLogoWidth) / 2), actualLogoY, actualLogoWidth, actualLogoHeight), Microsoft.Xna.Framework.Color.White);
+
+            Microsoft.Xna.Framework.Color[] SelectedColors = new Microsoft.Xna.Framework.Color[2]
+            {
+                Microsoft.Xna.Framework.Color.White,
+                Microsoft.Xna.Framework.Color.White
+            };
+
+            if (menuSelectIndex > -1)
+            {
+                SelectedColors[menuSelectIndex] = Microsoft.Xna.Framework.Color.Yellow;
+            }
+
+            int centerY = (int)HEIGHT / 2;
+            int firstX = (WIDTH - (int)Font32pt.MeasureString("New Game").X) / 2;
+            int firstY = (int)(centerY - BUTTONS_PADDING * GLOBAL_SIZE_MOD / 100);
+            int secondX = (WIDTH - (int)Font32pt.MeasureString("Quit").X) / 2;
+            int secondY = (int)(centerY + BUTTONS_PADDING * GLOBAL_SIZE_MOD / 100);
+
+            spriteBatch.DrawString(Font32pt, "New Game", new Vector2(firstX, firstY), SelectedColors[0]);
+            spriteBatch.DrawString(Font32pt, "Quit", new Vector2(secondX, secondY), SelectedColors[1]);
+
+            Button1 = new Microsoft.Xna.Framework.Rectangle(firstX, firstY, (int)Font32pt.MeasureString("New Game").X, (int)Font32pt.MeasureString("New Game").Y);
+            Button2 = new Microsoft.Xna.Framework.Rectangle(secondX, secondY, (int)Font32pt.MeasureString("Quit").X, (int)Font32pt.MeasureString("Quit").Y);
+
+            spriteBatch.End();
+
+
+
         }
 
         private List<GameObject> SortGameObjectsByDrawPriority(List<GameObject> baseList)

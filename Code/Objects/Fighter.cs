@@ -73,7 +73,16 @@ namespace TheEternalOne.Code.Objects
             
             if (HPdmg > 0)
             {
-                Effect effect = new Effect("-" + HPdmg.ToString(), Color.DarkRed);
+                Color effectColor;
+                if (Owner.Player != null)
+                {
+                    effectColor = Color.DarkRed;
+                }
+                else
+                {
+                    effectColor = Color.White;
+                }
+                Effect effect = new Effect("-" + HPdmg.ToString(), effectColor);
                 Owner.Effects.Add(effect);
             }
 

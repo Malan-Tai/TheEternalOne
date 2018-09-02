@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using TheEternalOne.Code;
 using TheEternalOne.Code.Objects;
 using TheEternalOne.Code.Utils;
+using TheEternalOne.Code.GUI;
 
 namespace TheEternalOne
 {
@@ -38,6 +39,7 @@ namespace TheEternalOne
         public static bool forceMouseUpdate = false;
 
         public static bool mapOpen = false;
+        public static bool deathOpen = false;
 
         public delegate void KeyboardPressEvent(int dx, int dy);
         public static event KeyboardPressEvent OnKeyboardPress = new KeyboardPressEvent((int x, int y) => { });
@@ -209,6 +211,12 @@ namespace TheEternalOne
                     mapOpen = !mapOpen;
                 }
 
+                if (KeyboardState.IsKeyDown(Keys.D) && !PreviousKeyboardState.IsKeyDown(Keys.D))
+                {
+                    DeathScreen.Initialize();
+                    deathOpen = !deathOpen;
+                }
+
                 PreviousKeyboardState = KeyboardState;
                 #endregion
             }
@@ -305,6 +313,34 @@ namespace TheEternalOne
                     UpgradeSpell = false;
                     EqIndex = -1;
                     InvIndex = -1;
+                }
+
+                if (deathOpen)
+                {
+                    Rectangle?[] selectButtons = new Rectangle?[3]
+                    {
+                        DeathScreen.Choice1Select,
+                        DeathScreen.Choice2Select,
+                        DeathScreen.Choice3Select,
+                    };
+
+                    bool found = false;
+                    foreach (Rectangle? rect in selectButtons)
+                    {
+                        if (rect != null)
+                        {
+                            if ((MouseState.X >= rect.Value.X) && (MouseState.X <= (rect.Value.X + rect.Value.Width)) && (MouseState.Y >= rect.Value.Y) && (MouseState.Y <= (rect.Value.Y + rect.Value.Height)))
+                            {
+                                found = true;
+                                DeathScreen.SelectedIndex = Array.IndexOf(selectButtons, rect);
+                                break;
+                            }
+                        }
+                    }
+                    if (!found)
+                    {
+                        DeathScreen.SelectedIndex = -1;
+                    }
                 }
 
                 if (MouseState.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton == ButtonState.Released)

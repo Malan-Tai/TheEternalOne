@@ -1,0 +1,158 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TheEternalOne.Code.GUI
+{
+    public static class DeathScreen
+    {
+        public const int X_OFFSET = 30;
+        public const int Y_OFFSET = 20;
+
+        public const int FIRST_Y = 50;
+        public const int ADDITIONAL_Y_MARGIN = -4;
+
+        public const int CHOICES_Y_MARGIN = 100;
+        public const int DESC_Y_MARGIN = 50;
+
+        public static int WIDTH = Game1.WIDTH - 2*X_OFFSET;
+        public static int HEIGHT = Game1.HEIGHT -2*Y_OFFSET;
+
+        public static Texture2D texture = Game1.textureDict["white"];
+
+        private static SpriteFont Font26pt;
+        private static SpriteFont Font32pt;
+        private static SpriteFont Font18pt;
+
+        public static Rectangle? Choice1Select;
+        public static Rectangle? Choice2Select;
+        public static Rectangle? Choice3Select;
+
+        public static int SelectedIndex = -1;
+
+
+        public static void Initialize()
+        {
+            WIDTH = Game1.WIDTH - 2*(int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100);
+            HEIGHT = Game1.HEIGHT - 2*(int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100);
+
+            Font26pt = Game1.Font;
+            Font32pt = Game1.Font32pt;
+            Font18pt = Game1.Font18pt;
+
+            Choice1Select = null;
+            Choice2Select = null;
+            Choice3Select = null;
+
+            SelectedIndex = -1;
+
+    }
+
+        public static void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Black);
+            DrawStringCentered(0, "The end ?", Font32pt, Color.White, spriteBatch);
+            Vector2 firstStringSize = DrawStringCentered(FIRST_Y, "The wounds you have been inflicted would have been more than enough to kill any mere mortal.", Font18pt, Color.White, spriteBatch);
+            int secondStringY = FIRST_Y + (int)firstStringSize.Y + ADDITIONAL_Y_MARGIN;
+            Vector2 secondStringSize = DrawStringCentered(secondStringY, "But fortunately, thanks to the contract you passed with the devil before entering the dungeon, you are now immortal.", Font18pt, Color.White, spriteBatch);
+            int thirdStringY = secondStringY + (int)secondStringSize.Y + ADDITIONAL_Y_MARGIN;
+            Vector2 thirdStringSize = DrawStringCentered(thirdStringY, "However, each time you regenerate from otherwise fatal wounds, you must pay a dire price...", Font18pt, Color.White, spriteBatch);
+
+            int startChoicesY = thirdStringY + (int)thirdStringSize.Y + CHOICES_Y_MARGIN;
+            int firstBorder = (int)WIDTH / 3;
+            int secondBorder = 2 * firstBorder;
+
+            Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, "Choice 1", Font32pt, Color.White, spriteBatch);
+            Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, "Choice 2", Font32pt, Color.White, spriteBatch);
+            Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, "Choice 3", Font32pt, Color.White, spriteBatch);
+
+            int startDescY = startChoicesY + (int)firstChoiceTitleSize.Y + DESC_Y_MARGIN;
+            Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, "This is the first choice description and it is quite long to test stuff.", Font26pt, Color.White, spriteBatch);
+            Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, "This is the second choice description and it is quite long to test stuff.", Font26pt, Color.White, spriteBatch);
+            Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, "This is the third choice description and it is quite long to test stuff.", Font26pt, Color.White, spriteBatch);
+
+            int startSelectY = startDescY + (int)firstChoiceDescSize.Y + DESC_Y_MARGIN;
+
+            Color[] selectColors = new Color[3]
+            {
+                Color.White,
+                Color.White,
+                Color.White,
+            };
+
+            if (SelectedIndex > -1 && SelectedIndex < 4)
+            {
+                selectColors[SelectedIndex] = Color.Yellow;
+            }
+
+
+            Vector2 firstSelectDescSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch);
+            Vector2 secondSelectDescSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch);
+            Vector2 thirdSelectDescSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch);
+
+            Vector2 measuredString = Font32pt.MeasureString("Choose");
+            Choice1Select = new Rectangle((int)((firstBorder - measuredString.X) / 2) + 0, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice2Select = new Rectangle((int)((secondBorder - firstBorder - measuredString.X) / 2) + firstBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice3Select = new Rectangle((int)((WIDTH - secondBorder - measuredString.X) / 2) + secondBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+        }
+
+        public static Vector2 DrawStringInDeathScreen(int x, int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        {
+            int actualX = (int)((x + X_OFFSET)*Game1.GLOBAL_SIZE_MOD / 100);
+            int actualY = (int)((y + Y_OFFSET)*Game1.GLOBAL_SIZE_MOD / 100);
+
+            spriteBatch.DrawString(font, text, new Vector2(actualX, actualY), color);
+            return font.MeasureString(text);
+        }
+
+        public static Vector2 DrawStringCentered(int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        {
+            Vector2 measuredString = font.MeasureString(text);
+            int x = (int)((WIDTH - measuredString.X) / 2);
+            return DrawStringInDeathScreen(x, y, text, font, color, spriteBatch);
+        }
+
+        public static Vector2 DrawStringCenteredCustom(int xOffset, int y, int width, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        {
+            string finalText = WrapText(text, font, width);
+            Vector2 measuredString = font.MeasureString(finalText);
+            int x = (int)((width - measuredString.X) / 2) + xOffset;
+            return DrawStringInDeathScreen(x, y, finalText, font, color, spriteBatch);
+        }
+
+        private static string WrapText(string text, SpriteFont font, int MaxLineWidth)
+        {
+            if (font.MeasureString(text).X < MaxLineWidth)
+            {
+                return text;
+            }
+
+            string[] words = text.Split(' ');
+            StringBuilder wrappedText = new StringBuilder();
+            float linewidth = 0f;
+            float spaceWidth = font.MeasureString(" ").X;
+            for (int i = 0; i < words.Length; ++i)
+            {
+                Vector2 size = font.MeasureString(words[i]);
+                if (linewidth + size.X < MaxLineWidth)
+                {
+                    linewidth += size.X + spaceWidth;
+                }
+                else
+                {
+                    wrappedText.Append("\n");
+                    linewidth = size.X + spaceWidth;
+                }
+                wrappedText.Append(words[i]);
+                wrappedText.Append(" ");
+            }
+
+            return wrappedText.ToString();
+        }
+
+    }
+}

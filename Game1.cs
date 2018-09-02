@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using TheEternalOne.Code;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.GUI;
 
 namespace TheEternalOne
 {
@@ -194,7 +195,8 @@ namespace TheEternalOne
 
             //DrawMiniLog(spriteBatch);
 
-            if (InputManager.mapOpen) GameManager.miniMap.Draw(spriteBatch);
+            if (InputManager.deathOpen) DeathScreen.Draw(spriteBatch);
+            else if (InputManager.mapOpen) GameManager.miniMap.Draw(spriteBatch);
 
             spriteBatch.End();
 

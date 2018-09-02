@@ -53,6 +53,7 @@ namespace TheEternalOne.Code.Objects
                 if (other.Owner.Player != null)
                 {
                     //GameManager.LogWarning(Owner.Name + " attacked you for " + ActualPower.ToString() + " damage !");
+
                 }
                 else
                 {
@@ -71,7 +72,17 @@ namespace TheEternalOne.Code.Objects
             Armor -= armorDmg;
             int HPdmg = dmg - armorDmg;
             HP -= HPdmg;
-            
+
+
+            if (Owner?.Player?.Equipment[Equipments.Equipment.EquipmentSlot.Armor] != null)
+            {
+                Owner.Player.Equipment[Equipments.Equipment.EquipmentSlot.Armor].Equipment.ArmorHP -= dmg;
+                if (Owner.Player.Equipment[Equipments.Equipment.EquipmentSlot.Armor].Equipment.ArmorHP <= 0)
+                {
+                    Owner.Player.Equipment[Equipments.Equipment.EquipmentSlot.Armor].Equipment.Break();
+                }
+            }
+
             if (HPdmg > 0)
             {
                 Color effectColor;

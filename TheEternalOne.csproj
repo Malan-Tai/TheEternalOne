@@ -73,6 +73,7 @@
     <Compile Include="Code\Objects\Fighter.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
     <Compile Include="Code\Objects\Items\EquipmentItem.cs" />
+    <Compile Include="Code\Objects\Items\ManaPotion.cs" />
     <Compile Include="Code\Objects\Items\HealthPotion.cs" />
     <Compile Include="Code\Objects\Items\Item.cs" />
     <Compile Include="Code\Objects\Items\ItemFactory.cs" />

@@ -142,5 +142,11 @@ namespace TheEternalOne.Code.Objects.Equipments
             if (state) Equipped = !Equipped;
             return state;
         }
+
+        public void Break()
+        {
+            GameManager.PlayerObject.Player.Equipment[Slot] = null;
+            GameManager.LogWarning("Your " + Owner.Name + " broke !");
+        }
     }
 }

@@ -476,8 +476,10 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             Dictionary<string, int> ItemChances = new Dictionary<string, int>
             {
                 { "Potion", 60 },
-                { "Sword", 20 },
-                { "MagicAmulet", 20 }
+                { "Sword", 10 },
+                { "MagicAmulet", 10 },
+                { "Shield", 10 },
+                { "Armor", 10 }
             };
 
             Dictionary<String, int> PotionChances = new Dictionary<string, int>
@@ -520,7 +522,7 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                 if (foundSuitablePosition)
                 {
                     string chosen = RandomChoice(ItemChances) ;
-                    if (chosen == "HealthPotion")
+                    if (chosen == "Potion")
                     {
                         string subtype = RandomChoice(PotionChances);
                         if (subtype == "Health")
@@ -539,6 +541,14 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                     else if (chosen == "MagicAmulet")
                     {
                         GameManager.Objects.Add(EquipmentFactory.CreateMagicAmulet(x, y));
+                    }
+                    else if (chosen == "Shield")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateShield(x, y));
+                    }
+                    else if (chosen == "Armor")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateArmor(x, y));
                     }
                 }
             }

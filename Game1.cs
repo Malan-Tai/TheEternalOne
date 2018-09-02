@@ -181,11 +181,14 @@ namespace TheEternalOne
 
             GameManager.abilityGUI.Draw(spriteBatch);
             GameManager.statusGUI.Draw(spriteBatch);
+            GameManager.equipmentGUI.Draw(spriteBatch);
+            GameManager.inventoryGUI.Draw(spriteBatch);
 
             //string TestString = "Font drawing test";
             //Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
             //spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
-            DrawMiniLog(spriteBatch);
+
+            //DrawMiniLog(spriteBatch);
 
             if (InputManager.mapOpen) GameManager.miniMap.Draw(spriteBatch);
 

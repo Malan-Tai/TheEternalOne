@@ -79,11 +79,11 @@ namespace TheEternalOne.Code.GUI
                 List<string> desc = new List<string> { "" };
                 if (i == 0)
                 {
-                    desc = new List<string> { "Hit target adjacent enemy", "for " + Math.Max(0, player.Fighter.Power + PowerBonus).ToString() + " damage." };
+                    desc = new List<string> { "Hit target adjacent", "enemy for " + Math.Max(0, player.Fighter.Power + PowerBonus).ToString() + " damage." };
                 }
                 else if (i == 1)
                 {
-                    desc = new List<string> { "Gain " + Math.Max(0, player.Player.ShieldPower + ShieldBonus).ToString() + " armor", "and push target adjacent", "enemy away." };
+                    desc = new List<string> { "Gain " + Math.Max(0, player.Player.ShieldPower + ShieldBonus).ToString() + " armor and push", "target adjacent enemy", "away." };
                 }
                 else if (i == 2)
                 {
@@ -95,7 +95,7 @@ namespace TheEternalOne.Code.GUI
                 }
                 else if (i == 4)
                 {
-                    desc = new List<string> { "Teleport to target free tile.", "(1 MP)" };
+                    desc = new List<string> { "Teleport to target free", "tile.", "(1 MP)" };
                 }
 
                 for (int j = 0; j < desc.Count; j++)

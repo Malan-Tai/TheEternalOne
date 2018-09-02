@@ -46,6 +46,8 @@
     <Compile Include="Code\Game\Effect.cs" />
     <Compile Include="Code\Game\Message.cs" />
     <Compile Include="Code\GUI\AbilityGUI.cs" />
+    <Compile Include="Code\GUI\EquipmentGUI.cs" />
+    <Compile Include="Code\GUI\InventoryGUI.cs" />
     <Compile Include="Code\GUI\MiniMap.cs" />
     <Compile Include="Code\GUI\StatusGUI.cs" />
     <Compile Include="Code\InputManager.cs" />

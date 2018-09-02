@@ -27,6 +27,9 @@ namespace TheEternalOne
         public static int SpellIndex = -1;
         public static bool UpgradeSpell = false;
 
+        public static int EqIndex = -1;
+        public static int InvIndex = -1;
+
         public static int leftMapX = GameManager.DrawMapX;
         public static int rightMapX = GameManager.DrawMapX + GameManager.VisibleMapWidth * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
         public static int upMapY = GameManager.DrawMapY;
@@ -238,10 +241,14 @@ namespace TheEternalOne
                     MouseMapX = xRatio + Game1.minMapX;
                     MouseMapY = yRatio + Game1.minMapY;
                     UpgradeSpell = false;
+                    EqIndex = -1;
+                    InvIndex = -1;
                 }
                 else if (MouseState.X >= GameManager.abilityGUI.x)
                 {
                     MouseInMap = false;
+                    EqIndex = -1;
+                    InvIndex = -1;
                     for (int i = 0; i < 5; i++)
                     {
                         if (GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 <= MouseState.Y && MouseState.Y < GameManager.abilityGUI.y + (i + 1) * GameManager.AbilityHeight + i * 5)
@@ -259,11 +266,45 @@ namespace TheEternalOne
                         }
                     }
                 }
+                else if (MouseState.X <= GameManager.equipmentGUI.x + GameManager.EquipmentWidth)
+                {
+                    SpellIndex = -1;
+                    MouseInMap = false;
+                    UpgradeSpell = false;
+                    InvIndex = -1;
+
+                    for (int i = 0; i < GameManager.PlayerObject.Player.GetAllEquipped().Count; i++)
+                    {
+                        if (GameManager.EquipmentY + i * GameManager.EquipmentHeight + i * 5 <= MouseState.Y && MouseState.Y < GameManager.EquipmentY + (i + 1) * GameManager.EquipmentHeight + i * 5)
+                        {
+                            EqIndex = i;
+                            break;
+                        }
+                    }
+                }
+                else if (MouseState.Y > GameManager.InventoryY)
+                {
+                    SpellIndex = -1;
+                    MouseInMap = false;
+                    UpgradeSpell = false;
+                    EqIndex = -1;
+
+                    for (int i = 0; i < GameManager.PlayerObject.Player.Inventory.Count; i++)
+                    {
+                        if (GameManager.InventoryX + i * GameManager.InventoryWidth + i * 5 <= MouseState.X && MouseState.X < GameManager.InventoryX + (i + 1) * GameManager.InventoryWidth + i * 5)
+                        {
+                            InvIndex = i;
+                            break;
+                        }
+                    }
+                }
                 else
                 {
                     SpellIndex = -1;
                     MouseInMap = false;
                     UpgradeSpell = false;
+                    EqIndex = -1;
+                    InvIndex = -1;
                 }
 
                 if (MouseState.LeftButton == ButtonState.Pressed && PreviousMouseState.LeftButton == ButtonState.Released)
@@ -324,6 +365,10 @@ namespace TheEternalOne
                         {
                             GameManager.LogWarning("You have already lost the ability to pick up objects !");
                         }
+                    }
+                    else if (InvIndex != -1)
+                    {
+                        GameManager.PlayerObject.Player.Inventory[InvIndex].Item.Use();
                     }
                 }
                 PreviousMouseState = MouseState;

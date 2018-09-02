@@ -17,7 +17,7 @@ namespace TheEternalOne.Code.GUI
         //all following textures have the same size and are squares
         Texture2D textureHP;
         Texture2D textureMP;
-        Texture2D textureXP;
+        //Texture2D textureXP;
         Texture2D textureShield;
 
         int width;
@@ -29,7 +29,7 @@ namespace TheEternalOne.Code.GUI
             texture = Game1.textureDict["white"];
             textureHP = Game1.textureDict["HP_GUI"];
             textureMP = Game1.textureDict["MP_GUI"];
-            textureXP = Game1.textureDict["XP_GUI"];
+            //textureXP = Game1.textureDict["XP_GUI"];
             textureShield = Game1.textureDict["Shield_GUI"];
 
             width = (int)(textureHP.Width * Game1.GLOBAL_SIZE_MOD / 100);
@@ -57,11 +57,11 @@ namespace TheEternalOne.Code.GUI
             Vector2 MPpos = new Vector2(2 * x + width, 3 * y + 2 * width);
             spriteBatch.DrawString(Game1.Font, MPtext, MPpos, Color.DarkBlue);
 
-            spriteBatch.Draw(textureXP, new Rectangle(x, 4 * y + 3 * width, width, width), Color.White);
+            //spriteBatch.Draw(textureXP, new Rectangle(x, 4 * y + 3 * width, width, width), Color.White);
 
-            string XPtext = "XP: " + player.Fighter.XP.ToString();
-            Vector2 XPpos = new Vector2(2 * x + width, 4 * y + 3 * width);
-            spriteBatch.DrawString(Game1.Font, XPtext, XPpos, Color.LightBlue);
+            //string XPtext = "XP: " + player.Fighter.XP.ToString();
+            //Vector2 XPpos = new Vector2(2 * x + width, 4 * y + 3 * width);
+            //spriteBatch.DrawString(Game1.Font, XPtext, XPpos, Color.LightBlue);
         }
     }
 }

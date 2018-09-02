@@ -124,6 +124,7 @@ namespace TheEternalOne
             string msState = InputManager.GetMouseInput();
             if (GameManager.CurrentState != GameManager.GameState.MainMenu)
             {
+                
                 foreach (GameObject obj in GameManager.Objects)
                 {
                     obj.Update();

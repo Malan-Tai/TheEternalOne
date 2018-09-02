@@ -17,12 +17,18 @@ namespace TheEternalOne.Code.GUI
         public int y;
         Texture2D texture;
         public Texture2D upgradeTexture;
+        Texture2D textureXP;
+        int XPwidth;
 
         public AbilityGUI()
         {
-            x = Game1.WIDTH - GameManager.AbilityWidth - 10;
-            y = 5;
             texture = Game1.textureDict["white"];
+            textureXP = Game1.textureDict["XP_GUI"];
+
+            XPwidth = (int)(textureXP.Height * Game1.GLOBAL_SIZE_MOD / 100);
+
+            x = Game1.WIDTH - GameManager.AbilityWidth - 10;
+            y = 10 + XPwidth;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -45,6 +51,12 @@ namespace TheEternalOne.Code.GUI
                 TPBonus += eqComp.TPMod;
                 PowerBonus += eqComp.SwordMod;
             }
+
+            spriteBatch.Draw(textureXP, new Rectangle(x, 5, XPwidth, XPwidth), Color.White);
+
+            string XPtext = "XP: " + player.Fighter.XP.ToString();
+            Vector2 XPpos = new Vector2(x + XPwidth + 5, 5);
+            spriteBatch.DrawString(Game1.Font, XPtext, XPpos, Color.LightBlue);
 
             for (int i = 0; i < 5; i++)
             {

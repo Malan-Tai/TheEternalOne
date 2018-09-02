@@ -84,7 +84,7 @@ namespace TheEternalOne.Code.Objects
                     effectColor = Color.White;
                 }
                 Effect effect = new Effect("-" + HPdmg.ToString(), effectColor);
-                Owner.Effects.Add(effect);
+                Owner.AddEffect(effect);
             }
 
             if (HP <= 0)

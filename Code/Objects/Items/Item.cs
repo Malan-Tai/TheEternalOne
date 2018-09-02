@@ -63,5 +63,23 @@ namespace TheEternalOne.Code.Objects.Items
         {
 
         }
+
+        public void Drop()
+        {
+            if (GameManager.PlayerObject.Player.Inventory.Contains(Owner))
+            {
+                if (GameManager.PlayerObject.Player.CanDrop)
+                {
+                    Owner.Position.x = GameManager.PlayerObject.Position.x;
+                    Owner.Position.y = GameManager.PlayerObject.Position.y;
+                    GameManager.PlayerObject.Player.Inventory.Remove(Owner);
+                    GameManager.Objects.Add(Owner);
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException(Owner.Name + " is not in player inventory");
+            }
+        }
     }
 }

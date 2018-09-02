@@ -436,6 +436,14 @@ namespace TheEternalOne
                         DeathScreen.OnLeftClick();
                     }
                 }
+
+                else if (MouseState.RightButton == ButtonState.Pressed && PreviousMouseState.RightButton == ButtonState.Released)
+                {
+                    if (InvIndex != -1)
+                    {
+                        GameManager.PlayerObject.Player.Inventory[InvIndex].Item.Drop();
+                    }
+                }
                 PreviousMouseState = MouseState;
                 forceMouseUpdate = false;
                 ms = MouseState;

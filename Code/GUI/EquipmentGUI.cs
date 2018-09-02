@@ -48,6 +48,94 @@ namespace TheEternalOne.Code.GUI
                 Vector2 pos = new Vector2(x + width + 10, y + i * GameManager.EquipmentHeight + i * 5 + 10);
                 spriteBatch.DrawString(Game1.Font, obj.Name, pos, borderColor, 0f, new Vector2(0, 0), 1.2f, new SpriteEffects(), 0f);
 
+                int startY = (int)pos.Y + 25;
+                int yFactor = 0;
+                int yOffset = 20;
+
+                if (obj.Equipment.SwordMod != 0)
+                {
+                    Color color;
+                    string prefix = "";
+                    if (obj.Equipment.SwordMod > 0)
+                    {
+                        color = Color.Green;
+                        prefix = "+";
+                    }
+                    else
+                    {
+                        color = Color.Red;
+                    }
+                    spriteBatch.DrawString(Game1.Font18pt, "Sword : " + prefix + obj.Equipment.SwordMod.ToString(), new Vector2(pos.X, startY + 10 + yFactor * yOffset), color);
+                    yFactor++;
+                }
+
+                if (obj.Equipment.ShieldMod != 0)
+                {
+                    Color color;
+                    string prefix = "";
+                    if (obj.Equipment.ShieldMod > 0)
+                    {
+                        color = Color.Green;
+                        prefix = "+";
+                    }
+                    else
+                    {
+                        color = Color.Red;
+                    }
+                    spriteBatch.DrawString(Game1.Font18pt, "Shield : " + prefix + obj.Equipment.ShieldMod.ToString(), new Vector2(pos.X, startY + 10 + yFactor * yOffset), color);
+                    yFactor++;
+                }
+
+                if (obj.Equipment.FireballMod != 0)
+                {
+                    Color color;
+                    string prefix = "";
+                    if (obj.Equipment.FireballMod > 0)
+                    {
+                        color = Color.Green;
+                        prefix = "+";
+                    }
+                    else
+                    {
+                        color = Color.Red;
+                    }
+                    spriteBatch.DrawString(Game1.Font18pt, "Fireball : " + prefix + obj.Equipment.FireballMod.ToString(), new Vector2(pos.X, startY + 10 + yFactor * yOffset), color);
+                    yFactor++;
+                }
+
+                if (obj.Equipment.HealMod != 0)
+                {
+                    Color color;
+                    string prefix = "";
+                    if (obj.Equipment.HealMod > 0)
+                    {
+                        color = Color.Green;
+                        prefix = "+";
+                    }
+                    else
+                    {
+                        color = Color.Red;
+                    }
+                    spriteBatch.DrawString(Game1.Font18pt, "Heal : " + prefix + obj.Equipment.HealMod.ToString(), new Vector2(pos.X, startY + 10 + yFactor * yOffset), color);
+                    yFactor++;
+                }
+
+                if (obj.Equipment.Armor != 0)
+                {
+                    Color color;
+                    string prefix = "";
+                    if (obj.Equipment.Armor > 0)
+                    {
+                        color = Color.Green;
+                        prefix = "+";
+                    }
+                    else
+                    {
+                        color = Color.Red;
+                    }
+                    spriteBatch.DrawString(Game1.Font18pt, "Armor : " + prefix + obj.Equipment.Armor.ToString(), new Vector2(pos.X, startY + 10 + yFactor * yOffset), color);
+                    yFactor++;
+                }
 
 
 

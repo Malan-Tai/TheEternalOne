@@ -11,7 +11,7 @@ namespace TheEternalOne.Code.Objects.Equipments
     {
         public static GameObject CreateSword(int x, int y)
         {
-            GameObject gameObject = new GameObject(x, y, "sword_placeholder", 70, 70);
+            GameObject gameObject = new GameObject(x, y, "sword", 70, 70);
 
             Item itemComp = new EquipmentItem();
             Equipment equipment = new Equipment(Equipment.EquipmentSlot.Weapon, sword: 1, fireball: -1);
@@ -25,7 +25,7 @@ namespace TheEternalOne.Code.Objects.Equipments
 
         public static GameObject CreateMagicAmulet(int x, int y)
         {
-            GameObject gameObject = new GameObject(x, y, "amulet_placeholder", 70, 70);
+            GameObject gameObject = new GameObject(x, y, "magicAmulet", 70, 70);
 
             Item itemComp = new EquipmentItem();
             Equipment equipment = new Equipment(Equipment.EquipmentSlot.Trinket, sword: -1, shield: -1, fireball: 2);

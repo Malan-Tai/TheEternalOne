@@ -317,11 +317,12 @@ namespace TheEternalOne
 
                 if (deathOpen)
                 {
-                    Rectangle?[] selectButtons = new Rectangle?[3]
+                    Rectangle?[] selectButtons = new Rectangle?[4]
                     {
                         DeathScreen.Choice1Select,
                         DeathScreen.Choice2Select,
                         DeathScreen.Choice3Select,
+                        DeathScreen.RerollSelect
                     };
 
                     bool found = false;

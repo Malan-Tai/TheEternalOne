@@ -111,6 +111,12 @@ namespace TheEternalOne.Code.GUI
             int thirdRerollY = secondRerollY + (int)secondRerollSize.Y + ADDITIONAL_Y_MARGIN;
             Vector2 thirdRerollSize = DrawStringCentered(thirdRerollY, "Rerolls left : " + GameManager.PlayerObject.Player.Rerolls.ToString(), Font18pt, Color.White, spriteBatch);
 
+            Vector2 rerollSelectPos;
+
+            int startRerollSelectY = thirdRerollY + (int)thirdRerollSize.Y + DESC_Y_MARGIN;
+            Vector2 rerollSelectSize = DrawStringCentered(startRerollSelectY, "Reroll", Font32pt, selectColors[3], spriteBatch, out rerollSelectPos);
+
+            RerollSelect = new Rectangle((int)rerollSelectPos.X, (int)rerollSelectPos.Y, (int)rerollSelectSize.X, (int)rerollSelectSize.Y);
 
         }
 

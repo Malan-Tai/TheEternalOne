@@ -64,7 +64,7 @@ namespace TheEternalOne.Code.GUI
             Vector2 thirdStringSize = DrawStringCentered(thirdStringY, "However, each time you regenerate from otherwise fatal wounds, you must pay a dire price...", Font18pt, Color.White, spriteBatch);
 
             int startChoicesY = thirdStringY + (int)thirdStringSize.Y + CHOICES_Y_MARGIN;
-            int firstBorder = (int)WIDTH / 3;
+            int firstBorder = (int)WIDTH / 3 * (int)Game1.GLOBAL_SIZE_MOD / 100;
             int secondBorder = 2 * firstBorder;
 
             Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, "Choice 1", Font32pt, Color.White, spriteBatch);
@@ -91,15 +91,18 @@ namespace TheEternalOne.Code.GUI
                 selectColors[SelectedIndex] = Color.Yellow;
             }
 
+            Vector2 firstSelectPos;
+            Vector2 secondSelectPos;
+            Vector2 thirdSelectPos;
 
-            Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch);
-            Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch);
-            Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch);
+            Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch, out firstSelectPos);
+            Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch, out secondSelectPos);
+            Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch, out thirdSelectPos);
 
             Vector2 measuredString = Font32pt.MeasureString("Choose");
-            Choice1Select = new Rectangle((int)(((firstBorder - measuredString.X) / 2)*(Game1.GLOBAL_SIZE_MOD / 100)) + 0, startSelectY, (int)measuredString.X, (int)measuredString.Y);
-            Choice2Select = new Rectangle((int)(((secondBorder - firstBorder - measuredString.X) / 2) * (Game1.GLOBAL_SIZE_MOD / 100)) + firstBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
-            Choice3Select = new Rectangle((int)(((WIDTH - secondBorder - measuredString.X) / 2) * (Game1.GLOBAL_SIZE_MOD / 100)) + secondBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice1Select = new Rectangle((int)firstSelectPos.X, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice2Select = new Rectangle((int)secondSelectPos.X, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice3Select = new Rectangle((int)thirdSelectPos.X, startSelectY, (int)measuredString.X, (int)measuredString.Y);
 
             int startRerollY = startSelectY + (int)firstSelectSize.Y + CHOICES_Y_MARGIN + DESC_Y_MARGIN;
             Vector2 firstRerollSize = DrawStringCentered(startRerollY, "If you like neither of these three choices, you may choose to reroll them so as to get three new random choices", Font18pt, Color.White, spriteBatch);
@@ -111,28 +114,48 @@ namespace TheEternalOne.Code.GUI
 
         }
 
-        public static Vector2 DrawStringInDeathScreen(int x, int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        public static Vector2 DrawStringInDeathScreen(int x, int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch, out Vector2 pos)
         {
             int actualX = (int)((x + X_OFFSET)*Game1.GLOBAL_SIZE_MOD / 100);
             int actualY = (int)((y + Y_OFFSET)*Game1.GLOBAL_SIZE_MOD / 100);
+
+            pos = new Vector2(actualX, actualY);
 
             spriteBatch.DrawString(font, text, new Vector2(actualX, actualY), color);
             return font.MeasureString(text);
         }
 
-        public static Vector2 DrawStringCentered(int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        public static Vector2 DrawStringInDeathScreen(int x, int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        {
+            Vector2 temp = new Vector2();
+            return DrawStringInDeathScreen(x, y, text, font, color, spriteBatch, out temp);
+        }
+
+        public static Vector2 DrawStringCentered(int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch, out Vector2 pos)
         {
             Vector2 measuredString = font.MeasureString(text);
             int x = (int)((WIDTH - measuredString.X) / 2);
-            return DrawStringInDeathScreen(x, y, text, font, color, spriteBatch);
+            return DrawStringInDeathScreen(x, y, text, font, color, spriteBatch, out pos);
         }
 
-        public static Vector2 DrawStringCenteredCustom(int xOffset, int y, int width, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        public static Vector2 DrawStringCentered(int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        {
+            Vector2 temp = new Vector2();
+            return DrawStringCentered(y, text, font, color, spriteBatch, out temp);
+        }
+
+        public static Vector2 DrawStringCenteredCustom(int xOffset, int y, int width, string text, SpriteFont font, Color color, SpriteBatch spriteBatch, out Vector2 pos)
         {
             string finalText = WrapText(text, font, width);
             Vector2 measuredString = font.MeasureString(finalText);
             int x = (int)((width - measuredString.X) / 2) + xOffset;
-            return DrawStringInDeathScreen(x, y, finalText, font, color, spriteBatch);
+            return DrawStringInDeathScreen(x, y, finalText, font, color, spriteBatch, out pos);
+        }
+
+        public static Vector2 DrawStringCenteredCustom(int xOffset, int y, int width, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)
+        {
+            Vector2 temp = new Vector2();
+            return DrawStringCenteredCustom(xOffset, y, width, text, font, color, spriteBatch, out temp);
         }
 
         private static string WrapText(string text, SpriteFont font, int MaxLineWidth)

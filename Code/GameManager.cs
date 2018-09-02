@@ -28,7 +28,7 @@ namespace TheEternalOne.Code
         public const int screenPlayerX = VisibleMapWidth / 2;
         public const int screenPlayerY = VisibleMapHeight / 2;
 
-        public static int AbilityHeight = (Game1.HEIGHT - 25) / 5;
+        public static int AbilityHeight = (DrawMapY + VisibleMapHeight * (int)(TileWidth * Game1.GLOBAL_SIZE_MOD / 100) - 25) / 5;
         public static int AbilityWidth = DrawMapX - 20;
 
         public static Coord StartPosition;

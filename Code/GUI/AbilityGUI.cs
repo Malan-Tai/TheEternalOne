@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using TheEternalOne.Code;
 using Microsoft.Xna.Framework;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.Objects.Equipments;
 
 namespace TheEternalOne.Code.GUI
 {
@@ -27,6 +28,23 @@ namespace TheEternalOne.Code.GUI
         public void Draw(SpriteBatch spriteBatch)
         {
             GameObject player = GameManager.PlayerObject;
+
+            List<GameObject> allEquip = player.Player.GetAllEquipped();
+            int FireballBonus = 0;
+            int ShieldBonus = 0;
+            int HealBonus = 0;
+            int TPBonus = 0;
+            int PowerBonus = 0;
+
+            foreach (GameObject equip in allEquip)
+            {
+                Equipment eqComp = equip.Equipment;
+                FireballBonus += eqComp.FireballMod;
+                ShieldBonus += eqComp.ShieldMod;
+                HealBonus += eqComp.HealMod;
+                TPBonus += eqComp.TPMod;
+                PowerBonus += eqComp.SwordMod;
+            }
 
             for (int i = 0; i < 5; i++)
             {
@@ -61,19 +79,19 @@ namespace TheEternalOne.Code.GUI
                 List<string> desc = new List<string> { "" };
                 if (i == 0)
                 {
-                    desc = new List<string> { "Hit target adjacent enemy", "for " + player.Fighter.Power.ToString() + " damage." };
+                    desc = new List<string> { "Hit target adjacent enemy", "for " + Math.Max(0, player.Fighter.Power + PowerBonus).ToString() + " damage." };
                 }
                 else if (i == 1)
                 {
-                    desc = new List<string> { "Gain " + player.Player.ShieldPower.ToString() + " armor", "and push target adjacent", "enemy away." };
+                    desc = new List<string> { "Gain " + Math.Max(0, player.Player.ShieldPower + ShieldBonus).ToString() + " armor", "and push target adjacent", "enemy away." };
                 }
                 else if (i == 2)
                 {
-                    desc = new List<string> { "Shoot target enemy for", player.Player.FireballDmg.ToString() + " damage.", "(5 MP)" };
+                    desc = new List<string> { "Shoot target enemy for", Math.Max(0, player.Player.FireballDmg + FireballBonus).ToString() + " damage.", "(5 MP)" };
                 }
                 else if (i == 3)
                 {
-                    desc = new List<string> { "Heal yourself for " + player.Player.HealPower.ToString() + " HP.", "(3 MP)" };
+                    desc = new List<string> { "Heal yourself for " + Math.Max(0, player.Player.HealPower + HealBonus).ToString() + " HP.", "(3 MP)" };
                 }
                 else if (i == 4)
                 {

@@ -110,7 +110,7 @@ namespace TheEternalOne
                 obj.Update();
             }
 
-            if (kbState == "move" || kbState == "pickup" || msState == "cast")
+            if (kbState == "move" || kbState == "pickup" || msState == "cast" || msState == "pickup")
             {
                 foreach (GameObject obj in GameManager.Objects)
                 {

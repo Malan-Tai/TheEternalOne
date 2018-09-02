@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using TheEternalOne.Code;
 using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.Utils;
 
 namespace TheEternalOne
 {
@@ -274,11 +275,22 @@ namespace TheEternalOne
                         {
                             if (GameManager.abilityGUI.y + i * GameManager.AbilityHeight + i * 5 <= MouseState.Y && MouseState.Y < GameManager.abilityGUI.y + (i + 1) * GameManager.AbilityHeight + i * 5)
                             {
-                                SelectedSpellIndex = i;
-                                if (i != 4 && UpgradeSpell && GameManager.PlayerObject.Fighter.XP > 0)
+                                if (i != 4 && UpgradeSpell)
                                 {
-                                    GameManager.PlayerObject.Player.UpgradeSpell(i);
-                                    GameManager.PlayerObject.Fighter.XP--;
+                                    if (GameManager.PlayerObject.Fighter.XP > 0)
+                                    {
+                                        GameManager.PlayerObject.Player.UpgradeSpell(i);
+                                        GameManager.PlayerObject.Fighter.XP--;
+                                    }
+                                    SelectedSpellIndex = i;
+                                }
+                                else if (SelectedSpellIndex == i)
+                                {
+                                    SelectedSpellIndex = -1;
+                                }
+                                else
+                                {
+                                    SelectedSpellIndex = i;
                                 }
                                 break;
                             }
@@ -289,6 +301,29 @@ namespace TheEternalOne
                         Console.Out.WriteLine("casting spell {0} at {1} {2}", SelectedSpellIndex, MouseMapX, MouseMapY);
                         GameManager.PlayerObject.Player.Cast(SelectedSpellIndex, MouseMapX, MouseMapY);
                         state = "cast";
+                    }
+                    else if (MouseInMap && Distance.GetDistance(GameManager.PlayerObject.x, GameManager.PlayerObject.y, MouseMapX, MouseMapY) < 2)
+                    {
+                        if (GameManager.PlayerObject.Player.CanPickUp)
+                        {
+                            bool found = false;
+                            foreach (GameObject gameObj in GameManager.Objects)
+                            {
+                                if (gameObj.Position.x == MouseMapX && gameObj.Position.y == MouseMapY && gameObj.Item != null)
+                                {
+                                    gameObj.Item.PickUp();
+                                    state = "pickup";
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found) GameManager.LogWarning("No item to pick up here");
+                        }
+                        else
+                        {
+                            GameManager.LogWarning("You have already lost the ability to pick up objects !");
+                        }
                     }
                 }
                 PreviousMouseState = MouseState;

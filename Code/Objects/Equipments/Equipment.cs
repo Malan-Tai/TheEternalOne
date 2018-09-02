@@ -41,6 +41,8 @@ namespace TheEternalOne.Code.Objects.Equipments
         public int Armor { get; set; } = 0;
         public int ArmorHP { get; set; } = 0;
 
+        public bool Equipped { get; set; } = false;
+
         public Equipment(EquipmentSlot slot, int sword = 0, int shield = 0, int fireball = 0, int heal = 0, int tp = 0, int armor = 0, int armorHP = 0)
         {
             this.Slot = slot;
@@ -72,7 +74,7 @@ namespace TheEternalOne.Code.Objects.Equipments
                 }
                 else
                 {
-                    for (int i=0; i<Player.MAX_TRINKETS; i++)
+                    for (int i = 0; i < Player.MAX_TRINKETS; i++)
                     {
                         if (GameManager.PlayerObject.Player.Trinkets[i] == null)
                         {
@@ -92,5 +94,53 @@ namespace TheEternalOne.Code.Objects.Equipments
             }
         }
 
+        public bool Unequip()
+        {
+            if (GameManager.PlayerObject.Player.CanUnequip)
+            {
+                if (Slot != EquipmentSlot.Trinket)
+                {
+                    GameManager.PlayerObject.Player.Equipment[Slot] = null;
+                    GameManager.PlayerObject.Player.Inventory.Add(Owner);
+                    return true;
+                }
+                else
+                {
+                    for (int i = 0; i < Player.MAX_TRINKETS; i++)
+                    {
+                        if (GameManager.PlayerObject.Player.Trinkets[i] == Owner)
+                        {
+                            GameManager.PlayerObject.Player.Trinkets[i] = null;
+                            GameManager.PlayerObject.Player.Inventory.Add(Owner);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+            }
+            else
+            {
+                GameManager.LogWarning("You cannot unequip items anymore !");
+                return false;
+            }
+        }
+
+        public bool ToggleEquip()
+        {
+            bool state = false;
+            if (Equipped)
+            {
+                state = Unequip();
+            }
+            else
+            {
+                state = Equip();
+                if (state) GameManager.PlayerObject.Player.Inventory.Remove(Owner);
+            }
+
+            if (state) Equipped = !Equipped;
+            return state;
+        }
     }
 }

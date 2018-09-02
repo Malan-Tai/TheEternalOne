@@ -370,6 +370,10 @@ namespace TheEternalOne
                     {
                         GameManager.PlayerObject.Player.Inventory[InvIndex].Item.Use();
                     }
+                    else if (EqIndex != -1)
+                    {
+                        GameManager.PlayerObject.Player.GetAllEquipped()[EqIndex].Item.Use();
+                    }
                 }
                 PreviousMouseState = MouseState;
                 forceMouseUpdate = false;

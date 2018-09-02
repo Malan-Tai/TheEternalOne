@@ -15,10 +15,7 @@ namespace TheEternalOne.Code.Objects.Items
 
         public override void Use()
         {
-            if (Owner.Equipment.Equip())
-            {
-                GameManager.PlayerObject.Player.Inventory.Remove(Owner);
-            }
+            Owner.Equipment.ToggleEquip();
         }
     }
 }

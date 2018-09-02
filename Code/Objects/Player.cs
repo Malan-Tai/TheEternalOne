@@ -49,7 +49,9 @@ namespace TheEternalOne.Code.Objects
         public bool CanMove = true;
         public bool CanMap = true;
 
-        const int MANA_REGEN = 10;
+        public bool FreeTP = false;
+
+        const int MANA_REGEN = 3;
         int manaRegen = MANA_REGEN;
 
         public Player(int mp)
@@ -171,11 +173,18 @@ namespace TheEternalOne.Code.Objects
                     GameManager.LogWarning("You cannot heal yourself anymore !");
                 }
             }
-            else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].IsBlocked)
+            else if (spell == "Teleport" && (MP >= 1 || FreeTP) && !GameManager.Map[x, y].IsBlocked)
             {
-                if (CanTPSpell)
+                if (CanTPSpell || FreeTP)
                 {
-                    MP -= 1;
+                    if (!FreeTP)
+                    {
+                        MP -= 1;
+                    }
+                    else
+                    {
+                        FreeTP = false;
+                    }
 
                     Owner.Position = new Coord(x, y);
                     Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
@@ -186,6 +195,8 @@ namespace TheEternalOne.Code.Objects
                     GameManager.LogWarning("You cannot teleport anymore !");
                 }
             }
+            InputManager.SelectedSpellIndex = -1;
+            GameManager.ActiveMessage = null;
         }
 
         public void UpgradeSpell(int i)

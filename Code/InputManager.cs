@@ -383,6 +383,7 @@ namespace TheEternalOne
                                     else if (SelectedSpellIndex == i)
                                     {
                                         SelectedSpellIndex = -1;
+                                        GameManager.ActiveMessage = null;
                                     }
                                     else
                                     {

@@ -285,6 +285,9 @@ namespace TheEternalOne.Code.GUI
             {
                 CurrentEffects[SelectedIndex].Apply();
                 GameManager.PlayerObject.Fighter.HP = GameManager.PlayerObject.Fighter.MaxHP;
+                GameManager.PlayerObject.Player.MP = GameManager.PlayerObject.Player.MaxMP;
+                GameManager.PlayerObject.Player.FreeTP = true;
+                InputManager.SelectedSpellIndex = 4;
                 GameManager.CurrentState = Playing;
             }
         }

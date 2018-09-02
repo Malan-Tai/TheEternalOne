@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Game;
 using Microsoft.Xna.Framework;
+using TheEternalOne.Code.GUI;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -90,7 +91,8 @@ namespace TheEternalOne.Code.Objects
             {
                 if (Owner.Player != null)
                 {
-                    //TO-DO : Player "death" handling
+                    DeathScreen.Initialize();
+                    GameManager.CurrentState = GameManager.GameState.Dead;
                 }
                 else
                 {

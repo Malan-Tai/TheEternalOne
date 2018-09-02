@@ -30,6 +30,8 @@ namespace TheEternalOne
                                                                     "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder" };
 
         public static SpriteFont Font;
+        public static SpriteFont Font32pt;
+        public static SpriteFont Font18pt;
 
         public static int minMapX;
         public static int minMapY;
@@ -73,6 +75,8 @@ namespace TheEternalOne
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Font = Content.Load<SpriteFont>("Dungeon");
+            Font32pt = Content.Load<SpriteFont>("Dungeon32pt");
+            Font18pt = Content.Load<SpriteFont>("Dungeon18pt");
             // TODO: use this.Content to load your game content here
             foreach (string str in allTextures)
             {

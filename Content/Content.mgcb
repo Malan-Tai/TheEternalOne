@@ -188,3 +188,17 @@
 /processorParam:TextureFormat=Color
 /build:upgrade_GUI.png
 
+#begin Dungeon18pt.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Dungeon18pt.spritefont
+
+#begin Dungeon32pt.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Dungeon32pt.spritefont
+

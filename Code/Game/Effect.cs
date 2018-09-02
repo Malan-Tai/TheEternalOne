@@ -23,7 +23,7 @@ namespace TheEternalOne.Code.Game
 
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
-            spriteBatch.DrawString(Game1.Font, Text, new Vector2(x, y - TimeLeft), Color);
+            spriteBatch.DrawString(Game1.Font32pt, Text, new Vector2(x, y - TimeLeft), Color);
         }
 
         public void Update()

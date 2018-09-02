@@ -10,6 +10,7 @@ using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
 using TheEternalOne.Code.GUI;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TheEternalOne
 {
@@ -43,6 +44,9 @@ namespace TheEternalOne
 
         public static Dictionary<string, Song> songDict = new Dictionary<string, Song>();
         private static List<string> allSongs = new List<string> { "M_Menu_Goth_Loop_01", "M_Goth_Loop_01" };
+
+        public static Dictionary<string, SoundEffect> sfxDict = new Dictionary<string, SoundEffect>();
+        private static List<string> allSFX = new List<string> {  "HUD_Click_01", "SFX_Open_Map_01", "SFX_Take_Ojbect_01", "SFX_Drop_Ojbect_01", "SFX_UnEquip_01", "SFX_Equip_01", "SFX_Potion_01", "SFX_Teleport_01", "SFX_Health_01", "SFX_Fireball_01", "SFX_Bash_Shield_01", "SFX_Whoosh_Sword_01" };
 
         public static SpriteFont Font;
         public static SpriteFont Font32pt;
@@ -113,6 +117,13 @@ namespace TheEternalOne
                 Song song = Content.Load<Song>(str);
                 songDict[str] = song;
             }
+
+            foreach (string str in allSFX)
+            {
+                Console.Out.WriteLine(str);
+                SoundEffect sfx = Content.Load<SoundEffect>(str);
+                sfxDict[str] = sfx;
+            }
             GoToMainMenu();
             //GameManager.NewGame();
         }
@@ -121,6 +132,11 @@ namespace TheEternalOne
         {
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(CurrentSong);
+        }
+
+        public static void PlaySFX(string str)
+        {
+            sfxDict[str].Play();
         }
 
         public void GoToMainMenu()
@@ -150,7 +166,7 @@ namespace TheEternalOne
             // TODO: Add your update logic here
             string kbState = InputManager.GetKeyboardInput();
             string msState = InputManager.GetMouseInput();
-            if (GameManager.CurrentState != GameManager.GameState.MainMenu)
+            if (GameManager.CurrentState != GameManager.GameState.MainMenu && GameManager.CurrentState != GameManager.GameState.GameOver)
             {
                 
                 foreach (GameObject obj in GameManager.Objects)
@@ -266,12 +282,18 @@ namespace TheEternalOne
         
         protected override void Draw(GameTime gameTime)
         {
-            if (GameManager.CurrentState != GameManager.GameState.MainMenu)
+            if (GameManager.isGameOver)
             {
+                GameManager.CurrentState = GameManager.GameState.GameOver;
+            }
+            if ((GameManager.CurrentState == GameManager.GameState.Playing) || (GameManager.CurrentState == GameManager.GameState.Dead))
+            {
+
                 DrawGame(gameTime);
             }
             else if (GameManager.CurrentState == GameManager.GameState.GameOver)
             {
+                Console.Out.WriteLine("YOU LOST");
                 DrawGameOver(gameTime);
             }
             else
@@ -281,13 +303,19 @@ namespace TheEternalOne
             base.Draw(gameTime);
         }
 
+        public static void StopMusic()
+        {
+            MediaPlayer.Stop();
+        }
         public void DrawGameOver(GameTime gameTime)
         {
+            Console.Out.WriteLine("GAme over draw start");
             spriteBatch.Begin();
-            spriteBatch.Draw(textureDict["background"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
+            Console.Out.WriteLine("Game over draw started");
+            spriteBatch.Draw(textureDict["white"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.Black);
 
             int GameOverY = (int)(LOGO_Y * GLOBAL_SIZE_MOD / 100);
-            Vector2 GameOverDimensions = Font32pt.MeasureString("Game Over");
+            Vector2 GameOverDimensions = Font32pt.MeasureString("Game Over !");
             int GameOverX = (int)(WIDTH - (int)GameOverDimensions.X) / 2;
             spriteBatch.DrawString(Font32pt, "Game Over", new Vector2(GameOverX, GameOverY), Microsoft.Xna.Framework.Color.Red);
 
@@ -297,7 +325,14 @@ namespace TheEternalOne
             int FirstLineX = (int)(WIDTH - (int)FirstLineDimensions.X) / 2;
             spriteBatch.DrawString(Font18pt, firstLine, new Vector2(FirstLineX, FirstLineY), Microsoft.Xna.Framework.Color.White);
 
+            string lastLine = "Press Space to return to main menu...";
+            Vector2 LastLineDimensions = Font18pt.MeasureString(lastLine);
+            int LastLineY = (int)(WIDTH / 2);
+            int LastLineX = (int)(WIDTH - (int)LastLineDimensions.X) / 2;
+            spriteBatch.DrawString(Font18pt, lastLine, new Vector2(LastLineX, LastLineY), Microsoft.Xna.Framework.Color.White);
+            Console.Out.WriteLine("Game over draw end");
             spriteBatch.End();
+            Console.Out.WriteLine("Game over draw ended");
         }
 
         public void DrawMainMenu(GameTime gameTime)

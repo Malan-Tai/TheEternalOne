@@ -244,6 +244,13 @@ namespace TheEternalOne
                     PreviousKeyboardState = KeyboardState;
                     #endregion
                 }
+                else if (GameManager.CurrentState == GameOver)
+                {
+                    if (KeyboardState.IsKeyDown(Keys.Space) && !PreviousKeyboardState.IsKeyDown(Keys.Space))
+                    {
+                        GameManager.GoToMainMenu();
+                    }
+                }
                 else
                 {
                     if (KeyboardState.IsKeyDown(Keys.F11) && !PreviousKeyboardState.IsKeyDown(Keys.F11))
@@ -487,10 +494,12 @@ namespace TheEternalOne
                     {
                         if (Game1.menuSelectIndex == 0)
                         {
+                            Game1.PlaySFX("HUD_Click_01");
                             GameManager.NewGame();
                         }
                         else if (Game1.menuSelectIndex == 1)
                         {
+                            Game1.PlaySFX("HUD_Click_01");
                             Environment.Exit(0);
                         }
                     }

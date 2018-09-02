@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheEternalOne.Code.Game;
 using Microsoft.Xna.Framework;
 using TheEternalOne.Code.GUI;
+using TheEternalOne.Code.Utils;
 
 namespace TheEternalOne.Code.Objects
 {
@@ -16,6 +17,10 @@ namespace TheEternalOne.Code.Objects
         public int HP { get; set; }
         public int Armor { get; set; }
         public int XP { get; set; }
+
+        public bool Acid = false;
+
+        public const int ACID_CHANCE = 10;
 
         public GameObject Owner { get; set; }
         
@@ -53,6 +58,20 @@ namespace TheEternalOne.Code.Objects
                 if (other.Owner.Player != null)
                 {
                     //GameManager.LogWarning(Owner.Name + " attacked you for " + ActualPower.ToString() + " damage !");
+                    if (Acid)
+                    {
+                        int dice = Dice.GetRandint(0, 101);
+                        if (dice < ACID_CHANCE)
+                        {
+                            List < GameObject > allEquip = other.Owner.Player.GetAllEquipped();
+                            if (allEquip.Count > 1)
+                            {
+                                int index = Dice.GetRandint(0, allEquip.Count);
+                                allEquip[index].Equipment.Break();
+                            }
+                        }
+
+                    }
 
                 }
                 else

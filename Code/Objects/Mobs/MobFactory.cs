@@ -13,7 +13,7 @@ namespace TheEternalOne.Code.Objects.Mobs
             Fighter fighter = new Fighter(hp : 3, pow : 1, arm : 0, xp : 1);
             GameObject gameObject = new GameObject(x, y, "pawn", 115, 100, -20, -20);
 
-            gameObject.Name = "Trash Mob";
+            gameObject.Name = "Pawn";
             gameObject.Fighter = fighter;
             gameObject.AI = new BasicAI();
 

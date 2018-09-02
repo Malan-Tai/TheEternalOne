@@ -610,3 +610,189 @@
 /processorParam:TextureFormat=Color
 /build:background.png
 
+#begin SFX_Bash_Shield_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Bash_Shield_01.wav
+
+#begin SFX_Whoosh_Sword_04.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Whoosh_Sword_04.wav
+
+#begin SFX_Whoosh_Sword_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Whoosh_Sword_03.wav
+
+#begin SFX_Whoosh_Sword_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Whoosh_Sword_02.wav
+
+#begin SFX_Whoosh_Sword_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Whoosh_Sword_01.wav
+
+#begin HUD_Back_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:HUD_Back_01.wav
+
+#begin HUD_Mouseover_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:HUD_Mouseover_01.wav
+
+#begin HUD_Click_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:HUD_Click_01.wav
+
+#begin SFX_Open_Map_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Open_Map_01.wav
+
+#begin SFX_Take_Ojbect_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Take_Ojbect_02.wav
+
+#begin SFX_Take_Ojbect_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Take_Ojbect_01.wav
+
+#begin SFX_Drop_Ojbect_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Drop_Ojbect_02.wav
+
+#begin SFX_Drop_Ojbect_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Drop_Ojbect_01.wav
+
+#begin SFX_UnEquip_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_UnEquip_03.wav
+
+#begin SFX_UnEquip_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_UnEquip_02.wav
+
+#begin SFX_UnEquip_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_UnEquip_01.wav
+
+#begin SFX_Equip_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Equip_03.wav
+
+#begin SFX_Equip_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Equip_02.wav
+
+#begin SFX_Equip_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Equip_01.wav
+
+#begin SFX_Potion_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Potion_01.wav
+
+#begin SFX_Teleport_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Teleport_03.wav
+
+#begin SFX_Teleport_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Teleport_02.wav
+
+#begin SFX_Teleport_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Teleport_01.wav
+
+#begin SFX_Health_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Health_03.wav
+
+#begin SFX_Health_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Health_02.wav
+
+#begin SFX_Health_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Health_01.wav
+
+#begin SFX_Fireball_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Fireball_03.wav
+
+#begin SFX_Fireball_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Fireball_02.wav
+
+#begin SFX_Fireball_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Fireball_01.wav
+
+#begin SFX_Bash_Shield_03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Bash_Shield_03.wav
+
+#begin SFX_Bash_Shield_02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX_Bash_Shield_02.wav
+

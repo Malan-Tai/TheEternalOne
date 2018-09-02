@@ -569,7 +569,7 @@ namespace TheEternalOne.Code.ProcGen.MapGen
 
         static public GameObject MakeStairs(int x, int y)
         {
-            GameObject gObj = new GameObject(x, y, "stairs_placeholder", 100, 100);
+            GameObject gObj = new GameObject(x, y, "stairs", 100, 100);
             gObj.Name = "Stairs";
             gObj.isStairs = true;
             return gObj;

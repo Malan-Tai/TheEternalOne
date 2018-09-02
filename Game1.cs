@@ -39,7 +39,7 @@ namespace TheEternalOne
             "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder", "hero", "pawn", "wall_down", "wall_down_up", "wall_left",
             "wall_left_down", "wall_left_down_corner", "wall_left_down_up", "wall_left_up", "wall_left_up_corner", "wall_right", "wall_right_down", "wall_right_down_corner",
             "wall_right_down_up", "wall_right_left", "wall_right_left_down", "wall_right_left_up", "wall_right_up", "wall_right_up_corner", "wall_up", "floor_tile", "stairs_placeholder", "background_placeholder", "logo_placeholder",
-            "healthPotion", "manaPotion", "magicAmulet", "sword", "shield", "armor", "tower"};
+            "healthPotion", "manaPotion", "magicAmulet", "sword", "shield", "armor", "tower", "stairs", "background"};
 
         public static Dictionary<string, Song> songDict = new Dictionary<string, Song>();
         private static List<string> allSongs = new List<string> { "M_Menu_Goth_Loop_01", "M_Goth_Loop_01" };
@@ -284,7 +284,7 @@ namespace TheEternalOne
         public void DrawGameOver(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(textureDict["background_placeholder"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
+            spriteBatch.Draw(textureDict["background"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
 
             int GameOverY = (int)(LOGO_Y * GLOBAL_SIZE_MOD / 100);
             Vector2 GameOverDimensions = Font32pt.MeasureString("Game Over");
@@ -303,13 +303,13 @@ namespace TheEternalOne
         public void DrawMainMenu(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(textureDict["background_placeholder"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
+            spriteBatch.Draw(textureDict["background"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
 
             int actualLogoY = (int)(LOGO_Y * GLOBAL_SIZE_MOD / 100);
             int actualLogoWidth = (int)(LOGO_WIDTH * GLOBAL_SIZE_MOD / 100);
             int actualLogoHeight = (int)(LOGO_HEIGHT * GLOBAL_SIZE_MOD / 100);
 
-            spriteBatch.Draw(textureDict["logo_placeholder"], new Microsoft.Xna.Framework.Rectangle((int)((WIDTH - actualLogoWidth) / 2), actualLogoY, actualLogoWidth, actualLogoHeight), Microsoft.Xna.Framework.Color.White);
+            //spriteBatch.Draw(textureDict["logo_placeholder"], new Microsoft.Xna.Framework.Rectangle((int)((WIDTH - actualLogoWidth) / 2), actualLogoY, actualLogoWidth, actualLogoHeight), Microsoft.Xna.Framework.Color.White);
 
             Microsoft.Xna.Framework.Color[] SelectedColors = new Microsoft.Xna.Framework.Color[2]
             {

@@ -124,7 +124,7 @@ namespace TheEternalOne.Code.GUI
                 Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, CurrentEffects[1].Name, Font32pt, Color.White, spriteBatch);
             }
 
-            if (CurrentEffects.Count > 2)
+            if (CurrentEffects.Count >= 2)
             {
                 Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, CurrentEffects[2].Name, Font32pt, Color.White, spriteBatch);
             }
@@ -135,7 +135,7 @@ namespace TheEternalOne.Code.GUI
             {
                 Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, CurrentEffects[1].Description, Font18pt, Color.White, spriteBatch);
             }
-            if (CurrentEffects.Count > 2)
+            if (CurrentEffects.Count >= 2)
             {
                 Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, CurrentEffects[2].Description, Font18pt, Color.White, spriteBatch);
             }
@@ -162,7 +162,7 @@ namespace TheEternalOne.Code.GUI
             Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch, out firstSelectPos);
             Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch, out secondSelectPos);
             Vector2 measuredString = Font32pt.MeasureString("Choose");
-            if (CurrentEffects.Count > 2)
+            if (CurrentEffects.Count >= 2)
             {
                 Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch, out thirdSelectPos);
                 Choice3Select = new Rectangle((int)thirdSelectPos.X, (int)thirdSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);

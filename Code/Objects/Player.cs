@@ -51,7 +51,7 @@ namespace TheEternalOne.Code.Objects
 
         public bool FreeTP = false;
 
-        const int MANA_REGEN = 3;
+        const int MANA_REGEN = 5;
         int manaRegen = MANA_REGEN;
 
         public Player(int mp)
@@ -176,14 +176,14 @@ namespace TheEternalOne.Code.Objects
                     GameManager.LogWarning("You cannot heal yourself anymore !");
                 }
             }
-            else if (spell == "Teleport" && (MP >= 1 || FreeTP) && !GameManager.Map[x, y].IsBlocked)
+            else if (spell == "Teleport" && (MP >= 2 || FreeTP) && !GameManager.Map[x, y].IsBlocked)
             {
                 Console.Out.WriteLine(FreeTP);
                 if (CanTPSpell || FreeTP)
                 {
                     if (!FreeTP)
                     {
-                        MP -= 1;
+                        MP -= 2;
                     }
                     else
                     {

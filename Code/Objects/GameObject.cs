@@ -107,6 +107,8 @@ namespace TheEternalOne.Code.Objects
         public int textureWidth;
         public int textureHeight;
 
+        public bool isStairs = false;
+
         int textureOffsetX;
         int textureOffsetY;
 

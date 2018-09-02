@@ -95,7 +95,7 @@ namespace TheEternalOne.Code.GUI
                 }
                 else if (i == 4)
                 {
-                    desc = new List<string> { "Teleport to target free", "tile.", "(1 MP)" };
+                    desc = new List<string> { "Teleport to target free", "tile.", "(2 MP)" };
                 }
 
                 for (int j = 0; j < desc.Count; j++)

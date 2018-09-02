@@ -530,6 +530,14 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             }
         }
 
+        static public GameObject MakeStairs(int x, int y)
+        {
+            GameObject gObj = new GameObject(x, y, "stairs_placeholder", 100, 100);
+            gObj.Name = "Stairs";
+            gObj.isStairs = true;
+            return gObj;
+        }
+
         static public Tile[,] MakeTunnelMap(bool doors, int roomNumber = 15, int minSize = 6, int maxSize = 17)
         {
             currentMap = Map.Map.InitMap(true);
@@ -607,6 +615,8 @@ namespace TheEternalOne.Code.ProcGen.MapGen
 
             Room lastRoom = rooms[rooms.Length - 1];
             GameManager.StartPosition = new Coord((int)lastRoom.Center.X, (int)lastRoom.Center.Y);
+            Room firstRoom = rooms[0];
+            GameManager.Objects.Add(MakeStairs((int)firstRoom.Center.X, (int)firstRoom.Center.Y));
             PlaceMobs(currentMap);
             PlaceItems(currentMap);
 

@@ -205,6 +205,17 @@ namespace TheEternalOne
                         GameManager.PlayerObject.Player.DisplayInventory();
                     }
 
+                    if (KeyboardState.IsKeyDown(Keys.Space) && !PreviousKeyboardState.IsKeyDown(Keys.Space))
+                    {
+                        foreach (GameObject obj in GameManager.Objects)
+                        {
+                            if (obj.isStairs && obj.Position.x == GameManager.PlayerObject.Position.x && obj.Position.y == GameManager.PlayerObject.Position.y)
+                            {
+                                GameManager.NextFloor();
+                            }
+                        }
+                    }
+
 
                     if (KeyboardState.IsKeyDown(Keys.E) && !PreviousKeyboardState.IsKeyDown(Keys.E))
                     {

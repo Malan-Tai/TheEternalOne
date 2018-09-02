@@ -25,6 +25,8 @@ namespace TheEternalOne.Code.Objects
         public int MaxMP { get; set; }
         public int MP { get; set; }
 
+        public int Rerolls { get; set; }
+
         public GameObject Owner { get; set; }
 
         public List<string> Spells;
@@ -55,6 +57,8 @@ namespace TheEternalOne.Code.Objects
             FireballDmg = 1;
             HealPower = 1;
             ShieldPower = 1;
+
+            Rerolls = 2;
 
             MaxMP = mp;
             MP = mp;

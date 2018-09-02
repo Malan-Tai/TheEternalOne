@@ -31,6 +31,7 @@ namespace TheEternalOne.Code.GUI
         public static Rectangle? Choice1Select;
         public static Rectangle? Choice2Select;
         public static Rectangle? Choice3Select;
+        public static Rectangle? RerollSelect;
 
         public static int SelectedIndex = -1;
 
@@ -56,8 +57,8 @@ namespace TheEternalOne.Code.GUI
         {
             spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Black);
             DrawStringCentered(0, "The end ?", Font32pt, Color.White, spriteBatch);
-            Vector2 firstStringSize = DrawStringCentered(FIRST_Y, "The wounds you have been inflicted would have been more than enough to kill any mere mortal.", Font18pt, Color.White, spriteBatch);
-            int secondStringY = FIRST_Y + (int)firstStringSize.Y + ADDITIONAL_Y_MARGIN;
+            Vector2 firstStringSize = DrawStringCentered((int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD / 100), "The wounds you have been inflicted would have been more than enough to kill any mere mortal.", Font18pt, Color.White, spriteBatch);
+            int secondStringY = (int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD /100) + (int)firstStringSize.Y + ADDITIONAL_Y_MARGIN;
             Vector2 secondStringSize = DrawStringCentered(secondStringY, "But fortunately, thanks to the contract you passed with the devil before entering the dungeon, you are now immortal.", Font18pt, Color.White, spriteBatch);
             int thirdStringY = secondStringY + (int)secondStringSize.Y + ADDITIONAL_Y_MARGIN;
             Vector2 thirdStringSize = DrawStringCentered(thirdStringY, "However, each time you regenerate from otherwise fatal wounds, you must pay a dire price...", Font18pt, Color.White, spriteBatch);
@@ -71,33 +72,43 @@ namespace TheEternalOne.Code.GUI
             Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, "Choice 3", Font32pt, Color.White, spriteBatch);
 
             int startDescY = startChoicesY + (int)firstChoiceTitleSize.Y + DESC_Y_MARGIN;
-            Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, "This is the first choice description and it is quite long to test stuff.", Font26pt, Color.White, spriteBatch);
-            Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, "This is the second choice description and it is quite long to test stuff.", Font26pt, Color.White, spriteBatch);
-            Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, "This is the third choice description and it is quite long to test stuff.", Font26pt, Color.White, spriteBatch);
+            Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, "This is the first choice description and it is quite long to test stuff.", Font18pt, Color.White, spriteBatch);
+            Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, "This is the second choice description and it is quite long to test stuff.", Font18pt, Color.White, spriteBatch);
+            Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, "This is the third choice description and it is quite long to test stuff.", Font18pt, Color.White, spriteBatch);
 
-            int startSelectY = startDescY + (int)firstChoiceDescSize.Y + DESC_Y_MARGIN;
+            int startSelectY = startDescY + Math.Max(Math.Max((int)firstChoiceDescSize.Y, (int)secondChoiceDescSize.Y), (int)thirdChoiceDescSize.Y) + DESC_Y_MARGIN;
 
-            Color[] selectColors = new Color[3]
+            Color[] selectColors = new Color[4]
             {
                 Color.White,
                 Color.White,
                 Color.White,
+                Color.White
             };
 
-            if (SelectedIndex > -1 && SelectedIndex < 4)
+            if (SelectedIndex > -1 && SelectedIndex < 5)
             {
                 selectColors[SelectedIndex] = Color.Yellow;
             }
 
 
-            Vector2 firstSelectDescSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch);
-            Vector2 secondSelectDescSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch);
-            Vector2 thirdSelectDescSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch);
+            Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch);
+            Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch);
+            Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch);
 
             Vector2 measuredString = Font32pt.MeasureString("Choose");
-            Choice1Select = new Rectangle((int)((firstBorder - measuredString.X) / 2) + 0, startSelectY, (int)measuredString.X, (int)measuredString.Y);
-            Choice2Select = new Rectangle((int)((secondBorder - firstBorder - measuredString.X) / 2) + firstBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
-            Choice3Select = new Rectangle((int)((WIDTH - secondBorder - measuredString.X) / 2) + secondBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice1Select = new Rectangle((int)(((firstBorder - measuredString.X) / 2)*(Game1.GLOBAL_SIZE_MOD / 100)) + 0, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice2Select = new Rectangle((int)(((secondBorder - firstBorder - measuredString.X) / 2) * (Game1.GLOBAL_SIZE_MOD / 100)) + firstBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            Choice3Select = new Rectangle((int)(((WIDTH - secondBorder - measuredString.X) / 2) * (Game1.GLOBAL_SIZE_MOD / 100)) + secondBorder, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+
+            int startRerollY = startSelectY + (int)firstSelectSize.Y + CHOICES_Y_MARGIN + DESC_Y_MARGIN;
+            Vector2 firstRerollSize = DrawStringCentered(startRerollY, "If you like neither of these three choices, you may choose to reroll them so as to get three new random choices", Font18pt, Color.White, spriteBatch);
+            int secondRerollY = startRerollY + (int)firstRerollSize.Y + ADDITIONAL_Y_MARGIN;
+            Vector2 secondRerollSize = DrawStringCentered(secondRerollY, "However, the number of rerolls you are allowed is limited and does not reset between ressurections. You should therefore use them with extreme caution", Font18pt, Color.White, spriteBatch);
+            int thirdRerollY = secondRerollY + (int)secondRerollSize.Y + ADDITIONAL_Y_MARGIN;
+            Vector2 thirdRerollSize = DrawStringCentered(thirdRerollY, "Rerolls left : " + GameManager.PlayerObject.Player.Rerolls.ToString(), Font18pt, Color.White, spriteBatch);
+
+
         }
 
         public static Vector2 DrawStringInDeathScreen(int x, int y, string text, SpriteFont font, Color color, SpriteBatch spriteBatch)

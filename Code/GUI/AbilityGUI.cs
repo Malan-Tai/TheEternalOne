@@ -91,19 +91,47 @@ namespace TheEternalOne.Code.GUI
                 List<string> desc = new List<string> { "" };
                 if (i == 0)
                 {
-                    desc = new List<string> { "Hit target adjacent", "enemy for " + Math.Max(0, player.Fighter.Power + PowerBonus).ToString() + " damage." };
+                    if (GameManager.PlayerObject.Player.CanMelee)
+                    {
+                        desc = new List<string> { "Hit target adjacent", "enemy for " + Math.Max(0, player.Fighter.Power + PowerBonus).ToString() + " damage." };
+                    }
+                    else
+                    {
+                        desc = new List<string> { "DISABLED" };
+                    }
                 }
                 else if (i == 1)
                 {
-                    desc = new List<string> { "Gain " + Math.Max(0, player.Player.ShieldPower + ShieldBonus).ToString() + " armor and push", "target adjacent enemy", "away." };
+                    if (GameManager.PlayerObject.Player.CanShield)
+                    {
+                        desc = new List<string> { "Gain " + Math.Max(0, player.Player.ShieldPower + ShieldBonus).ToString() + " armor and push", "target adjacent enemy", "away." };
+                    }
+                    else
+                    {
+                        desc = new List<string> { "DISABLED" };
+                    }
                 }
                 else if (i == 2)
                 {
-                    desc = new List<string> { "Shoot target enemy for", Math.Max(0, player.Player.FireballDmg + FireballBonus).ToString() + " damage.", "(5 MP)" };
+                    if (GameManager.PlayerObject.Player.CanRanged)
+                    {
+                        desc = new List<string> { "Shoot target enemy for", Math.Max(0, player.Player.FireballDmg + FireballBonus).ToString() + " damage.", "(5 MP)" };
+                    }
+                    else
+                    {
+                        desc = new List<string> { "DISABLED" };
+                    }
                 }
                 else if (i == 3)
                 {
-                    desc = new List<string> { "Heal yourself for " + Math.Max(0, player.Player.HealPower + HealBonus).ToString() + " HP.", "(3 MP)" };
+                    if (GameManager.PlayerObject.Player.CanHealSpell)
+                    {
+                        desc = new List<string> { "Heal yourself for " + Math.Max(0, player.Player.HealPower + HealBonus).ToString() + " HP.", "(3 MP)" };
+                    }
+                    else
+                    {
+                        desc = new List<string> { "DISABLED" };
+                    }
                 }
                 else if (i == 4)
                 {
@@ -112,8 +140,17 @@ namespace TheEternalOne.Code.GUI
 
                 for (int j = 0; j < desc.Count; j++)
                 {
+                    Color textColor;
+                    if (desc[j] == "DISABLED")
+                    {
+                        textColor = Color.Red;
+                    }
+                    else
+                    {
+                        textColor = borderColor;
+                    }
                     pos = new Vector2(x + 15, y + i * GameManager.AbilityHeight + i * 5 + 50 + j * 20);
-                    spriteBatch.DrawString(Game1.Font, desc[j], pos, borderColor);
+                    spriteBatch.DrawString(Game1.Font, desc[j], pos, textColor);
                 }
             }
         }

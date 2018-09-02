@@ -284,5 +284,11 @@ namespace TheEternalOne.Code.Objects
             }
             if (dieOnEffectsEnd && Effects.Count <= 0) GameManager.ToRemove.Add(this);
         }
+
+        public void AddEffect(Game.Effect effect)
+        {
+            effect.Offset = 30 * Effects.Count;
+            Effects.Add(effect);
+        }
     }
 }

@@ -116,6 +116,8 @@ namespace TheEternalOne.Code.Objects
                 {
                     int ActualShield = Math.Max(0, ShieldPower + ShieldBonus);
                     fighter.Armor += ActualShield;
+                    Effect effect = new Effect("+" + ActualShield.ToString(), Color.SaddleBrown, "Shield_GUI");
+                    Owner.AddEffect(effect);
                     if (Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
                     {
                         foreach (GameObject obj in GameManager.Objects)
@@ -168,7 +170,7 @@ namespace TheEternalOne.Code.Objects
                     {
                         MP -= 3;
                         Effect effect = new Effect("+" + healed.ToString(), Color.DarkGreen);
-                        Owner.Effects.Add(effect);
+                        Owner.AddEffect(effect);
                     }
                 }
                 else
@@ -256,9 +258,29 @@ namespace TheEternalOne.Code.Objects
             manaRegen--;
             if (manaRegen <= 0)
             {
+                int prevMana = MP;
                 MP = Math.Min(MaxMP, MP + 1);
                 manaRegen = MANA_REGEN;
+
+                int regened = MP - prevMana;
+                if (regened > 0)
+                {
+                    Effect effect = new Effect("+" + regened.ToString(), Color.Blue, "MP_GUI");
+                    Owner.AddEffect(effect);
+                }
 			}
+
+            Owner.Fighter.Armor = 0;
+            foreach (GameObject obj in GetAllEquipped())
+            {
+                Owner.Fighter.Armor += obj.Equipment.Armor;
+            }
+            int shielded = Owner.Fighter.Armor;
+            if (shielded > 0)
+            {
+                Effect effect = new Effect("+" + shielded.ToString(), Color.SaddleBrown, "Shield_GUI");
+                Owner.AddEffect(effect);
+            }
 		}
 
         public List<GameObject> GetAllEquipped()

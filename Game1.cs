@@ -119,6 +119,7 @@ namespace TheEternalOne
 
             if (kbState == "move" || kbState == "pickup" || msState == "cast" || msState == "pickup")
             {
+                
                 foreach (GameObject obj in GameManager.Objects)
                 {
                     if (obj.AI != null && obj.Fighter.HP > 0)

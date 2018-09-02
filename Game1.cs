@@ -128,12 +128,12 @@ namespace TheEternalOne
                 }
 
                 GameManager.PlayerObject.Player.UpdateTurn();
-                InputManager.SelectedSpellIndex = -1;
+                //InputManager.SelectedSpellIndex = -1;
                 if (GameManager.Started && GameManager.ActiveMessage != null)
                 {
                     if (GameManager.ActiveMessage.Content == "Click on a tile to teleport to")
                     {
-                        GameManager.ActiveMessage = null;
+                        //GameManager.ActiveMessage = null;
                     }
                 }
             }

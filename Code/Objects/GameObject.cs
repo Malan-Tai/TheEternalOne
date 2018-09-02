@@ -158,7 +158,7 @@ namespace TheEternalOne.Code.Objects
                 else
                 {
                     Position = new Coord(Position.x + dx, Position.y + dy);
-                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    //Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
                     BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
                 }
             }
@@ -187,7 +187,7 @@ namespace TheEternalOne.Code.Objects
                 else
                 {
                     Position = new Coord(nx, ny);
-                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    //Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
                     BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
                 }
             }
@@ -218,7 +218,7 @@ namespace TheEternalOne.Code.Objects
                 else
                 {
                     Position = new Coord(nx, ny);
-                    Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
+                    //Console.Out.WriteLine(x.ToString() + ";" + y.ToString());
                     BigPos = new Coord(Position.x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), Position.y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
                 }
             }

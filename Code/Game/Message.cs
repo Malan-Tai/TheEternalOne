@@ -17,7 +17,7 @@ namespace TheEternalOne.Code.Game
             this.Content = text;
             this.Color = color;
 
-            Console.Out.WriteLine(text);
+            //Console.Out.WriteLine(text);
         }
     }
 }

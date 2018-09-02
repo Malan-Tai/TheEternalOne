@@ -122,7 +122,10 @@ namespace TheEternalOne.Code.Objects
                         {
                             if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
                             {
-                                obj.Move(x - Owner.x, y - Owner.y);
+                                int dx = x - Owner.x;
+                                int dy = y - Owner.y;
+                                obj.Move(dx, dy);
+                                obj.Move(dx, dy);
                                 break;
                             }
                         }
@@ -175,6 +178,7 @@ namespace TheEternalOne.Code.Objects
             }
             else if (spell == "Teleport" && (MP >= 1 || FreeTP) && !GameManager.Map[x, y].IsBlocked)
             {
+                Console.Out.WriteLine(FreeTP);
                 if (CanTPSpell || FreeTP)
                 {
                     if (!FreeTP)
@@ -195,8 +199,8 @@ namespace TheEternalOne.Code.Objects
                     GameManager.LogWarning("You cannot teleport anymore !");
                 }
             }
-            InputManager.SelectedSpellIndex = -1;
-            GameManager.ActiveMessage = null;
+            //InputManager.SelectedSpellIndex = -1;
+            //GameManager.ActiveMessage = null;
         }
 
         public void UpgradeSpell(int i)

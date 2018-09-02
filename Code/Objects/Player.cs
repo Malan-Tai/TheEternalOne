@@ -103,7 +103,7 @@ namespace TheEternalOne.Code.Objects
                 foreach (GameObject obj in GameManager.Objects)
                 {
                     if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
-                    {
+                    { 
                         Owner.Fighter.Attack(obj.Fighter);
                         break;
                     }
@@ -114,6 +114,7 @@ namespace TheEternalOne.Code.Objects
             {
                 if (CanShield)
                 {
+                    Game1.PlaySFX("SFX_Bash_Shield_01");
                     int ActualShield = Math.Max(0, ShieldPower + ShieldBonus);
                     fighter.Armor += ActualShield;
                     Effect effect = new Effect("+" + ActualShield.ToString(), Color.SaddleBrown, "Shield_GUI");
@@ -142,6 +143,7 @@ namespace TheEternalOne.Code.Objects
             {
                 if (CanRanged)
                 {
+                    Game1.PlaySFX("SFX_Fireball_01");
                     int ActualFireball = Math.Max(0, FireballDmg + FireballBonus);
                     MP -= 5;
                     foreach (GameObject obj in GameManager.Objects)
@@ -162,6 +164,7 @@ namespace TheEternalOne.Code.Objects
             {
                 if (CanHealSpell)
                 {
+                    Game1.PlaySFX("SFX_Health_01");
                     int prevHP = fighter.HP;
                     int ActualHealPower = Math.Max(0, HealPower + HealBonus);
                     fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + ActualHealPower);
@@ -192,6 +195,7 @@ namespace TheEternalOne.Code.Objects
                         FreeTP = false;
                     }
 
+                    Game1.PlaySFX("SFX_Teleport_01");
                     Owner.Position = new Coord(x, y);
                     Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
                     Owner.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));

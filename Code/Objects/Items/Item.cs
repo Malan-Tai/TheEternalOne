@@ -36,6 +36,7 @@ namespace TheEternalOne.Code.Objects.Items
         {
             if (GameManager.PlayerObject.Player.Inventory.Count < Player.MAX_INVENTORY_SLOTS && GameManager.PlayerObject.Player.CanPickUp)
             {
+                Game1.PlaySFX("SFX_Take_Ojbect_01");
                 if (Stackable)
                 {
                     GameObject found = GameManager.PlayerObject.Player.FindObjectInInventory(Name);
@@ -70,6 +71,7 @@ namespace TheEternalOne.Code.Objects.Items
             {
                 if (GameManager.PlayerObject.Player.CanDrop)
                 {
+                    Game1.PlaySFX("SFX_Drop_Ojbect_01");
                     Owner.Position.x = GameManager.PlayerObject.Position.x;
                     Owner.Position.y = GameManager.PlayerObject.Position.y;
                     GameManager.PlayerObject.Player.Inventory.Remove(Owner);

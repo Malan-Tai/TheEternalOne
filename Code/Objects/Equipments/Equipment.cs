@@ -64,6 +64,7 @@ namespace TheEternalOne.Code.Objects.Equipments
                     if (GameManager.PlayerObject.Player.Equipment[Slot] == null)
                     {
                         GameManager.PlayerObject.Player.Equipment[Slot] = Owner;
+                        Game1.PlaySFX("SFX_Equip_01");
                         return true;
                     }
                     else
@@ -79,6 +80,7 @@ namespace TheEternalOne.Code.Objects.Equipments
                         if (GameManager.PlayerObject.Player.Trinkets[i] == null)
                         {
                             GameManager.PlayerObject.Player.Trinkets[i] = Owner;
+                            Game1.PlaySFX("SFX_Equip_01");
                             return true;
                         }
                     }
@@ -102,6 +104,7 @@ namespace TheEternalOne.Code.Objects.Equipments
                 {
                     GameManager.PlayerObject.Player.Equipment[Slot] = null;
                     GameManager.PlayerObject.Player.Inventory.Add(Owner);
+                    Game1.PlaySFX("SFX_UnEquip_01");
                     return true;
                 }
                 else
@@ -112,6 +115,7 @@ namespace TheEternalOne.Code.Objects.Equipments
                         {
                             GameManager.PlayerObject.Player.Trinkets[i] = null;
                             GameManager.PlayerObject.Player.Inventory.Add(Owner);
+                            Game1.PlaySFX("SFX_UnEquip_01");
                             return true;
                         }
                     }

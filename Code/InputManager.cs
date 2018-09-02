@@ -226,6 +226,7 @@ namespace TheEternalOne
                     {
                         if (GameManager.PlayerObject.Player.CanMap)
                         {
+                            Game1.PlaySFX("SFX_Open_Map_01");
                             mapOpen = !mapOpen;
                         }
                     }

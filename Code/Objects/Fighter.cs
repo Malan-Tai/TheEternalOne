@@ -52,7 +52,10 @@ namespace TheEternalOne.Code.Objects
             bool canAttack = (Owner.Player == null || Owner.Player.CanMelee);
             if (canAttack)
             {
-                
+                if (Owner.Player != null)
+                {
+                    Game1.PlaySFX("SFX_Whoosh_Sword_01");
+                }
                 other.TakeDamage(ActualPower);
               
                 if (other.Owner.Player != null)

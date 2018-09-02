@@ -22,6 +22,7 @@ namespace TheEternalOne.Code.Objects.Items
         {
             if (GameManager.PlayerObject.Player.CanDrink)
             {
+                Game1.PlaySFX("SFX_Potion_01");
                 int prevMana = GameManager.PlayerObject.Player.MP;
                 GameManager.PlayerObject.Player.MP = Math.Min(GameManager.PlayerObject.Player.MaxMP, GameManager.PlayerObject.Player.MP + POTION_REGEN);
 

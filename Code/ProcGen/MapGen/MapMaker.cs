@@ -404,6 +404,11 @@ namespace TheEternalOne.Code.ProcGen.MapGen
 
         public static void PlaceMobs(Tile[,] map)
         {
+            Dictionary<string, int> MobChances = new Dictionary<string, int>
+            {
+                {"Pawn", 70 },
+                {"Tower", 30 }
+            };
             for (int i= 0; i < TRASH_MOB_NUMBER; i++)
             {
                 bool foundSuitablePosition = false;
@@ -436,7 +441,15 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                 }
                 if (foundSuitablePosition)
                 {
-                    GameManager.Objects.Add(MobFactory.CreateBasicTrashMob(x, y));
+                    string chosen = RandomChoice(MobChances);
+                    if (chosen == "Pawn")
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateBasicTrashMob(x, y));
+                    }
+                    else if (chosen == "Tower")
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateTower(x, y));
+                    }
                 }
             }
         }

@@ -82,6 +82,7 @@
     <Compile Include="Code\Objects\Mobs\I_AI.cs" />
     <Compile Include="Code\Objects\Mobs\MobFactory.cs" />
     <Compile Include="Code\Objects\Mobs\StaticAI.cs" />
+    <Compile Include="Code\Objects\Mobs\TowerAI.cs" />
     <Compile Include="Code\Objects\Player.cs" />
     <Compile Include="Code\ProcGen\MapGen\MapMaker.cs" />
     <Compile Include="Code\Utils\Dice.cs" />

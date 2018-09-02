@@ -238,7 +238,7 @@ namespace TheEternalOne
 
                     if (KeyboardState.IsKeyDown(Keys.F2) && !PreviousKeyboardState.IsKeyDown(Keys.F2))
                     {
-                        GameManager.Objects.Add(MobFactory.CreateTower(GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y - 1));
+                        //GameManager.Objects.Add(MobFactory.CreateTower(GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y - 1));
                     }
 
                     PreviousKeyboardState = KeyboardState;

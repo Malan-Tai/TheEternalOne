@@ -18,6 +18,8 @@ namespace TheEternalOne.Code.Objects
         public Coord OffsetPos { get; set; }
         public Coord BigPos { get; set; }
 
+        public int Speed = 1;
+
         public List<Game.Effect> Effects { get; set; }
 
         public int x
@@ -271,7 +273,7 @@ namespace TheEternalOne.Code.Objects
                 if (OffsetPos.y < BigPos.y) dy = 5;
                 else if (OffsetPos.y > BigPos.y) dy = -5;
 
-                OffsetPos = new Coord(OffsetPos.x + dx, OffsetPos.y + dy);
+                OffsetPos = new Coord(OffsetPos.x + (dx * Speed) , OffsetPos.y + (dy * Speed));
             }
 
             List<Game.Effect> toRemove = new List<Game.Effect>();

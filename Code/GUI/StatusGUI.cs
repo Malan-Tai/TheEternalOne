@@ -43,7 +43,7 @@ namespace TheEternalOne.Code.GUI
 
             string HPtext = "HP: " + player.Fighter.HP.ToString() + " / " + player.Fighter.MaxHP.ToString();
             Vector2 HPpos = new Vector2(2 * x + width, y);
-            spriteBatch.DrawString(Game1.Font, HPtext, HPpos, Color.DarkRed);
+            spriteBatch.DrawString(Game1.Font, HPtext, HPpos, Color.Red);
 
             spriteBatch.Draw(textureShield, new Rectangle(x, 2 * y + width, width, width), Color.White);
 
@@ -55,7 +55,7 @@ namespace TheEternalOne.Code.GUI
 
             string MPtext = "MP: " + player.Player.MP.ToString() + " / " + player.Player.MaxMP.ToString();
             Vector2 MPpos = new Vector2(2 * x + width, 3 * y + 2 * width);
-            spriteBatch.DrawString(Game1.Font, MPtext, MPpos, Color.DarkBlue);
+            spriteBatch.DrawString(Game1.Font, MPtext, MPpos, Color.Blue);
 
             //spriteBatch.Draw(textureXP, new Rectangle(x, 4 * y + 3 * width, width, width), Color.White);
 

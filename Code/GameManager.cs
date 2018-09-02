@@ -71,7 +71,7 @@ namespace TheEternalOne.Code
 
             miniMap = new MiniMap(30, 20, Map);
 
-            PlayerObject = new GameObject(StartPosition.x, StartPosition.y, "white", 100, 100);
+            PlayerObject = new GameObject(StartPosition.x, StartPosition.y, "hero", 120, 200, -40, -120);
             PlayerObject.Player = new Player(10);
             PlayerObject.Player.Owner = PlayerObject;
             PlayerObject.Fighter = new Fighter(10, 3, 0, 0);

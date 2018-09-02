@@ -107,9 +107,12 @@ namespace TheEternalOne.Code.Objects
         public int textureWidth;
         public int textureHeight;
 
+        int textureOffsetX;
+        int textureOffsetY;
+
         public bool dieOnEffectsEnd = false;
 
-        public GameObject(int x, int y, string textureString, int textureW, int textureH)
+        public GameObject(int x, int y, string textureString, int textureW, int textureH, int textureX = 0, int textureY = 0)
         {
             this.Position = new Coord(x, y);
             this.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
@@ -118,6 +121,9 @@ namespace TheEternalOne.Code.Objects
             texture = Game1.textureDict[textureString];
             textureWidth = textureW;
             textureHeight = textureH;
+
+            textureOffsetX = (int)(textureX * Game1.GLOBAL_SIZE_MOD / 100f);
+            textureOffsetY = (int)(textureY * Game1.GLOBAL_SIZE_MOD / 100f);
 
             Effects = new List<Game.Effect>();
         }
@@ -233,8 +239,8 @@ namespace TheEternalOne.Code.Objects
                 offsetY = OffsetPos.y - BigPos.y - GameManager.PlayerObject.OffsetPos.y + GameManager.PlayerObject.BigPos.y;
             }
 
-            int x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX;
-            int y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY; //- GameManager.feetOffset  ;
+            int x = (GameManager.screenPlayerX + Position.x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapX + (GameManager.TileWidth - textureWidth) * (int)(Game1.GLOBAL_SIZE_MOD / 100) / 2 + offsetX + textureOffsetX;
+            int y = (GameManager.screenPlayerY + Position.y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100) + GameManager.DrawMapY + (GameManager.TileWidth - textureHeight) * (int)(Game1.GLOBAL_SIZE_MOD / 100) + offsetY + textureOffsetY; //- GameManager.feetOffset  ;
 
             //Vector2 position = new Vector2(x ?? default(int), y ?? default(int)); // The statement var1 = var2 ?? var3 assigns the value var2 to var1 if var2 is not null, otherwise it assigns var3.
 

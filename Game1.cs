@@ -28,7 +28,9 @@ namespace TheEternalOne
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
         private static List<string> allTextures = new List<string> { "tile50x50", "white", "wall", "big_target", "HP_GUI", "MP_GUI", "XP_GUI", "Shield_GUI", "basicenemy_placeholder",
-                                                                    "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder" };
+            "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder", "hero", "pawn", "wall_down", "wall_down_up", "wall_left",
+            "wall_left_down", "wall_left_down_corner", "wall_left_down_up", "wall_left_up", "wall_left_up_corner", "wall_right", "wall_right_down", "wall_right_down_corner",
+            "wall_right_down_up", "wall_right_left", "wall_right_left_down", "wall_right_left_up", "wall_right_up", "wall_right_up_corner", "wall_up", "floor_tile" };
 
         public static SpriteFont Font;
         public static SpriteFont Font32pt;
@@ -178,7 +180,7 @@ namespace TheEternalOne
 
             foreach (GameObject obj in SortGameObjectsForDraw(GameManager.Objects))
             {
-                if (minMapX <= obj.x && obj.x <= maxMapX && minMapY <= obj.y && obj.y <= maxMapY)
+                if (minMapX <= obj.x && obj.x < maxMapX && minMapY <= obj.y && obj.y < maxMapY)
                 {
                     obj.Draw(spriteBatch, GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y);
                 }

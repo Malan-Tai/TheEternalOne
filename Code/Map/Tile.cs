@@ -23,6 +23,8 @@ namespace TheEternalOne.Code.Map
 
         public int MoveCost { get; set; }
 
+        public Texture2D texture;
+
         public Tile(int x, int y, bool blocked)
         {
             this.x = x;
@@ -35,29 +37,24 @@ namespace TheEternalOne.Code.Map
             InRoom = false;
 
             MoveCost = 0;
+            texture = null;
         }
 
         public void Draw(SpriteBatch spriteBatch, int px, int py)
         {
-            int picX = GameManager.DrawMapX + (GameManager.VisibleMapWidth / 2 + x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
-            int picY = GameManager.DrawMapY + (GameManager.VisibleMapHeight / 2 + y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
-
-            GameObject player = GameManager.PlayerObject;
-            int offsetX = -player.OffsetPos.x + player.BigPos.x;
-            int offsetY = -player.OffsetPos.y + player.BigPos.y;
-
-
-            int width = (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
-            Texture2D texture;
-            if (!Blocked)
+            if (texture != null)
             {
-                texture = Game1.textureDict["tile50x50"];
+                int picX = GameManager.DrawMapX + (GameManager.VisibleMapWidth / 2 + x - px) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                int picY = GameManager.DrawMapY + (GameManager.VisibleMapHeight / 2 + y - py) * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+
+                GameObject player = GameManager.PlayerObject;
+                int offsetX = -player.OffsetPos.x + player.BigPos.x;
+                int offsetY = -player.OffsetPos.y + player.BigPos.y;
+
+
+                int width = (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
+                spriteBatch.Draw(texture, new Rectangle(picX + offsetX, picY + offsetY, width, width), Color.White);
             }
-            else
-            {
-                texture = Game1.textureDict["wall"];
-            }
-            spriteBatch.Draw(texture, new Rectangle(picX + offsetX, picY + offsetY, width, width), Color.White);
         }
 
         public Tile[] Neighbors(ref Tile[,] map, bool cardinal)

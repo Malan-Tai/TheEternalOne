@@ -11,7 +11,7 @@ namespace TheEternalOne.Code.Objects.Mobs
         public static GameObject CreateBasicTrashMob(int x, int y)
         {
             Fighter fighter = new Fighter(hp : 5, pow : 1, arm : 0, xp : 1);
-            GameObject gameObject = new GameObject(x, y, "basicenemy_placeholder", 100, 100);
+            GameObject gameObject = new GameObject(x, y, "pawn", 115, 100, -20, -20);
 
             gameObject.Name = "Trash Mob";
             gameObject.Fighter = fighter;

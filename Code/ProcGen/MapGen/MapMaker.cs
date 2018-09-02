@@ -610,6 +610,8 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             PlaceMobs(currentMap);
             PlaceItems(currentMap);
 
+            Map.Map.UpdateTexture(currentMap);
+
             return currentMap;
         }
 

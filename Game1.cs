@@ -40,7 +40,7 @@ namespace TheEternalOne
             "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder", "hero", "pawn", "wall_down", "wall_down_up", "wall_left",
             "wall_left_down", "wall_left_down_corner", "wall_left_down_up", "wall_left_up", "wall_left_up_corner", "wall_right", "wall_right_down", "wall_right_down_corner",
             "wall_right_down_up", "wall_right_left", "wall_right_left_down", "wall_right_left_up", "wall_right_up", "wall_right_up_corner", "wall_up", "floor_tile", "stairs_placeholder", "background_placeholder", "logo_placeholder",
-            "healthPotion", "manaPotion", "magicAmulet", "sword", "shield", "armor", "tower", "stairs", "background"};
+            "healthPotion", "manaPotion", "magicAmulet", "sword", "shield", "armor", "tower", "stairs", "background", "bishop" };
 
         public static Dictionary<string, Song> songDict = new Dictionary<string, Song>();
         private static List<string> allSongs = new List<string> { "M_Menu_Goth_Loop_01", "M_Goth_Loop_01" };

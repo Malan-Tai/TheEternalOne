@@ -406,8 +406,9 @@ namespace TheEternalOne.Code.ProcGen.MapGen
         {
             Dictionary<string, int> MobChances = new Dictionary<string, int>
             {
-                {"Pawn", 70 },
-                {"Tower", 30 }
+                {"Pawn", 55 },
+                {"Tower", 30 },
+                {"Bishop", 15 }
             };
             for (int i= 0; i < TRASH_MOB_NUMBER; i++)
             {
@@ -449,6 +450,10 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                     else if (chosen == "Tower")
                     {
                         GameManager.Objects.Add(MobFactory.CreateTower(x, y));
+                    }
+                    else if (chosen == "Bishop")
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateBishop(x, y));
                     }
                 }
             }

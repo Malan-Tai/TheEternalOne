@@ -40,7 +40,7 @@ namespace TheEternalOne.Code.Objects.Mobs
             gameObject.Name = "Bishop";
             gameObject.Fighter = fighter;
             gameObject.AI = new BasicAI();
-            //fighter.Acid = true;
+            fighter.Acid = true;
 
             return gameObject;
         }

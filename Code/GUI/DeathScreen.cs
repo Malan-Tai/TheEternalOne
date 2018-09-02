@@ -153,8 +153,9 @@ namespace TheEternalOne.Code.GUI
         {
             if (!Disable)
             {
-                spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Black);
-                DrawStringCentered(0, "The end ?", Font32pt, Color.White, spriteBatch);
+                spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Silver);
+                spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100) + 5, (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100) + 5, WIDTH - 10, HEIGHT - 10), new Color(20, 20, 20));
+                DrawStringCentered(0, "The end ?", Font32pt, Color.Red, spriteBatch);
                 Vector2 firstStringSize = DrawStringCentered((int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD / 100), "The wounds you have been inflicted would have been more than enough to kill any mere mortal.", Font18pt, Color.White, spriteBatch);
                 int secondStringY = (int)(FIRST_Y * Game1.GLOBAL_SIZE_MOD / 100) + (int)firstStringSize.Y + ADDITIONAL_Y_MARGIN;
                 Vector2 secondStringSize = DrawStringCentered(secondStringY, "But fortunately, thanks to the contract you passed with the devil before entering the dungeon, you are now immortal.", Font18pt, Color.White, spriteBatch);
@@ -165,15 +166,15 @@ namespace TheEternalOne.Code.GUI
                 int firstBorder = (int)WIDTH / 3 * (int)Game1.GLOBAL_SIZE_MOD / 100;
                 int secondBorder = 2 * firstBorder;
 
-                Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, CurrentEffects[0].Name, Font32pt, Color.White, spriteBatch);
+                Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, CurrentEffects[0].Name, Font32pt, Color.Red, spriteBatch);
                 if (CurrentEffects.Count > 1)
                 {
-                    Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, CurrentEffects[1].Name, Font32pt, Color.White, spriteBatch);
+                    Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, CurrentEffects[1].Name, Font32pt, Color.Red, spriteBatch);
                 }
 
                 if (CurrentEffects.Count > 2)
                 {
-                    Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, CurrentEffects[2].Name, Font32pt, Color.White, spriteBatch);
+                    Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, CurrentEffects[2].Name, Font32pt, Color.Red, spriteBatch);
                 }
 
                 int startDescY = startChoicesY + (int)firstChoiceTitleSize.Y + DESC_Y_MARGIN;

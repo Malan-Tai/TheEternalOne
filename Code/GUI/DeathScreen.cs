@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheEternalOne.Code.Game.Death;
+using TheEternalOne.Code.Utils;
+using static TheEternalOne.Code.GameManager.GameState;
 
 namespace TheEternalOne.Code.GUI
 {
@@ -35,6 +38,29 @@ namespace TheEternalOne.Code.GUI
 
         public static int SelectedIndex = -1;
 
+        public static List<I_DeathEffect> AllEffects;
+        public static List<I_DeathEffect> PossibleEffects;
+        public static List<I_DeathEffect> CurrentEffects;
+
+        public static void OnStart()
+        {
+            AllEffects = new List<I_DeathEffect>
+            {
+                new DrinkLoss(),
+                new DropLoss(),
+                new EquipLoss(),
+                new FireballLoss(),
+                new HealLoss(),
+                new MapLoss(),
+                new MovementLoss(),
+                new PickUpLoss(),
+                new ShieldLoss(),
+                new SwordLoss(),
+                new TPLoss(),
+                new UnequipLoss()
+            };
+
+        }
 
         public static void Initialize()
         {
@@ -48,11 +74,36 @@ namespace TheEternalOne.Code.GUI
             Choice1Select = null;
             Choice2Select = null;
             Choice3Select = null;
+            RerollSelect = null;
 
+            CurrentEffects = RollEffects();
+            
             SelectedIndex = -1;
 
-    }
+        }
 
+        private static List<I_DeathEffect> RollEffects()
+        {
+            PossibleEffects = new List<I_DeathEffect>();
+            foreach (I_DeathEffect effect in AllEffects)
+            {
+                if (effect.CheckIfPossible())
+                {
+                    PossibleEffects.Add(effect);
+                }
+            }
+            List<I_DeathEffect> TempList = new List<I_DeathEffect>();
+            for (int i=0; i<Math.Min(3,PossibleEffects.Count); i++)
+            {
+                Console.Out.WriteLine("i = " + i.ToString() + " | PossibleEffects = " + PossibleEffects.Count.ToString());
+                TempList.Add(PossibleEffects[Dice.GetRandint(0, PossibleEffects.Count)]);
+                PossibleEffects.Remove(TempList[i]);
+
+            }
+            return TempList;
+
+        }
+        #region Drawing
         public static void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, new Rectangle((int)(X_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), (int)(Y_OFFSET * Game1.GLOBAL_SIZE_MOD / 100), WIDTH, HEIGHT), Color.Black);
@@ -67,16 +118,29 @@ namespace TheEternalOne.Code.GUI
             int firstBorder = (int)WIDTH / 3 * (int)Game1.GLOBAL_SIZE_MOD / 100;
             int secondBorder = 2 * firstBorder;
 
-            Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, "Choice 1", Font32pt, Color.White, spriteBatch);
-            Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, "Choice 2", Font32pt, Color.White, spriteBatch);
-            Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, "Choice 3", Font32pt, Color.White, spriteBatch);
+            Vector2 firstChoiceTitleSize = DrawStringCenteredCustom(0, startChoicesY, firstBorder, CurrentEffects[0].Name, Font32pt, Color.White, spriteBatch);
+            if (CurrentEffects.Count > 1)
+            {
+                Vector2 secondChoiceTitleSize = DrawStringCenteredCustom(firstBorder, startChoicesY, secondBorder - firstBorder, CurrentEffects[1].Name, Font32pt, Color.White, spriteBatch);
+            }
+
+            if (CurrentEffects.Count > 2)
+            {
+                Vector2 thirdChoiceTitleSize = DrawStringCenteredCustom(secondBorder, startChoicesY, WIDTH - secondBorder, CurrentEffects[2].Name, Font32pt, Color.White, spriteBatch);
+            }
 
             int startDescY = startChoicesY + (int)firstChoiceTitleSize.Y + DESC_Y_MARGIN;
-            Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, "This is the first choice description and it is quite long to test stuff.", Font18pt, Color.White, spriteBatch);
-            Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, "This is the second choice description and it is quite long to test stuff.", Font18pt, Color.White, spriteBatch);
-            Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, "This is the third choice description and it is quite long to test stuff.", Font18pt, Color.White, spriteBatch);
+            Vector2 firstChoiceDescSize = DrawStringCenteredCustom(0, startDescY, firstBorder, CurrentEffects[0].Description, Font18pt, Color.White, spriteBatch);
+            if (CurrentEffects.Count > 1)
+            {
+                Vector2 secondChoiceDescSize = DrawStringCenteredCustom(firstBorder, startDescY, secondBorder - firstBorder, CurrentEffects[1].Description, Font18pt, Color.White, spriteBatch);
+            }
+            if (CurrentEffects.Count > 2)
+            {
+                Vector2 thirdChoiceDescSize = DrawStringCenteredCustom(secondBorder, startDescY, WIDTH - secondBorder, CurrentEffects[2].Description, Font18pt, Color.White, spriteBatch);
+            }
 
-            int startSelectY = startDescY + Math.Max(Math.Max((int)firstChoiceDescSize.Y, (int)secondChoiceDescSize.Y), (int)thirdChoiceDescSize.Y) + DESC_Y_MARGIN;
+            int startSelectY = startDescY + (int)firstChoiceDescSize.Y + DESC_Y_MARGIN;
 
             Color[] selectColors = new Color[4]
             {
@@ -97,12 +161,21 @@ namespace TheEternalOne.Code.GUI
 
             Vector2 firstSelectSize = DrawStringCenteredCustom(0, startSelectY, firstBorder, "Choose", Font32pt, selectColors[0], spriteBatch, out firstSelectPos);
             Vector2 secondSelectSize = DrawStringCenteredCustom(firstBorder, startSelectY, secondBorder - firstBorder, "Choose", Font32pt, selectColors[1], spriteBatch, out secondSelectPos);
-            Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch, out thirdSelectPos);
-
             Vector2 measuredString = Font32pt.MeasureString("Choose");
-            Choice1Select = new Rectangle((int)firstSelectPos.X, startSelectY, (int)measuredString.X, (int)measuredString.Y);
-            Choice2Select = new Rectangle((int)secondSelectPos.X, startSelectY, (int)measuredString.X, (int)measuredString.Y);
-            Choice3Select = new Rectangle((int)thirdSelectPos.X, startSelectY, (int)measuredString.X, (int)measuredString.Y);
+            if (CurrentEffects.Count > 2)
+            {
+                Vector2 thirdSelectSize = DrawStringCenteredCustom(secondBorder, startSelectY, WIDTH - secondBorder, "Choose", Font32pt, selectColors[2], spriteBatch, out thirdSelectPos);
+                Choice3Select = new Rectangle((int)thirdSelectPos.X, (int)thirdSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
+            }
+            else
+            {
+                Choice3Select = null;
+            }
+
+
+            Choice1Select = new Rectangle((int)firstSelectPos.X, (int)firstSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
+            Choice2Select = new Rectangle((int)secondSelectPos.X, (int)secondSelectPos.Y, (int)measuredString.X, (int)measuredString.Y);
+
 
             int startRerollY = startSelectY + (int)firstSelectSize.Y + CHOICES_Y_MARGIN + DESC_Y_MARGIN;
             Vector2 firstRerollSize = DrawStringCentered(startRerollY, "If you like neither of these three choices, you may choose to reroll them so as to get three new random choices", Font18pt, Color.White, spriteBatch);
@@ -193,6 +266,27 @@ namespace TheEternalOne.Code.GUI
 
             return wrappedText.ToString();
         }
-
+        #endregion
+        public static void Reroll()
+        {
+            if (GameManager.PlayerObject.Player.Rerolls > 0)
+            {
+                GameManager.PlayerObject.Player.Rerolls -= 1;
+                CurrentEffects = RollEffects();
+            }
+        }
+        public static void OnLeftClick()
+        {
+            if (SelectedIndex == 3)
+            {
+                Reroll();
+            }
+            else if (SelectedIndex > -1)
+            {
+                CurrentEffects[SelectedIndex].Apply();
+                GameManager.PlayerObject.Fighter.HP = GameManager.PlayerObject.Fighter.MaxHP;
+                GameManager.CurrentState = Playing;
+            }
+        }
     }
 }

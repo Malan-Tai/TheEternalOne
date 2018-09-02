@@ -14,6 +14,14 @@ namespace TheEternalOne.Code
 {
     static class GameManager
     {
+        public enum GameState
+        {
+            Playing,
+            Dead,
+            GameOver
+        }
+
+        public static GameState CurrentState = GameState.Playing;
         public static Tile[,] Map;
 
         public const int TileWidth = 85;
@@ -78,6 +86,7 @@ namespace TheEternalOne.Code
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects.Add(PlayerObject);
+            DeathScreen.OnStart();
             ToRemove = new List<GameObject>();
 
             //Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());

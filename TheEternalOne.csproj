@@ -43,6 +43,19 @@
   <ItemGroup>
     <Compile Include="Code\Coord.cs" />
     <Compile Include="Code\GameManager.cs" />
+    <Compile Include="Code\Game\Death\DrinkLoss.cs" />
+    <Compile Include="Code\Game\Death\DropLoss.cs" />
+    <Compile Include="Code\Game\Death\EquipLoss.cs" />
+    <Compile Include="Code\Game\Death\FireballLoss.cs" />
+    <Compile Include="Code\Game\Death\HealLoss.cs" />
+    <Compile Include="Code\Game\Death\I_DeathEffect.cs" />
+    <Compile Include="Code\Game\Death\MapLoss.cs" />
+    <Compile Include="Code\Game\Death\MovementLoss.cs" />
+    <Compile Include="Code\Game\Death\PickUpLoss.cs" />
+    <Compile Include="Code\Game\Death\ShieldLoss.cs" />
+    <Compile Include="Code\Game\Death\SwordLoss.cs" />
+    <Compile Include="Code\Game\Death\TPLoss.cs" />
+    <Compile Include="Code\Game\Death\UnequipLoss.cs" />
     <Compile Include="Code\Game\Effect.cs" />
     <Compile Include="Code\Game\Message.cs" />
     <Compile Include="Code\GUI\AbilityGUI.cs" />

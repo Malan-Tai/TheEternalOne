@@ -195,7 +195,7 @@ namespace TheEternalOne
 
             //DrawMiniLog(spriteBatch);
 
-            if (InputManager.deathOpen) DeathScreen.Draw(spriteBatch);
+            if (GameManager.CurrentState == GameManager.GameState.Dead) DeathScreen.Draw(spriteBatch);
             else if (InputManager.mapOpen) GameManager.miniMap.Draw(spriteBatch);
 
             spriteBatch.End();

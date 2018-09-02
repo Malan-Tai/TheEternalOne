@@ -97,6 +97,8 @@ namespace TheEternalOne.Code
             ToRemove = new List<GameObject>();
 
             CurrentState = GameState.Playing;
+            Game1.CurrentSong = Game1.songDict["M_Goth_Loop_01"];
+            Game1.PlayCurrentSong();
 
             //Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());
             //Console.Out.WriteLine("Position : " + PlayerObject.Position.x.ToString() + ";" + PlayerObject.Position.y.ToString());

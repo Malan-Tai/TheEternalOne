@@ -562,3 +562,27 @@
 /processorParam:TextureFormat=Color
 /build:shield.png
 
+#begin M_Goth_Loop_01.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:M_Goth_Loop_01.wav
+
+#begin M_Menu_Goth_Loop_01.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:M_Menu_Goth_Loop_01.wav
+
+#begin tower.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tower.png
+

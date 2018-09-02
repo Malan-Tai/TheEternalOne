@@ -19,5 +19,17 @@ namespace TheEternalOne.Code.Objects.Mobs
 
             return gameObject;
         }
+
+        public static GameObject CreateTower(int x, int y)
+        {
+            Fighter fighter = new Fighter(hp: 10, pow: 3, arm: 0, xp: 3);
+            GameObject gameObject = new GameObject(x, y, "tower", 120, 200, (int)(0.11 * Game1.WIDTH - 208.42), (int)(0.61 * Game1.HEIGHT - 670));
+
+            gameObject.Name = "Tower";
+            gameObject.Fighter = fighter;
+            //gameObject.AI = new BasicAI();
+
+            return gameObject;
+        }
     }
 }

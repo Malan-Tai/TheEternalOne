@@ -12,6 +12,7 @@ using TheEternalOne.Code.Objects;
 using TheEternalOne.Code.Utils;
 using TheEternalOne.Code.GUI;
 using static TheEternalOne.Code.GameManager.GameState;
+using TheEternalOne.Code.Objects.Mobs;
 
 namespace TheEternalOne
 {
@@ -233,6 +234,11 @@ namespace TheEternalOne
                     {
                         DeathScreen.Initialize();
                         GameManager.CurrentState = Dead;
+                    }
+
+                    if (KeyboardState.IsKeyDown(Keys.F2) && !PreviousKeyboardState.IsKeyDown(Keys.F2))
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateTower(GameManager.PlayerObject.Position.x, GameManager.PlayerObject.Position.y - 1));
                     }
 
                     PreviousKeyboardState = KeyboardState;

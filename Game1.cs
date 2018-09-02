@@ -9,6 +9,7 @@ using TheEternalOne.Code;
 using TheEternalOne.Code.Map;
 using TheEternalOne.Code.Objects;
 using TheEternalOne.Code.GUI;
+using Microsoft.Xna.Framework.Media;
 
 namespace TheEternalOne
 {
@@ -30,6 +31,7 @@ namespace TheEternalOne
         public const int LOGO_HEIGHT = 180;
 
         public const int LOGO_Y = 100;
+        public const int FIRST_GAME_OVER_LINE_PADDING = 200;
         public const int BUTTONS_PADDING = 50;
 
         public static Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
@@ -37,7 +39,10 @@ namespace TheEternalOne
             "upgrade_GUI", "upgrade_GUI_lit", "healthpotion_placeholder", "sword_placeholder", "amulet_placeholder", "hero", "pawn", "wall_down", "wall_down_up", "wall_left",
             "wall_left_down", "wall_left_down_corner", "wall_left_down_up", "wall_left_up", "wall_left_up_corner", "wall_right", "wall_right_down", "wall_right_down_corner",
             "wall_right_down_up", "wall_right_left", "wall_right_left_down", "wall_right_left_up", "wall_right_up", "wall_right_up_corner", "wall_up", "floor_tile", "stairs_placeholder", "background_placeholder", "logo_placeholder",
-            "healthPotion", "manaPotion", "magicAmulet", "sword", "shield", "armor"};
+            "healthPotion", "manaPotion", "magicAmulet", "sword", "shield", "armor", "tower"};
+
+        public static Dictionary<string, Song> songDict = new Dictionary<string, Song>();
+        private static List<string> allSongs = new List<string> { "M_Menu_Goth_Loop_01", "M_Goth_Loop_01" };
 
         public static SpriteFont Font;
         public static SpriteFont Font32pt;
@@ -53,6 +58,8 @@ namespace TheEternalOne
 
         public static int menuSelectIndex = -1;
 
+        public static Song CurrentSong;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -62,7 +69,7 @@ namespace TheEternalOne
             graphics.PreferredBackBufferHeight = HEIGHT;
             //graphics.PreferMultiSampling = true;
 
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
 
             IsMouseVisible = true;
         }
@@ -99,8 +106,28 @@ namespace TheEternalOne
                 Texture2D texture = Content.Load<Texture2D>(str);
                 textureDict[str] = texture;
             }
-            GameManager.CurrentState = GameManager.GameState.MainMenu;
+
+            foreach (string str in allSongs)
+            {
+                Console.Out.WriteLine(str);
+                Song song = Content.Load<Song>(str);
+                songDict[str] = song;
+            }
+            GoToMainMenu();
             //GameManager.NewGame();
+        }
+
+        public static void PlayCurrentSong()
+        {
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(CurrentSong);
+        }
+
+        public void GoToMainMenu()
+        {
+            CurrentSong = songDict["M_Menu_Goth_Loop_01"];
+            PlayCurrentSong();
+            GameManager.CurrentState = GameManager.GameState.MainMenu;
         }
 
         /// <summary>
@@ -243,11 +270,34 @@ namespace TheEternalOne
             {
                 DrawGame(gameTime);
             }
+            else if (GameManager.CurrentState == GameManager.GameState.GameOver)
+            {
+                DrawGameOver(gameTime);
+            }
             else
             {
                 DrawMainMenu(gameTime);
             }
             base.Draw(gameTime);
+        }
+
+        public void DrawGameOver(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(textureDict["background_placeholder"], new Microsoft.Xna.Framework.Rectangle(0, 0, WIDTH, HEIGHT), Microsoft.Xna.Framework.Color.White);
+
+            int GameOverY = (int)(LOGO_Y * GLOBAL_SIZE_MOD / 100);
+            Vector2 GameOverDimensions = Font32pt.MeasureString("Game Over");
+            int GameOverX = (int)(WIDTH - (int)GameOverDimensions.X) / 2;
+            spriteBatch.DrawString(Font32pt, "Game Over", new Vector2(GameOverX, GameOverY), Microsoft.Xna.Framework.Color.Red);
+
+            string firstLine = "Having lost the entirety of both your soul and body to the devil, you are now stuck for eternity in this dungeon";
+            Vector2 FirstLineDimensions = Font18pt.MeasureString(firstLine);
+            int FirstLineY = GameOverY + FIRST_GAME_OVER_LINE_PADDING;
+            int FirstLineX = (int)(WIDTH - (int)FirstLineDimensions.X) / 2;
+            spriteBatch.DrawString(Font18pt, firstLine, new Vector2(FirstLineX, FirstLineY), Microsoft.Xna.Framework.Color.White);
+
+            spriteBatch.End();
         }
 
         public void DrawMainMenu(GameTime gameTime)

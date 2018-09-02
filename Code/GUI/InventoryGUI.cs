@@ -29,35 +29,64 @@ namespace TheEternalOne.Code.GUI
             int i = 0;
             foreach (GameObject obj in GameManager.PlayerObject.Player.Inventory)
             {
-                int width = (int)(obj.textureWidth * Game1.GLOBAL_SIZE_MOD / 100);
-
-                Color borderColor = new Color(50, 50, 50);
-                Color plainColor = Color.Black;
-
-                if (i == InputManager.InvIndex)
+                if (i != InputManager.InvIndex)
                 {
-                    borderColor = Color.Silver;
-                    plainColor = new Color(50, 50, 50);
+                    int width = (int)(obj.textureWidth * Game1.GLOBAL_SIZE_MOD / 100);
+
+                    Color borderColor = new Color(50, 50, 50);
+                    Color plainColor = Color.Black;
+
+                    spriteBatch.Draw(texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5, y, GameManager.InventoryWidth, GameManager.InventoryHeight), borderColor);
+                    spriteBatch.Draw(texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5 + 5, y + 5, GameManager.InventoryWidth - 10, GameManager.InventoryHeight - 10), plainColor);
+
+                    spriteBatch.Draw(obj.texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5 + 5, y + 5, width, width), Color.White);
+
+                    //string bonusText = "";
+                    //if (obj.Item.Stackable)
+                    //{
+                    //    bonusText = " (" + obj.Item.Amount.ToString() + ")";
+                    //}
+
+                    //Vector2 pos = new Vector2(x + i * GameManager.InventoryWidth + i * 5 + width + 10, y + 10);
+                    //spriteBatch.DrawString(Game1.Font, obj.Name + bonusText, pos, borderColor);
+                    i++;
                 }
-
-                spriteBatch.Draw(texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5, y, GameManager.InventoryWidth, GameManager.InventoryHeight), borderColor);
-                spriteBatch.Draw(texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5 + 5, y + 5, GameManager.InventoryWidth - 10, GameManager.InventoryHeight - 10), plainColor);
-
-                spriteBatch.Draw(obj.texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5 + 5, y + 5, width, width), Color.White);
-
-                string bonusText = "";
-                if (obj.Item.Stackable)
+                else
                 {
-                    bonusText = " (" + obj.Item.Amount.ToString() + ")";
+                    i++;
                 }
+            }
 
-                Vector2 pos = new Vector2(x + i * GameManager.InventoryWidth + i * 5 + width + 10, y + 10);
-                spriteBatch.DrawString(Game1.Font, obj.Name + bonusText, pos, borderColor);
+            if (InputManager.InvIndex != -1)
+            {
+                Color borderColor = Color.Silver;
+                Color plainColor = new Color(50, 50, 50);
+                i = InputManager.InvIndex;
+                GameObject obj = null;
+                try
+                {
+                    obj = GameManager.PlayerObject.Player.Inventory[i];
+                }
+                catch (ArgumentOutOfRangeException) { }
 
+                if (obj != null)
+                {
+                    int width = (int)(obj.textureWidth * Game1.GLOBAL_SIZE_MOD / 100);
 
+                    spriteBatch.Draw(texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5, y, GameManager.AbilityWidth, GameManager.InventoryHeight), borderColor);
+                    spriteBatch.Draw(texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5 + 5, y + 5, GameManager.AbilityWidth - 10, GameManager.InventoryHeight - 10), plainColor);
 
+                    spriteBatch.Draw(obj.texture, new Rectangle(x + i * GameManager.InventoryWidth + i * 5 + 5, y + 5, width, width), Color.White);
 
-                i++;
+                    string bonusText = "";
+                    if (obj.Item.Stackable)
+                    {
+                        bonusText = " (" + obj.Item.Amount.ToString() + ")";
+                    }
+
+                    Vector2 pos = new Vector2(x + i * GameManager.InventoryWidth + i * 5 + width + 10, y + 10);
+                    spriteBatch.DrawString(Game1.Font, obj.Name + bonusText, pos, borderColor);
+                }
             }
         }
     }

@@ -36,19 +36,22 @@ namespace TheEternalOne.Code.Objects
         public GameObject[] Trinkets;
 
         public bool CanMelee = true;
-        public bool Canranged = true;
-        public bool CanOffenseSpell = true;
-        public bool CanDebuffSpell = true;
-        public bool CanBuffSpell = true;
+        public bool CanRanged = true;
+        public bool CanShield = true;
+        //public bool CanOffenseSpell = true;
+        public bool CanTPSpell = true;
         public bool CanHealSpell = true;
         public bool CanPickUp = true;
         public bool CanDrop = true;
-        public bool CanAccessInventory = true;
+        public bool CanDrink = true;
         public bool CanEquip = true;
         public bool CanUnequip = true;
         public bool CanMove = true;
+        public bool CanMap = true;
 
-        const int MANA_REGEN = 10;
+        public bool FreeTP = false;
+
+        const int MANA_REGEN = 3;
         int manaRegen = MANA_REGEN;
 
         public Player(int mp)
@@ -109,54 +112,91 @@ namespace TheEternalOne.Code.Objects
             }
             else if (spell == "Shield")
             {
-                int ActualShield = Math.Max(0, ShieldPower + ShieldBonus);
-                fighter.Armor += ActualShield;
-                if (Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
+                if (CanShield)
                 {
-                    foreach (GameObject obj in GameManager.Objects)
+                    int ActualShield = Math.Max(0, ShieldPower + ShieldBonus);
+                    fighter.Armor += ActualShield;
+                    if (Distance.GetDistance(Owner.x, Owner.y, x, y) < 2)
                     {
-                        if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                        foreach (GameObject obj in GameManager.Objects)
                         {
-                            obj.Move(x - Owner.x, y - Owner.y);
-                            break;
+                            if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                            {
+                                obj.Move(x - Owner.x, y - Owner.y);
+                                break;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    GameManager.LogWarning("You cannot use your shield anymore !");
                 }
             }
             else if (spell == "Fireball" && MP >= 5)
             {
-                int ActualFireball = Math.Max(0, FireballDmg + FireballBonus);
-                MP -= 5;
-                foreach (GameObject obj in GameManager.Objects)
+                if (CanRanged)
                 {
-                    if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                    int ActualFireball = Math.Max(0, FireballDmg + FireballBonus);
+                    MP -= 5;
+                    foreach (GameObject obj in GameManager.Objects)
                     {
-                        obj.Fighter.TakeDamage(ActualFireball);
-                        break;
+                        if (obj.Position.x == x && obj.Position.y == y && obj.Fighter != null)
+                        {
+                            obj.Fighter.TakeDamage(ActualFireball);
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    GameManager.LogWarning("You cannot cast offensive spells anymore !");
                 }
             }
             else if (spell == "Heal" && MP >= 3)
             {
-                int prevHP = fighter.HP;
-                int ActualHealPower = Math.Max(0, HealPower + HealBonus);
-                fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + ActualHealPower);
-                int healed = fighter.HP - prevHP;
-                if (healed > 0)
+                if (CanHealSpell)
                 {
-                    MP -= 3;
-                    Effect effect = new Effect("+" + healed.ToString(), Color.DarkGreen);
-                    Owner.Effects.Add(effect);
+                    int prevHP = fighter.HP;
+                    int ActualHealPower = Math.Max(0, HealPower + HealBonus);
+                    fighter.HP = Math.Min(fighter.MaxHP, fighter.HP + ActualHealPower);
+                    int healed = fighter.HP - prevHP;
+                    if (healed > 0)
+                    {
+                        MP -= 3;
+                        Effect effect = new Effect("+" + healed.ToString(), Color.DarkGreen);
+                        Owner.Effects.Add(effect);
+                    }
+                }
+                else
+                {
+                    GameManager.LogWarning("You cannot heal yourself anymore !");
                 }
             }
-            else if (spell == "Teleport" && MP >= 1 && !GameManager.Map[x, y].IsBlocked)
+            else if (spell == "Teleport" && (MP >= 1 || FreeTP) && !GameManager.Map[x, y].IsBlocked)
             {
-				MP -= 1;
+                if (CanTPSpell || FreeTP)
+                {
+                    if (!FreeTP)
+                    {
+                        MP -= 1;
+                    }
+                    else
+                    {
+                        FreeTP = false;
+                    }
 
-				Owner.Position = new Coord(x, y);
-				Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
-				Owner.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                    Owner.Position = new Coord(x, y);
+                    Owner.BigPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                    Owner.OffsetPos = new Coord(x * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100), y * (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100));
+                }
+                else
+                {
+                    GameManager.LogWarning("You cannot teleport anymore !");
+                }
             }
+            InputManager.SelectedSpellIndex = -1;
+            GameManager.ActiveMessage = null;
         }
 
         public void UpgradeSpell(int i)

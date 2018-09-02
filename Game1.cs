@@ -128,6 +128,14 @@ namespace TheEternalOne
                 }
 
                 GameManager.PlayerObject.Player.UpdateTurn();
+                InputManager.SelectedSpellIndex = -1;
+                if (GameManager.Started && GameManager.ActiveMessage != null)
+                {
+                    if (GameManager.ActiveMessage.Content == "Click on a tile to teleport to")
+                    {
+                        GameManager.ActiveMessage = null;
+                    }
+                }
             }
 
             foreach (GameObject obj in GameManager.ToRemove)
@@ -191,13 +199,24 @@ namespace TheEternalOne
             GameManager.equipmentGUI.Draw(spriteBatch);
             GameManager.inventoryGUI.Draw(spriteBatch);
 
+            if (InputManager.SelectedSpellIndex == 4)
+            {
+                GameManager.LogInfo("Click on a tile to teleport to");
+            }
+
+            if (GameManager.ActiveMessage != null)
+            {
+                Vector2 position = new Vector2((int)(InputManager.GameInstance.Window.ClientBounds.Width - Font.MeasureString(GameManager.ActiveMessage.Content).X) / 2, 50 + (int)Font.MeasureString(GameManager.ActiveMessage.Content).Y);
+                spriteBatch.DrawString(Font, GameManager.ActiveMessage.Content, position, GameManager.ActiveMessage.Color);
+            }
+
             //string TestString = "Font drawing test";
             //Vector2 position = new Vector2(InputManager.GameInstance.Window.ClientBounds.Width / 2, InputManager.GameInstance.Window.ClientBounds.Height - Font.MeasureString(TestString).Y);
             //spriteBatch.DrawString(Font, TestString, position, Microsoft.Xna.Framework.Color.OrangeRed);
 
             //DrawMiniLog(spriteBatch);
 
-            if (InputManager.deathOpen) DeathScreen.Draw(spriteBatch);
+            if (GameManager.CurrentState == GameManager.GameState.Dead) DeathScreen.Draw(spriteBatch);
             else if (InputManager.mapOpen) GameManager.miniMap.Draw(spriteBatch);
 
             spriteBatch.End();

@@ -19,27 +19,34 @@ namespace TheEternalOne.Code.Objects.Items
 
         public override void Use()
         {
-            int prevHP = GameManager.PlayerObject.Fighter.HP;
-            GameManager.PlayerObject.Fighter.HP += POTION_HEAL;
-            if (GameManager.PlayerObject.Fighter.HP > GameManager.PlayerObject.Fighter.MaxHP)
+            if (GameManager.PlayerObject.Player.CanDrink)
             {
-                GameManager.PlayerObject.Fighter.HP = GameManager.PlayerObject.Fighter.MaxHP;
-            }
+                int prevHP = GameManager.PlayerObject.Fighter.HP;
+                GameManager.PlayerObject.Fighter.HP += POTION_HEAL;
+                if (GameManager.PlayerObject.Fighter.HP > GameManager.PlayerObject.Fighter.MaxHP)
+                {
+                    GameManager.PlayerObject.Fighter.HP = GameManager.PlayerObject.Fighter.MaxHP;
+                }
 
-            int healed = GameManager.PlayerObject.Fighter.HP - prevHP;
-            if (healed > 0)
-            {
-                Effect effect = new Effect("+" + healed.ToString(), Color.DarkGreen);
-                GameManager.PlayerObject.Effects.Add(effect);
-            }
+                int healed = GameManager.PlayerObject.Fighter.HP - prevHP;
+                if (healed > 0)
+                {
+                    Effect effect = new Effect("+" + healed.ToString(), Color.DarkGreen);
+                    GameManager.PlayerObject.Effects.Add(effect);
+                }
 
-            if (Amount > 1)
-            {
-                Amount -= 1;
+                if (Amount > 1)
+                {
+                    Amount -= 1;
+                }
+                else
+                {
+                    GameManager.PlayerObject.Player.Inventory.Remove(Owner);
+                }
             }
             else
             {
-                GameManager.PlayerObject.Player.Inventory.Remove(Owner);
+                GameManager.LogWarning("You cannot drink potions anymore !");
             }
         }
     }

@@ -14,6 +14,14 @@ namespace TheEternalOne.Code
 {
     static class GameManager
     {
+        public enum GameState
+        {
+            Playing,
+            Dead,
+            GameOver
+        }
+
+        public static GameState CurrentState = GameState.Playing;
         public static Tile[,] Map;
 
         public const int TileWidth = 85;
@@ -21,6 +29,8 @@ namespace TheEternalOne.Code
         public const int VisibleMapHeight = 11;
 
         public const int MAX_MESSAGES = 4;
+
+        public static bool Started = false;
 
         public static int DrawMapX = (Game1.WIDTH - VisibleMapWidth * (int)(TileWidth * Game1.GLOBAL_SIZE_MOD / 100)) / 2;
         public static int DrawMapY = 10;
@@ -56,6 +66,7 @@ namespace TheEternalOne.Code
         public const int MAP_HEIGHT = 80;
 
         public static List<Message> Log;
+        public static Message ActiveMessage = null;
 
         public static void NewGame()
         {
@@ -74,10 +85,12 @@ namespace TheEternalOne.Code
             PlayerObject = new GameObject(StartPosition.x, StartPosition.y, "hero", 120, 200, -40, -120);
             PlayerObject.Player = new Player(10);
             PlayerObject.Player.Owner = PlayerObject;
-            PlayerObject.Fighter = new Fighter(10, 3, 0, 0);
+            PlayerObject.Fighter = new Fighter(2, 5, 0, 0);
             PlayerObject.Fighter.Owner = PlayerObject;
 
             Objects.Add(PlayerObject);
+            DeathScreen.OnStart();
+            Started = true;
             ToRemove = new List<GameObject>();
 
             //Console.Out.WriteLine(PlayerObject.x.ToString() + ";" + PlayerObject.y.ToString());
@@ -93,6 +106,11 @@ namespace TheEternalOne.Code
         public static void LogSuccess(string message)
         {
             Log.Add(new Message(message, Color.Green));
+        }
+
+        public static void LogInfo(string message)
+        {
+            GameManager.ActiveMessage = new Message(message, Color.White);
         }
     }
 }

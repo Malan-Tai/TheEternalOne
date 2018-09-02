@@ -10,7 +10,7 @@ namespace TheEternalOne.Code.Objects.Items
 {
     class ManaPotion : Item
     {
-        public const int POTION_REGEN = 3;
+        public const int POTION_REGEN = 4;
 
         public ManaPotion(int amount = 1)
         {

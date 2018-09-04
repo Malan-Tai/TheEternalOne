@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheEternalOne.Code.Map;
+using TheEternalOne.Code.Objects;
+using TheEternalOne.Code.Objects.Equipments;
+using TheEternalOne.Code.Objects.Items;
+using TheEternalOne.Code.Objects.Mobs;
 using TheEternalOne.Code.Utils;
 
 namespace TheEternalOne.Code.ProcGen.MapGen
@@ -14,6 +18,9 @@ namespace TheEternalOne.Code.ProcGen.MapGen
         const int MAX_ITER = 50000;
         const int MAP_WIDTH = GameManager.MAP_WIDTH;
         const int MAP_HEIGHT = GameManager.MAP_HEIGHT;
+
+        const int TRASH_MOB_NUMBER = 20;
+        const int ITEM_NUMBER = 25;
 
         const float ROOM_RATIO = 0.6f;
         const int TUN_STEP_HOR = 50;
@@ -395,6 +402,184 @@ namespace TheEternalOne.Code.ProcGen.MapGen
             return map;
         }
 
+        public static void PlaceMobs(Tile[,] map)
+        {
+            Dictionary<string, int> MobChances = new Dictionary<string, int>
+            {
+                {"Pawn", 55 },
+                {"Tower", 30 },
+                {"Bishop", 15 }
+            };
+            for (int i= 0; i < TRASH_MOB_NUMBER; i++)
+            {
+                bool foundSuitablePosition = false;
+                int iter = 0;
+                int x = -1;
+                int y = -1;
+                while (!foundSuitablePosition)
+                {
+                    iter++;
+                    x = Dice.GetRandint(0, GameManager.MAP_WIDTH);
+                    y = Dice.GetRandint(0, GameManager.MAP_HEIGHT);
+
+                    if (!(map[x,y].Blocked) && !(x == GameManager.StartPosition.x && y == GameManager.StartPosition.y))
+                    {
+                        foundSuitablePosition = true;
+                        foreach (GameObject obj in GameManager.Objects)
+                        {
+                            if (obj.Position.x == x && obj.Position.y == y)
+                            {
+                                foundSuitablePosition = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (iter > MAX_ITER)
+                    {
+                        break;
+                    }
+                }
+                if (foundSuitablePosition)
+                {
+                    string chosen = RandomChoice(MobChances);
+                    if (chosen == "Pawn")
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateBasicTrashMob(x, y));
+                    }
+                    else if (chosen == "Tower")
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateTower(x, y));
+                    }
+                    else if (chosen == "Bishop")
+                    {
+                        GameManager.Objects.Add(MobFactory.CreateBishop(x, y));
+                    }
+                }
+            }
+        }
+
+        public static int RandomChoiceIndex(int[] chances)
+        {
+            int dice = Dice.GetRandint(1, chances.Sum());
+            int runningSum = 0;
+            int choice = 0;
+
+            foreach (int chance in chances)
+            {
+                runningSum += chance;
+                if (dice <= runningSum) break;
+                choice++;
+            }
+
+            return choice;
+        }
+
+        public static string RandomChoice(Dictionary<string, int> dict)
+        {
+            string[] strings = dict.Keys.ToArray();
+            int n = strings.Count();
+            int[] chances = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                chances[i] = dict[strings[i]];
+            }
+
+            return strings[RandomChoiceIndex(chances)];
+        }
+
+        public static void PlaceItems(Tile[,] map)
+        {
+            Dictionary<string, int> ItemChances = new Dictionary<string, int>
+            {
+                { "Potion", 60 },
+                { "Sword", 10 },
+                { "MagicAmulet", 10 },
+                { "Shield", 10 },
+                { "Armor", 10 }
+            };
+
+            Dictionary<String, int> PotionChances = new Dictionary<string, int>
+            {
+                {"Health", 50 },
+                {"Mana", 50 }
+            };
+            for (int i = 0; i < ITEM_NUMBER; i++)
+            {
+                bool foundSuitablePosition = false;
+                int iter = 0;
+                int x = -1;
+                int y = -1;
+                while (!foundSuitablePosition)
+                {
+                iter++;
+                x = Dice.GetRandint(0, GameManager.MAP_WIDTH);
+                y = Dice.GetRandint(0, GameManager.MAP_HEIGHT);
+
+
+                    if (!map[x, y].Blocked)
+                    foundSuitablePosition = true;
+                    {
+                        foreach (GameObject obj in GameManager.Objects)
+                        {
+                            if (obj.Position.x == x && obj.Position.y == y && obj.Item != null)
+                            {
+                                foundSuitablePosition = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+
+                    if (iter > MAX_ITER)
+                    {
+                        break;
+                    }
+                }
+                if (foundSuitablePosition)
+                {
+                    string chosen = RandomChoice(ItemChances) ;
+                    if (chosen == "Potion")
+                    {
+                        string subtype = RandomChoice(PotionChances);
+                        if (subtype == "Health")
+                        {
+                            GameManager.Objects.Add(ItemFactory.CreateHealthPotion(x, y));
+                        }
+                        else if (subtype == "Mana")
+                        {
+                            GameManager.Objects.Add(ItemFactory.CreateManaPotion(x, y));
+                        }
+                    }
+                    else if (chosen == "Sword")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateSword(x, y));
+                    }
+                    else if (chosen == "MagicAmulet")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateMagicAmulet(x, y));
+                    }
+                    else if (chosen == "Shield")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateShield(x, y));
+                    }
+                    else if (chosen == "Armor")
+                    {
+                        GameManager.Objects.Add(EquipmentFactory.CreateArmor(x, y));
+                    }
+                }
+            }
+        }
+
+        static public GameObject MakeStairs(int x, int y)
+        {
+            GameObject gObj = new GameObject(x, y, "stairs", 100, 100);
+            gObj.Name = "Stairs";
+            gObj.isStairs = true;
+            return gObj;
+        }
+
         static public Tile[,] MakeTunnelMap(bool doors, int roomNumber = 15, int minSize = 6, int maxSize = 17)
         {
             currentMap = Map.Map.InitMap(true);
@@ -469,6 +654,15 @@ namespace TheEternalOne.Code.ProcGen.MapGen
                 PlaceDoors();
                 currentMap = CheckDoors(currentMap);
             }
+
+            Room lastRoom = rooms[rooms.Length - 1];
+            GameManager.StartPosition = new Coord((int)lastRoom.Center.X, (int)lastRoom.Center.Y);
+            Room firstRoom = rooms[0];
+            GameManager.Objects.Add(MakeStairs((int)firstRoom.Center.X, (int)firstRoom.Center.Y));
+            PlaceMobs(currentMap);
+            PlaceItems(currentMap);
+
+            Map.Map.UpdateTexture(currentMap);
 
             return currentMap;
         }

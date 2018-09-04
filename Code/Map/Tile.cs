@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using TheEternalOne.Code.Objects;
+using Priority_Queue;
 
 namespace TheEternalOne.Code.Map
 {
-    public class Tile
+    public class Tile : FastPriorityQueueNode
     {
         public int x { get; set; }
         public int y { get; set; }
@@ -20,6 +21,9 @@ namespace TheEternalOne.Code.Map
         public bool Door { get; set; }
         public bool InRoom { get; set; }
 
+        public int MoveCost { get; set; }
+
+        public Texture2D texture;
 
         public Tile(int x, int y, bool blocked)
         {
@@ -31,6 +35,9 @@ namespace TheEternalOne.Code.Map
             InTunnel = false;
             Door = false;
             InRoom = false;
+
+            MoveCost = 0;
+            texture = null;
         }
 
         public void Draw(SpriteBatch spriteBatch, int px, int py)
@@ -46,19 +53,8 @@ namespace TheEternalOne.Code.Map
 
 
                 int width = (int)(GameManager.TileWidth * Game1.GLOBAL_SIZE_MOD / 100);
-                Texture2D texture;
-                if (!Blocked)
-                {
-                    texture = Game1.textureDict["tile50x50"];
-                }
-                else
-                {
-                    texture = Game1.textureDict["wall"];
-                }
-                    spriteBatch.Draw(texture, new Rectangle(picX + offsetX, picY + offsetY, width, width), Color.White);
-                }
-
-
+                spriteBatch.Draw(texture, new Rectangle(picX + offsetX, picY + offsetY, width, width), Color.White);
+            }
         }
 
         public Tile[] Neighbors(ref Tile[,] map, bool cardinal)
@@ -73,42 +69,42 @@ namespace TheEternalOne.Code.Map
 
             if (canUp)
             {
-                neighbors[i] = map[y - 1, x];
+                neighbors[i] = map[x, y - 1];
                 i++;
             }
             if (canDown)
             {
-                neighbors[i] = map[y + 1, x];
+                neighbors[i] = map[x, y + 1];
                 i++;
             }
             if (canLeft)
             {
-                neighbors[i] = map[y, x - 1];
+                neighbors[i] = map[x - 1, y];
                 i++;
             }
             if (canRight)
             {
-                neighbors[i] = map[y, x + 1];
+                neighbors[i] = map[x + 1, y];
                 i++;
             }
             if (canUp && canLeft && !cardinal)
             {
-                neighbors[i] = map[y - 1, x - 1];
+                neighbors[i] = map[x - 1, y - 1];
                 i++;
             }
             if (canUp && canRight && !cardinal)
             {
-                neighbors[i] = map[y - 1, x + 1];
+                neighbors[i] = map[x + 1, y - 1];
                 i++;
             }
             if (canDown && canLeft && !cardinal)
             {
-                neighbors[i] = map[y + 1, x - 1];
+                neighbors[i] = map[x - 1, y + 1];
                 i++;
             }
             if (canDown && canRight && !cardinal)
             {
-                neighbors[i] = map[y + 1, x + 1];
+                neighbors[i] = map[x + 1, y + 1];
                 i++;
             }
 
@@ -131,6 +127,21 @@ namespace TheEternalOne.Code.Map
             }
 
             return n;
+        }
+
+        public bool IsBlocked
+        {
+            get
+            {
+                foreach (GameObject obj in GameManager.Objects)
+                {
+                    if (obj.Fighter != null && obj.Position.x == x && obj.Position.y == y)
+                    {
+                        return true;
+                    }
+                }
+                return Blocked;
+            }
         }
     }
 }

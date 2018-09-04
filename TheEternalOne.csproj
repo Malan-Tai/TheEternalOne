@@ -43,13 +43,46 @@
   <ItemGroup>
     <Compile Include="Code\Coord.cs" />
     <Compile Include="Code\GameManager.cs" />
-    <Compile Include="Code\Game\Player.cs" />
+    <Compile Include="Code\Game\Death\DrinkLoss.cs" />
+    <Compile Include="Code\Game\Death\DropLoss.cs" />
+    <Compile Include="Code\Game\Death\EquipLoss.cs" />
+    <Compile Include="Code\Game\Death\FireballLoss.cs" />
+    <Compile Include="Code\Game\Death\HealLoss.cs" />
+    <Compile Include="Code\Game\Death\I_DeathEffect.cs" />
+    <Compile Include="Code\Game\Death\MapLoss.cs" />
+    <Compile Include="Code\Game\Death\MovementLoss.cs" />
+    <Compile Include="Code\Game\Death\PickUpLoss.cs" />
+    <Compile Include="Code\Game\Death\ShieldLoss.cs" />
+    <Compile Include="Code\Game\Death\SwordLoss.cs" />
+    <Compile Include="Code\Game\Death\TPLoss.cs" />
+    <Compile Include="Code\Game\Death\UnequipLoss.cs" />
+    <Compile Include="Code\Game\Effect.cs" />
+    <Compile Include="Code\Game\Message.cs" />
+    <Compile Include="Code\GUI\AbilityGUI.cs" />
+    <Compile Include="Code\GUI\DeathScreen.cs" />
+    <Compile Include="Code\GUI\EquipmentGUI.cs" />
+    <Compile Include="Code\GUI\InventoryGUI.cs" />
+    <Compile Include="Code\GUI\MiniMap.cs" />
+    <Compile Include="Code\GUI\StatusGUI.cs" />
     <Compile Include="Code\InputManager.cs" />
     <Compile Include="Code\Map\Map.cs" />
     <Compile Include="Code\Map\Room.cs" />
     <Compile Include="Code\Map\Tile.cs" />
+    <Compile Include="Code\Objects\Equipments\Equipment.cs" />
+    <Compile Include="Code\Objects\Equipments\EquipmentFactory.cs" />
     <Compile Include="Code\Objects\Fighter.cs" />
     <Compile Include="Code\Objects\GameObject.cs" />
+    <Compile Include="Code\Objects\Items\EquipmentItem.cs" />
+    <Compile Include="Code\Objects\Items\ManaPotion.cs" />
+    <Compile Include="Code\Objects\Items\HealthPotion.cs" />
+    <Compile Include="Code\Objects\Items\Item.cs" />
+    <Compile Include="Code\Objects\Items\ItemFactory.cs" />
+    <Compile Include="Code\Objects\Mobs\Astar.cs" />
+    <Compile Include="Code\Objects\Mobs\BasicAI.cs" />
+    <Compile Include="Code\Objects\Mobs\I_AI.cs" />
+    <Compile Include="Code\Objects\Mobs\MobFactory.cs" />
+    <Compile Include="Code\Objects\Mobs\StaticAI.cs" />
+    <Compile Include="Code\Objects\Mobs\TowerAI.cs" />
     <Compile Include="Code\Objects\Player.cs" />
     <Compile Include="Code\ProcGen\MapGen\MapMaker.cs" />
     <Compile Include="Code\Utils\Dice.cs" />
@@ -63,6 +96,9 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Priority Queue, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\OptimizedPriorityQueue.4.1.1\lib\net45\Priority Queue.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -74,6 +110,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
